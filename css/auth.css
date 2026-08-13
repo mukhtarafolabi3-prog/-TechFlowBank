@@ -1,3 +1,8 @@
+/* =====================================================
+   TECHFLOW DYNAMIC BANK
+   AUTHENTICATION & REGISTRATION STYLES
+===================================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,208 +10,220 @@
 }
 
 :root {
-    --primary: #1769e0;
-    --primary-dark: #0d47a1;
-    --navy: #06172f;
-    --text: #172033;
-    --muted: #7b8799;
-    --border: #e5eaf0;
-    --background: #f6f8fb;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --primary-light: #eff6ff;
+    --text-dark: #111827;
+    --text: #374151;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    --background: #f8fafc;
     --white: #ffffff;
-    --green: #159447;
-    --purple: #7357d8;
-    --danger: #dc3545;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
 }
 
 body {
-    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     background: var(--background);
     color: var(--text);
+    min-height: 100vh;
 }
 
-button,
-input,
-select {
-    font-family: inherit;
-}
 
-button {
-    cursor: pointer;
-}
-
-a {
-    text-decoration: none;
-}
-
-/* CONTAINER */
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
 
 .auth-container {
     min-height: 100vh;
-
     display: grid;
-    grid-template-columns: 43% 57%;
+    grid-template-columns: 42% 58%;
 }
 
-/* LEFT */
+
+/* =====================================================
+   LEFT SIDE
+===================================================== */
 
 .auth-info {
-    background:
-        radial-gradient(
-            circle at 90% 10%,
-            rgba(52, 126, 238, 0.35),
-            transparent 35%
-        ),
-        linear-gradient(
-            145deg,
-            #06172f,
-            #0c3d87
-        );
-
+    background: linear-gradient(145deg, #0f172a, #172554);
     color: white;
-
-    padding: 45px 60px;
-
+    padding: 45px 55px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-info::before {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: rgba(37, 99, 235, 0.15);
+    top: -100px;
+    right: -120px;
+}
+
+.auth-info::after {
+    content: "";
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.08);
+    bottom: -100px;
+    left: -80px;
+}
+
+
+/* =====================================================
+   BRAND
+===================================================== */
+
+.brand,
+.mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .brand {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-
-    font-size: 18px;
-    font-weight: 800;
+    position: relative;
+    z-index: 2;
+    font-size: 22px;
+    font-weight: 500;
 }
 
-.brand b {
-    color: #4d9aff;
+.brand b,
+.mobile-brand b {
+    color: #60a5fa;
 }
 
 .brand-icon {
     width: 42px;
     height: 42px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 11px;
-
-    background: #1769e0;
-
+    border-radius: 12px;
+    background: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: white;
+    font-size: 19px;
 }
 
+
+/* =====================================================
+   LEFT CONTENT
+===================================================== */
+
 .info-content {
-    max-width: 490px;
-    margin: auto 0;
+    position: relative;
+    z-index: 2;
+    max-width: 520px;
 }
 
 .tagline,
 .form-label {
-    color: #4d9aff;
-
-    font-size: 9px;
-    font-weight: 800;
-
+    display: inline-block;
+    color: #60a5fa;
+    font-size: 12px;
+    font-weight: 700;
     letter-spacing: 1.5px;
+    margin-bottom: 15px;
 }
 
 .info-content h1 {
-    margin-top: 15px;
-
-    font-size: 46px;
+    font-size: clamp(38px, 4vw, 58px);
     line-height: 1.08;
-
-    letter-spacing: -1.5px;
+    margin-bottom: 22px;
+    color: white;
 }
 
 .info-content h1 span {
     display: block;
-    color: #72adff;
+    color: #60a5fa;
 }
 
 .info-content > p {
-    max-width: 430px;
-
-    margin-top: 20px;
-
-    color: #a9bedc;
-
-    font-size: 12px;
+    color: #cbd5e1;
+    font-size: 16px;
     line-height: 1.8;
+    max-width: 480px;
+    margin-bottom: 35px;
 }
+
+
+/* =====================================================
+   BENEFITS
+===================================================== */
 
 .benefits {
     display: flex;
     flex-direction: column;
-
-    gap: 20px;
-
-    margin-top: 38px;
+    gap: 22px;
 }
 
 .benefits > div {
     display: flex;
-    align-items: center;
-
-    gap: 14px;
+    gap: 15px;
+    align-items: flex-start;
 }
 
 .benefits > div > i {
-    width: 38px;
-    height: 38px;
-
-    display: grid;
-    place-items: center;
-
-    flex-shrink: 0;
-
-    background: rgba(255,255,255,0.08);
-
-    border: 1px solid rgba(255,255,255,0.08);
-
-    border-radius: 9px;
-
-    color: #70acff;
-
-    font-size: 12px;
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 10px;
+    background: rgba(37, 99, 235, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #60a5fa;
 }
 
-.benefits strong {
-    display: block;
-
-    font-size: 10px;
-}
-
-.benefits span span,
-.benefits div > span {
-    color: #a9bedc;
-
-    font-size: 8px;
-    line-height: 1.6;
+.benefits span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    color: #94a3b8;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .benefits strong {
     color: white;
-    margin-bottom: 3px;
+    font-size: 14px;
 }
+
+
+/* =====================================================
+   COPYRIGHT
+===================================================== */
 
 .copyright {
-    color: #7190b8;
-    font-size: 8px;
+    position: relative;
+    z-index: 2;
+    color: #64748b;
+    font-size: 12px;
 }
 
-/* RIGHT */
+
+/* =====================================================
+   RIGHT SIDE
+===================================================== */
 
 .auth-form-container {
+    background: #ffffff;
     min-height: 100vh;
-
     display: flex;
     justify-content: center;
-    align-items: center;
-
-    padding: 40px;
+    padding: 45px 50px;
+    overflow-y: auto;
 }
 
 .auth-form {
@@ -214,60 +231,73 @@ a {
     max-width: 650px;
 }
 
+
+/* =====================================================
+   MOBILE BRAND
+===================================================== */
+
 .mobile-brand {
     display: none;
+    margin-bottom: 30px;
 }
 
+.mobile-brand span {
+    font-size: 20px;
+    color: var(--text-dark);
+}
+
+
+/* =====================================================
+   FORM HEADER
+===================================================== */
+
 .form-header {
-    margin-bottom: 24px;
+    margin-bottom: 28px;
 }
 
 .form-header h2 {
-    margin-top: 7px;
-
-    font-size: 28px;
-    letter-spacing: -0.6px;
+    color: var(--text-dark);
+    font-size: 32px;
+    margin-bottom: 8px;
 }
 
 .form-header p {
-    margin-top: 7px;
-
-    color: var(--muted);
-    font-size: 10px;
+    color: var(--text-light);
+    font-size: 14px;
 }
 
-/* PROGRESS */
+
+/* =====================================================
+   PROGRESS
+===================================================== */
 
 .progress {
     display: flex;
     align-items: center;
-
-    margin-bottom: 27px;
+    margin-bottom: 35px;
 }
 
 .progress-item {
     display: flex;
     align-items: center;
-    gap: 7px;
-
-    color: #a0a8b6;
-
-    font-size: 8px;
-    font-weight: 700;
+    gap: 8px;
+    color: #9ca3af;
 }
 
 .progress-item span {
-    width: 28px;
-    height: 28px;
-
-    display: grid;
-    place-items: center;
-
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
+    border: 1px solid #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+}
 
-    background: #edf0f4;
-
-    font-size: 8px;
+.progress-item small {
+    font-size: 12px;
 }
 
 .progress-item.active {
@@ -276,19 +306,21 @@ a {
 
 .progress-item.active span {
     background: var(--primary);
+    border-color: var(--primary);
     color: white;
 }
 
 .progress-line {
-    width: 55px;
+    flex: 1;
     height: 1px;
-
-    margin: 0 8px;
-
-    background: #e2e6ec;
+    background: #e5e7eb;
+    margin: 0 12px;
 }
 
-/* STEPS */
+
+/* =====================================================
+   FORM STEPS
+===================================================== */
 
 .form-step {
     display: none;
@@ -296,194 +328,135 @@ a {
 
 .form-step.active {
     display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
 .form-step h3 {
-    font-size: 15px;
-    color: #273247;
+    font-size: 20px;
+    color: var(--text-dark);
+    margin-bottom: 6px;
 }
 
 .step-description {
-    margin-top: 5px;
-    margin-bottom: 18px;
-
-    color: var(--muted);
-
-    font-size: 8px;
+    color: var(--text-light);
+    font-size: 13px;
+    margin-bottom: 25px;
 }
 
-/* GRID */
+
+/* =====================================================
+   FORM GRID
+===================================================== */
 
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-
-    gap: 14px;
+    gap: 18px;
 }
 
-/* INPUT */
+
+/* =====================================================
+   INPUT GROUP
+===================================================== */
 
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 18px;
 }
 
 .input-group label {
     display: block;
-
-    margin-bottom: 6px;
-
-    color: #4d596b;
-
-    font-size: 8px;
-    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
 }
 
 .input-box {
-    height: 43px;
-
+    height: 48px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
     display: flex;
     align-items: center;
-
-    gap: 9px;
-
-    padding: 0 11px;
-
+    padding: 0 14px;
     background: white;
-
-    border: 1px solid var(--border);
-
-    border-radius: 8px;
-
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
 .input-box:focus-within {
-    border-color: #8bb7f1;
-
-    box-shadow:
-        0 0 0 3px rgba(23,105,224,0.08);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .input-box > i {
-    width: 14px;
-
-    color: #9aa3b1;
-
-    font-size: 10px;
+    color: #9ca3af;
+    margin-right: 10px;
+    width: 16px;
+    text-align: center;
 }
 
 .input-box input,
 .input-box select {
     width: 100%;
-
+    height: 100%;
     border: none;
     outline: none;
-
     background: transparent;
-
-    color: #344054;
-
-    font-size: 9px;
+    color: var(--text-dark);
+    font-size: 14px;
 }
 
 .input-box input::placeholder {
-    color: #b1b8c4;
+    color: #9ca3af;
 }
 
 .input-box select {
     cursor: pointer;
 }
 
+
+/* =====================================================
+   PASSWORD TOGGLE
+===================================================== */
+
 .toggle-password {
     border: none;
     background: transparent;
-
-    color: #9aa3b1;
-
-    font-size: 10px;
+    color: #9ca3af;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 5px;
 }
 
-/* BUTTON */
-
-.next-btn,
-.submit-btn {
-    min-height: 43px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background: var(--primary);
-
-    color: white;
-
-    font-size: 9px;
-    font-weight: 700;
-
-    transition: 0.2s;
+.toggle-password:hover {
+    color: var(--primary);
 }
 
-.next-btn {
-    width: 100%;
-    margin-top: 7px;
-}
 
-.next-btn:hover,
-.submit-btn:hover {
-    background: var(--primary-dark);
-
-    transform: translateY(-1px);
-}
-
-.button-row {
-    display: flex;
-    gap: 10px;
-
-    margin-top: 8px;
-}
-
-.button-row .next-btn,
-.button-row .submit-btn {
-    flex: 1;
-    margin-top: 0;
-}
-
-.back-btn {
-    min-height: 43px;
-
-    padding: 0 20px;
-
-    border: 1px solid var(--border);
-
-    background: white;
-
-    border-radius: 8px;
-
-    color: #697589;
-
-    font-size: 9px;
-    font-weight: 700;
-}
-
-.back-btn:hover {
-    background: #f8fafc;
-}
-
-/* ACCOUNT TYPES */
+/* =====================================================
+   ACCOUNT TYPES
+===================================================== */
 
 .account-types {
     display: flex;
     flex-direction: column;
+    gap: 12px;
+    margin-bottom: 22px;
+}
 
-    gap: 10px;
-
-    margin-bottom: 18px;
+.account-option {
+    cursor: pointer;
 }
 
 .account-option input {
@@ -491,149 +464,190 @@ a {
 }
 
 .account-card {
-    min-height: 68px;
-
+    min-height: 80px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
     display: flex;
     align-items: center;
-
-    gap: 12px;
-
-    padding: 10px 13px;
-
-    border: 1px solid var(--border);
-
-    background: white;
-
-    border-radius: 9px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
+    gap: 14px;
+    transition: 0.2s ease;
 }
 
 .account-card:hover {
-    border-color: #b8d1f3;
-    background: #fbfdff;
+    border-color: #93c5fd;
+    background: #f8fbff;
 }
 
 .account-option input:checked + .account-card {
     border-color: var(--primary);
-
-    background: #f4f8ff;
-
-    box-shadow:
-        0 0 0 2px rgba(23,105,224,0.07);
+    background: var(--primary-light);
 }
 
 .account-icon {
-    width: 39px;
-    height: 39px;
-
-    display: grid;
-    place-items: center;
-
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
-
-    border-radius: 9px;
-
-    font-size: 11px;
 }
 
 .account-icon.blue {
-    color: var(--primary);
-    background: #eaf3ff;
+    background: #dbeafe;
+    color: #2563eb;
 }
 
 .account-icon.green {
-    color: var(--green);
-    background: #edf9f1;
+    background: #dcfce7;
+    color: #16a34a;
 }
 
 .account-icon.purple {
-    color: var(--purple);
-    background: #f1edff;
+    background: #f3e8ff;
+    color: #9333ea;
 }
 
-.account-card > div:nth-child(2) {
+.account-card div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
     flex: 1;
 }
 
 .account-card strong {
-    display: block;
-
-    color: #344054;
-
-    font-size: 9px;
+    color: var(--text-dark);
+    font-size: 14px;
 }
 
 .account-card small {
-    display: block;
-
-    margin-top: 4px;
-
-    color: #9aa3b1;
-
-    font-size: 7px;
+    color: var(--text-light);
+    font-size: 12px;
+    line-height: 1.4;
 }
 
 .check {
-    color: #d3d9e1;
-    font-size: 13px;
+    color: #d1d5db;
+    font-size: 19px;
 }
 
 .account-option input:checked + .account-card .check {
     color: var(--primary);
 }
 
-/* TERMS */
+
+/* =====================================================
+   TERMS
+===================================================== */
 
 .terms {
     display: flex;
     align-items: flex-start;
-
-    gap: 8px;
-
-    margin: 4px 0 15px;
-
-    color: #7b8799;
-
-    font-size: 8px;
-
+    gap: 10px;
+    margin: 5px 0 25px;
+    font-size: 12px;
+    color: var(--text-light);
     line-height: 1.6;
-
-    cursor: pointer;
 }
 
 .terms input {
-    margin-top: 2px;
+    margin-top: 3px;
     accent-color: var(--primary);
 }
 
 .terms a {
     color: var(--primary);
-    font-weight: 700;
+    text-decoration: none;
+    font-weight: 600;
 }
 
-/* LOGIN */
+.terms a:hover {
+    text-decoration: underline;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.next-btn,
+.submit-btn,
+.back-btn {
+    height: 48px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+}
+
+.next-btn,
+.submit-btn {
+    border: none;
+    background: var(--primary);
+    color: white;
+    padding: 0 22px;
+}
+
+.next-btn:hover,
+.submit-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.back-btn {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--text);
+    padding: 0 20px;
+}
+
+.back-btn:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+
+/* =====================================================
+   LOGIN LINK
+===================================================== */
 
 .login-link {
-    margin-top: 25px;
-
     text-align: center;
-
-    color: #9aa3b1;
-
-    font-size: 8px;
+    margin-top: 28px;
+    color: var(--text-light);
+    font-size: 13px;
 }
 
 .login-link a {
     color: var(--primary);
-    font-weight: 800;
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 4px;
 }
 
-/* RESPONSIVE */
+.login-link a:hover {
+    text-decoration: underline;
+}
 
-@media (max-width: 900px) {
+
+/* =====================================================
+   RESPONSIVE TABLET
+===================================================== */
+
+@media (max-width: 1000px) {
 
     .auth-container {
         grid-template-columns: 1fr;
@@ -643,46 +657,32 @@ a {
         display: none;
     }
 
+    .auth-form-container {
+        padding: 40px 25px;
+    }
+
     .mobile-brand {
         display: flex;
-        align-items: center;
-        gap: 9px;
-
-        margin-bottom: 35px;
-
-        color: var(--text);
-
-        font-size: 15px;
-        font-weight: 800;
     }
 
-    .mobile-brand b {
-        color: var(--primary);
-    }
-
-    .mobile-brand .brand-icon {
-        width: 37px;
-        height: 37px;
-    }
-
-    .auth-form-container {
-        padding: 30px 20px;
+    .auth-form {
+        max-width: 700px;
     }
 }
+
+
+/* =====================================================
+   RESPONSIVE MOBILE
+===================================================== */
 
 @media (max-width: 600px) {
 
     .auth-form-container {
-        padding: 25px 16px;
-        align-items: flex-start;
-    }
-
-    .auth-form {
-        max-width: 100%;
+        padding: 25px 18px;
     }
 
     .form-header h2 {
-        font-size: 24px;
+        font-size: 26px;
     }
 
     .form-grid {
@@ -690,26 +690,76 @@ a {
         gap: 0;
     }
 
+    .progress {
+        margin-bottom: 28px;
+    }
+
+    .progress-item {
+        gap: 5px;
+    }
+
+    .progress-item span {
+        width: 28px;
+        height: 28px;
+        font-size: 11px;
+    }
+
     .progress-item small {
         display: none;
     }
 
     .progress-line {
-        flex: 1;
+        margin: 0 7px;
     }
 
     .account-card {
-        padding: 9px;
+        padding: 12px;
     }
-}
 
-@media (max-width: 400px) {
+    .account-icon {
+        width: 40px;
+        height: 40px;
+    }
 
     .button-row {
         flex-direction: column-reverse;
+        width: 100%;
     }
 
-    .back-btn {
+    .button-row button {
         width: 100%;
+    }
+
+    .next-btn,
+    .submit-btn {
+        width: 100%;
+    }
+
+    .terms {
+        font-size: 11px;
+    }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .auth-form-container {
+        padding: 20px 14px;
+    }
+
+    .form-header h2 {
+        font-size: 23px;
+    }
+
+    .form-step h3 {
+        font-size: 18px;
+    }
+
+    .account-card small {
+        font-size: 11px;
     }
 }
