@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Deposit | TechFlow Dynamic Bank</title>
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet"
+          href="../css/deposit.css">
+
+</head>
+
+<body>
+
+<div class="deposit-page">
+
+    <!-- TOP BAR -->
+
+    <header class="deposit-header">
+
+        <a href="customer-dashboard.html"
+           class="back-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+            Back to Dashboard
+
+        </a>
+
+
+        <div class="header-brand">
+
+            <div class="brand-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </div>
+
+            <span>
+                TechFlow <b>Dynamic</b>
+            </span>
+
+        </div>
+
+
+        <div class="secure">
+
+            <i class="fa-solid fa-shield-halved"></i>
+
+            Secure Banking
+
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+
+    <main class="deposit-container">
+
+
+        <!-- PAGE TITLE -->
+
+        <div class="page-heading">
+
+            <span>
+                MONEY MANAGEMENT
+            </span>
+
+            <h1>
+                Deposit Money
+            </h1>
+
+            <p>
+                Add money securely to your TechFlow Dynamic account.
+            </p>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div class="progress">
+
+            <div class="step active">
+
+                <span>1</span>
+
+                <small>
+                    Deposit Details
+                </small>
+
+            </div>
+
+
+            <div class="line"></div>
+
+
+            <div class="step">
+
+                <span>2</span>
+
+                <small>
+                    Review
+                </small>
+
+            </div>
+
+
+            <div class="line"></div>
+
+
+            <div class="step">
+
+                <span>3</span>
+
+                <small>
+                    Complete
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT GRID -->
+
+        <div class="deposit-grid">
+
+
+            <!-- FORM -->
+
+            <section class="deposit-card">
+
+                <div class="card-heading">
+
+                    <div class="heading-icon">
+
+                        <i class="fa-solid fa-circle-plus"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Deposit Details
+                        </h2>
+
+                        <p>
+                            Enter the amount and select your preferred method.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form id="depositForm">
+
+
+                    <!-- ACCOUNT -->
+
+                    <div class="form-group">
+
+                        <label for="account">
+                            Deposit Into
+                        </label>
+
+                        <div class="select-wrapper">
+
+                            <i class="fa-solid fa-wallet"></i>
+
+                            <select id="account"
+                                    required>
+
+                                <option value="">
+                                    Select account
+                                </option>
+
+                                <option value="personal">
+                                    Personal Savings •••• 4521
+                                </option>
+
+                                <option value="business">
+                                    Business Account •••• 8912
+                                </option>
+
+                            </select>
+
+                            <i class="fa-solid fa-chevron-down"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- AMOUNT -->
+
+                    <div class="form-group">
+
+                        <label for="amount">
+                            Deposit Amount
+                        </label>
+
+                        <div class="amount-input">
+
+                            <span>
+                                ₦
+                            </span>
+
+                            <input
+                                type="number"
+                                id="amount"
+                                placeholder="0.00"
+                                min="100"
+                                step="0.01"
+                                required
+                            >
+
+                        </div>
+
+                        <small class="hint">
+                            Minimum deposit: ₦100
+                        </small>
+
+                    </div>
+
+
+                    <!-- METHOD -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Deposit Method
+                        </label>
+
+
+                        <div class="methods">
+
+
+                            <label class="method">
+
+                                <input
+                                    type="radio"
+                                    name="method"
+                                    value="bank-transfer"
+                                    checked
+                                >
+
+                                <div class="method-content">
+
+                                    <div class="method-icon blue">
+
+                                        <i class="fa-solid fa-building-columns"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Bank Transfer
+                                        </strong>
+
+                                        <small>
+                                            Transfer from another bank
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <i class="fa-solid fa-circle-check check"></i>
+
+                            </label>
+
+
+                            <label class="method">
+
+                                <input
+                                    type="radio"
+                                    name="method"
+                                    value="card"
+                                >
+
+                                <div class="method-content">
+
+                                    <div class="method-icon purple">
+
+                                        <i class="fa-solid fa-credit-card"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Debit Card
+                                        </strong>
+
+                                        <small>
+                                            Deposit using your card
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <i class="fa-solid fa-circle-check check"></i>
+
+                            </label>
+
+
+                            <label class="method">
+
+                                <input
+                                    type="radio"
+                                    name="method"
+                                    value="cash"
+                                >
+
+                                <div class="method-content">
+
+                                    <div class="method-icon green">
+
+                                        <i class="fa-solid fa-money-bill"></i>
+
+                                    </div>
+
+                                    <div>
+
+                                        <strong>
+                                            Cash Deposit
+                                        </strong>
+
+                                        <small>
+                                            Deposit at a branch
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                                <i class="fa-solid fa-circle-check check"></i>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label for="description">
+                            Description
+                            <span>(Optional)</span>
+                        </label>
+
+                        <textarea
+                            id="description"
+                            rows="3"
+                            placeholder="What is this deposit for?"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- BUTTON -->
+
+                    <button
+                        type="submit"
+                        class="continue-btn"
+                    >
+
+                        Continue
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </button>
+
+
+                </form>
+
+            </section>
+
+
+            <!-- SIDE INFORMATION -->
+
+            <aside class="deposit-side">
+
+
+                <!-- BALANCE -->
+
+                <div class="balance-mini">
+
+                    <span>
+                        CURRENT BALANCE
+                    </span>
+
+                    <h2>
+                        ₦2,450,000.00
+                    </h2>
+
+                    <small>
+                        Personal Savings •••• 4521
+                    </small>
+
+                </div>
+
+
+                <!-- INFO -->
+
+                <div class="info-card">
+
+                    <div class="info-title">
+
+                        <i class="fa-solid fa-circle-info"></i>
+
+                        <strong>
+                            How deposits work
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span>
+                            01
+                        </span>
+
+                        <p>
+                            Select the account you want to deposit into.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span>
+                            02
+                        </span>
+
+                        <p>
+                            Enter the amount you want to deposit.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span>
+                            03
+                        </span>
+
+                        <p>
+                            Choose your preferred deposit method.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <span>
+                            04
+                        </span>
+
+                        <p>
+                            Review and confirm your deposit.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SECURITY -->
+
+                <div class="security-card">
+
+                    <div class="security-icon">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure Transaction
+                        </strong>
+
+                        <p>
+                            Your financial information is protected
+                            with industry-standard security.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<script src="../js/deposit.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,962 @@
+:root {
+    --primary: #1769e0;
+    --primary-dark: #0d47a1;
+    --navy: #06172f;
+
+    --text: #172033;
+    --muted: #7b8799;
+
+    --border: #e5e9f0;
+    --background: #f6f8fb;
+
+    --white: #ffffff;
+
+    --green: #159447;
+    --purple: #7357d8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family:
+        "Inter",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background: var(--background);
+    color: var(--text);
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+/* ==============================
+   HEADER
+============================== */
+
+.deposit-header {
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 50px;
+
+    background: white;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #667085;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.back-btn:hover {
+    color: var(--primary);
+}
+
+
+.header-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    color: #253047;
+
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.header-brand b {
+    color: var(--primary);
+}
+
+.brand-icon {
+    width: 37px;
+    height: 37px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 9px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 12px;
+}
+
+
+.secure {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--green);
+
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.secure i {
+    font-size: 11px;
+}
+
+
+/* ==============================
+   CONTAINER
+============================== */
+
+.deposit-container {
+    width: 100%;
+    max-width: 1100px;
+
+    margin: auto;
+
+    padding: 42px 25px 70px;
+}
+
+
+/* ==============================
+   HEADING
+============================== */
+
+.page-heading span {
+    color: var(--primary);
+
+    font-size: 7px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.page-heading h1 {
+    margin-top: 7px;
+
+    color: #172033;
+
+    font-size: 29px;
+
+    letter-spacing: -0.8px;
+}
+
+.page-heading p {
+    margin-top: 7px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* ==============================
+   PROGRESS
+============================== */
+
+.progress {
+    max-width: 600px;
+
+    display: flex;
+    align-items: center;
+
+    margin: 35px auto;
+
+}
+
+.step {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+}
+
+.step span {
+    width: 28px;
+    height: 28px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: #e9edf3;
+
+    color: #8791a1;
+
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.step.active span {
+    background: var(--primary);
+    color: white;
+
+    box-shadow:
+        0 0 0 5px #eaf3ff;
+}
+
+.step small {
+    color: #8a94a4;
+
+    font-size: 7px;
+    font-weight: 700;
+}
+
+.step.active small {
+    color: var(--primary);
+}
+
+.line {
+    flex: 1;
+
+    height: 1px;
+
+    margin: 0 12px;
+
+    background: #dce1e8;
+}
+
+
+/* ==============================
+   GRID
+============================== */
+
+.deposit-grid {
+    display: grid;
+
+    grid-template-columns: 1.35fr 0.65fr;
+
+    gap: 20px;
+
+    align-items: start;
+}
+
+
+/* ==============================
+   CARD
+============================== */
+
+.deposit-card {
+    padding: 28px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 13px;
+
+    background: white;
+
+    box-shadow:
+        0 8px 30px rgba(15,23,42,0.04);
+}
+
+.card-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    margin-bottom: 27px;
+
+    padding-bottom: 19px;
+
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.heading-icon {
+    width: 39px;
+    height: 39px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 9px;
+
+    background: #eaf3ff;
+
+    color: var(--primary);
+
+    font-size: 12px;
+}
+
+.card-heading h2 {
+    color: #273247;
+
+    font-size: 14px;
+}
+
+.card-heading p {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 7px;
+}
+
+
+/* ==============================
+   FORM
+============================== */
+
+.form-group {
+    margin-bottom: 21px;
+}
+
+.form-group label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #344054;
+
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.form-group label span {
+    color: #9aa3b1;
+
+    font-weight: 400;
+}
+
+
+/* ACCOUNT SELECT */
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper > i:first-child {
+    position: absolute;
+
+    top: 50%;
+    left: 13px;
+
+    transform: translateY(-50%);
+
+    color: var(--primary);
+
+    font-size: 10px;
+
+    pointer-events: none;
+}
+
+.select-wrapper > i:last-child {
+    position: absolute;
+
+    top: 50%;
+    right: 13px;
+
+    transform: translateY(-50%);
+
+    color: #9aa3b1;
+
+    font-size: 7px;
+
+    pointer-events: none;
+}
+
+select {
+    width: 100%;
+    height: 47px;
+
+    padding: 0 38px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background: white;
+
+    color: #344054;
+
+    font-size: 8px;
+
+    appearance: none;
+}
+
+select:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px #eaf3ff;
+}
+
+
+/* AMOUNT */
+
+.amount-input {
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 9px;
+
+    background: white;
+
+    overflow: hidden;
+
+    transition: 0.2s;
+}
+
+.amount-input:focus-within {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px #eaf3ff;
+}
+
+.amount-input > span {
+    padding-left: 16px;
+
+    color: #344054;
+
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.amount-input input {
+    width: 100%;
+    height: 100%;
+
+    padding: 0 14px;
+
+    border: none;
+
+    outline: none;
+
+    color: #172033;
+
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.amount-input input::placeholder {
+    color: #c3c9d2;
+}
+
+.amount-input input::-webkit-inner-spin-button,
+.amount-input input::-webkit-outer-spin-button {
+    appearance: none;
+}
+
+.hint {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #9aa3b1;
+
+    font-size: 6px;
+}
+
+
+/* ==============================
+   METHODS
+============================== */
+
+.methods {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.method {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    padding: 10px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.method:hover {
+    border-color: #c6dafa;
+
+    background: #fbfdff;
+}
+
+.method:has(input:checked) {
+    border-color: var(--primary);
+
+    background: #f7fbff;
+}
+
+.method input {
+    position: absolute;
+
+    opacity: 0;
+}
+
+.method-content {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    flex: 1;
+}
+
+.method-icon {
+    width: 36px;
+    height: 36px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 8px;
+
+    font-size: 10px;
+}
+
+.method-icon.blue {
+    background: #eaf3ff;
+    color: var(--primary);
+}
+
+.method-icon.purple {
+    background: #f1edff;
+    color: var(--purple);
+}
+
+.method-icon.green {
+    background: #edf9f1;
+    color: var(--green);
+}
+
+.method-content strong {
+    display: block;
+
+    color: #344054;
+
+    font-size: 8px;
+}
+
+.method-content small {
+    display: block;
+
+    margin-top: 4px;
+
+    color: #9aa3b1;
+
+    font-size: 6px;
+}
+
+.method .check {
+    color: #d1d7df;
+
+    font-size: 13px;
+}
+
+.method:has(input:checked) .check {
+    color: var(--primary);
+}
+
+
+/* ==============================
+   TEXTAREA
+============================== */
+
+textarea {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    resize: vertical;
+
+    color: #344054;
+
+    font-size: 8px;
+}
+
+textarea:focus {
+    border-color: var(--primary);
+
+    box-shadow:
+        0 0 0 3px #eaf3ff;
+}
+
+textarea::placeholder {
+    color: #a8b0bd;
+}
+
+
+/* ==============================
+   BUTTON
+============================== */
+
+.continue-btn {
+    width: 100%;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 9px;
+
+    margin-top: 7px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 18px rgba(23,105,224,0.18);
+
+    transition: 0.2s;
+}
+
+.continue-btn:hover {
+    background: var(--primary-dark);
+
+    transform: translateY(-1px);
+}
+
+
+/* ==============================
+   SIDE
+============================== */
+
+.deposit-side {
+    display: flex;
+    flex-direction: column;
+
+    gap: 13px;
+}
+
+
+/* BALANCE */
+
+.balance-mini {
+    padding: 21px;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #06172f,
+            #0d3f8f
+        );
+
+    color: white;
+
+    box-shadow:
+        0 12px 25px rgba(13,63,143,0.16);
+}
+
+.balance-mini span {
+    color: #9fc3f5;
+
+    font-size: 6px;
+    font-weight: 800;
+
+    letter-spacing: 0.8px;
+}
+
+.balance-mini h2 {
+    margin: 10px 0 7px;
+
+    color: white;
+
+    font-size: 22px;
+}
+
+.balance-mini small {
+    color: #9fc3f5;
+
+    font-size: 6px;
+}
+
+
+/* INFO CARD */
+
+.info-card {
+    padding: 20px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 11px;
+
+    background: white;
+}
+
+.info-title {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 17px;
+
+    color: #344054;
+}
+
+.info-title i {
+    color: var(--primary);
+
+    font-size: 11px;
+}
+
+.info-title strong {
+    font-size: 8px;
+}
+
+.info-item {
+    display: flex;
+
+    gap: 9px;
+
+    margin-bottom: 13px;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item span {
+    width: 23px;
+    height: 23px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 6px;
+
+    background: #f0f6ff;
+
+    color: var(--primary);
+
+    font-size: 6px;
+    font-weight: 800;
+}
+
+.info-item p {
+    padding-top: 3px;
+
+    color: #7b8799;
+
+    font-size: 7px;
+
+    line-height: 1.5;
+}
+
+
+/* SECURITY */
+
+.security-card {
+    display: flex;
+
+    gap: 9px;
+
+    padding: 15px;
+
+    border: 1px solid #ccebd5;
+
+    border-radius: 10px;
+
+    background: #f2fbf5;
+}
+
+.security-icon {
+    width: 31px;
+    height: 31px;
+
+    display: grid;
+    place-items: center;
+
+    flex-shrink: 0;
+
+    border-radius: 7px;
+
+    background: #daf5e2;
+
+    color: var(--green);
+
+    font-size: 9px;
+}
+
+.security-card strong {
+    display: block;
+
+    color: #267542;
+
+    font-size: 7px;
+}
+
+.security-card p {
+    margin-top: 4px;
+
+    color: #73a683;
+
+    font-size: 6px;
+
+    line-height: 1.5;
+}
+
+
+/* ==============================
+   TABLET
+============================== */
+
+@media (max-width: 850px) {
+
+    .deposit-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .deposit-side {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .security-card {
+        grid-column: span 2;
+    }
+
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media (max-width: 600px) {
+
+    .deposit-header {
+        height: 65px;
+
+        padding: 0 18px;
+    }
+
+    .header-brand {
+        font-size: 11px;
+    }
+
+    .secure {
+        display: none;
+    }
+
+    .deposit-container {
+        padding: 28px 15px 50px;
+    }
+
+    .page-heading h1 {
+        font-size: 24px;
+    }
+
+    .progress {
+        margin: 27px 0;
+    }
+
+    .step small {
+        display: none;
+    }
+
+    .line {
+        margin: 0 8px;
+    }
+
+    .deposit-card {
+        padding: 19px;
+    }
+
+    .deposit-side {
+        display: flex;
+    }
+
+    .security-card {
+        grid-column: auto;
+    }
+
+}
+
+
+/* ==============================
+   SMALL MOBILE
+============================== */
+
+@media (max-width: 400px) {
+
+    .back-btn {
+        font-size: 8px;
+    }
+
+    .header-brand .brand-icon {
+        width: 31px;
+        height: 31px;
+    }
+
+    .header-brand {
+        font-size: 9px;
+    }
+
+    .card-heading h2 {
+        font-size: 12px;
+    }
+
+    .amount-input input {
+        font-size: 19px;
+    }
+
+}

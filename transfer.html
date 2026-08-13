@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transfer Money | TechFlow Bank</title>
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/transfer.css">
+</head>
+
+<body class="dashboard-page">
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-logo">
+
+        <a href="dashboard.html" class="logo">
+            <span class="logo-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </span>
+
+            <span>
+                TechFlow<span class="logo-highlight">Bank</span>
+            </span>
+        </a>
+
+    </div>
+
+    <nav class="dashboard-nav">
+
+        <div class="nav-section-title">
+            MAIN MENU
+        </div>
+
+        <a href="dashboard.html" class="dashboard-nav-link">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="transfer.html"
+           class="dashboard-nav-link active">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Transfer Money</span>
+        </a>
+
+        <a href="deposit.html" class="dashboard-nav-link">
+            <i class="fa-solid fa-wallet"></i>
+            <span>Deposit</span>
+        </a>
+
+        <a href="withdraw.html" class="dashboard-nav-link">
+            <i class="fa-solid fa-money-bill-transfer"></i>
+            <span>Withdraw</span>
+        </a>
+
+        <a href="bills.html" class="dashboard-nav-link">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <span>Bills & Airtime</span>
+        </a>
+
+        <a href="transactions.html" class="dashboard-nav-link">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Transactions</span>
+        </a>
+
+        <div class="nav-section-title second-title">
+            ACCOUNT
+        </div>
+
+        <a href="profile.html" class="dashboard-nav-link">
+            <i class="fa-regular fa-user"></i>
+            <span>My Profile</span>
+        </a>
+
+        <a href="#" class="dashboard-nav-link">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Security</span>
+        </a>
+
+        <a href="#" class="dashboard-nav-link">
+            <i class="fa-regular fa-circle-question"></i>
+            <span>Help & Support</span>
+        </a>
+
+    </nav>
+
+    <div class="sidebar-bottom">
+
+        <button class="logout-btn" id="logoutBtn">
+
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
+            <span>Logout</span>
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+<main class="dashboard-main">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+
+        <button class="sidebar-toggle" id="sidebarToggle">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <div class="dashboard-search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                placeholder="Search..."
+            >
+
+        </div>
+
+        <div class="header-actions">
+
+            <button class="notification-btn">
+                <i class="fa-regular fa-bell"></i>
+                <span class="notification-dot"></span>
+            </button>
+
+            <div class="user-menu">
+
+                <div class="user-avatar" id="userAvatar">
+                    U
+                </div>
+
+                <div class="user-info">
+
+                    <strong id="headerUserName">
+                        User
+                    </strong>
+
+                    <small>
+                        TechFlow Bank
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+    <div class="dashboard-content">
+
+        <div class="transfer-page-header">
+
+            <div>
+
+                <span>
+                    Banking
+                </span>
+
+                <h1>
+                    Transfer Money
+                </h1>
+
+                <p>
+                    Send money securely to another bank account.
+                </p>
+
+            </div>
+
+            <a href="dashboard.html"
+               class="back-dashboard">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+
+        <div class="transfer-layout">
+
+
+            <!-- TRANSFER FORM -->
+
+            <section class="transfer-card">
+
+                <div class="transfer-card-header">
+
+                    <div class="transfer-icon">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            Make a Transfer
+                        </h2>
+
+                        <p>
+                            Enter the recipient's details below.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form id="transferForm">
+
+
+                    <!-- SOURCE ACCOUNT -->
+
+                    <div class="form-group">
+
+                        <label>
+                            From Account
+                        </label>
+
+                        <select id="sourceAccount" required>
+
+                            <option value="">
+                                Select account
+                            </option>
+
+                            <option value="personal">
+                                Personal Account
+                            </option>
+
+                            <option value="business">
+                                Business Account
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- BANK -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Recipient Bank
+                        </label>
+
+                        <select id="recipientBank" required>
+
+                            <option value="">
+                                Select bank
+                            </option>
+
+                            <option>Access Bank</option>
+                            <option>GTBank</option>
+                            <option>First Bank</option>
+                            <option>UBA</option>
+                            <option>Zenith Bank</option>
+                            <option>Opay</option>
+                            <option>Moniepoint</option>
+                            <option>Palmpay</option>
+                            <option>FCMB</option>
+                            <option>Stanbic IBTC</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ACCOUNT NUMBER -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Account Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="recipientAccount"
+                            maxlength="10"
+                            inputmode="numeric"
+                            placeholder="Enter 10-digit account number"
+                            required
+                        >
+
+                        <small id="accountError"></small>
+
+                    </div>
+
+
+                    <!-- RECIPIENT NAME -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Recipient Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="recipientName"
+                            placeholder="Enter recipient name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- AMOUNT -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Amount
+                        </label>
+
+                        <div class="amount-input">
+
+                            <span>
+                                ₦
+                            </span>
+
+                            <input
+                                type="number"
+                                id="transferAmount"
+                                min="100"
+                                step="0.01"
+                                placeholder="0.00"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Description
+                            <small>(Optional)</small>
+                        </label>
+
+                        <textarea
+                            id="transferDescription"
+                            rows="3"
+                            maxlength="100"
+                            placeholder="What is this transfer for?"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- ERROR -->
+
+                    <div
+                        class="transfer-message error-message"
+                        id="errorMessage">
+                    </div>
+
+
+                    <!-- SUBMIT -->
+
+                    <button
+                        type="submit"
+                        class="transfer-submit"
+                        id="transferSubmit">
+
+                        <i class="fa-solid fa-paper-plane"></i>
+
+                        Continue Transfer
+
+                    </button>
+
+                </form>
+
+            </section>
+
+
+
+            <!-- RIGHT SIDE -->
+
+            <aside class="transfer-sidebar">
+
+
+                <!-- BALANCE -->
+
+                <div class="balance-mini-card">
+
+                    <span>
+                        Available Balance
+                    </span>
+
+                    <h2 id="availableBalance">
+                        ₦0.00
+                    </h2>
+
+                    <small id="selectedAccountLabel">
+                        Select an account
+                    </small>
+
+                </div>
+
+
+                <!-- SECURITY -->
+
+                <div class="security-card">
+
+                    <div class="security-card-icon">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Secure Transfer
+                        </h3>
+
+                        <p>
+                            Your transfer information is protected
+                            by TechFlow Bank security systems.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- LIMITS -->
+
+                <div class="transfer-info-card">
+
+                    <h3>
+                        Transfer Information
+                    </h3>
+
+                    <div class="info-row">
+
+                        <span>
+                            Minimum transfer
+                        </span>
+
+                        <strong>
+                            ₦100
+                        </strong>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <span>
+                            Maximum transfer
+                        </span>
+
+                        <strong>
+                            ₦5,000,000
+                        </strong>
+
+                    </div>
+
+                    <div class="info-row">
+
+                        <span>
+                            Transfer fee
+                        </span>
+
+                        <strong>
+                            ₦0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- CONFIRMATION MODAL -->
+
+<div class="modal-overlay" id="confirmationModal">
+
+    <div class="confirmation-modal">
+
+        <button
+            class="modal-close"
+            id="closeModal">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+        <div class="confirmation-icon">
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+        </div>
+
+        <h2>
+            Confirm Transfer
+        </h2>
+
+        <p>
+            Please review the transaction details before
+            confirming.
+        </p>
+
+
+        <div class="confirmation-details">
+
+            <div>
+                <span>Recipient</span>
+                <strong id="confirmRecipient">
+                    -
+                </strong>
+            </div>
+
+            <div>
+                <span>Bank</span>
+                <strong id="confirmBank">
+                    -
+                </strong>
+            </div>
+
+            <div>
+                <span>Account Number</span>
+                <strong id="confirmAccount">
+                    -
+                </strong>
+            </div>
+
+            <div>
+                <span>Amount</span>
+                <strong id="confirmAmount">
+                    ₦0.00
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel-transfer"
+                id="cancelTransfer">
+
+                Cancel
+
+            </button>
+
+            <button
+                class="confirm-transfer"
+                id="confirmTransfer">
+
+                Confirm Transfer
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="js/transfer.js"></script>
+
+</body>
+</html>

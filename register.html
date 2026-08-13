@@ -4,157 +4,284 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Open Account | TechFlow Bank</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <title>Create Account | TechFlow Dynamic Bank</title>
 
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="../css/auth.css">
 </head>
 
-<body class="auth-page">
+<body>
 
-    <div class="auth-wrapper">
+<div class="auth-container">
 
-        <!-- LEFT SIDE -->
+    <!-- LEFT SIDE -->
+    <div class="auth-info">
 
-        <div class="auth-visual">
-
-            <div class="auth-brand">
-                <a href="index.html" class="logo">
-                    <span class="logo-icon">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </span>
-
-                    <span>
-                        TechFlow<span class="logo-highlight">Bank</span>
-                    </span>
-                </a>
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-building-columns"></i>
             </div>
 
-            <div class="auth-visual-content">
-
-                <div class="visual-icon">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-
-                <h1>
-                    Start your journey
-                    with smarter banking.
-                </h1>
-
-                <p>
-                    Create your TechFlow Bank account and manage your
-                    finances from one secure platform.
-                </p>
-
-                <div class="visual-features">
-
-                    <div>
-                        <i class="fa-solid fa-check"></i>
-                        Easy account management
-                    </div>
-
-                    <div>
-                        <i class="fa-solid fa-check"></i>
-                        Fast and convenient transfers
-                    </div>
-
-                    <div>
-                        <i class="fa-solid fa-check"></i>
-                        Secure digital banking
-                    </div>
-
-                </div>
-
-            </div>
-
+            <span>TechFlow <b>Dynamic</b></span>
         </div>
 
+        <div class="info-content">
+            <span class="tagline">SMART BANKING</span>
 
-        <!-- RIGHT SIDE -->
+            <h1>
+                Banking made
+                <span>simple and secure.</span>
+            </h1>
 
-        <div class="auth-form-container">
+            <p>
+                Create your TechFlow Dynamic account and enjoy
+                secure, convenient and modern banking services.
+            </p>
 
-            <div class="auth-form">
+            <div class="benefits">
 
-                <a href="index.html" class="mobile-auth-logo logo">
-
-                    <span class="logo-icon">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </span>
-
+                <div>
+                    <i class="fa-solid fa-shield-halved"></i>
                     <span>
-                        TechFlow<span class="logo-highlight">Bank</span>
+                        <strong>Secure Banking</strong>
+                        Your account is protected with modern security.
                     </span>
-
-                </a>
-
-                <div class="auth-heading">
-
-                    <span class="section-label">CREATE ACCOUNT</span>
-
-                    <h2>Open your account</h2>
-
-                    <p>
-                        Enter your details to get started with TechFlow Bank.
-                    </p>
-
                 </div>
 
+                <div>
+                    <i class="fa-solid fa-bolt"></i>
+                    <span>
+                        <strong>Fast Transactions</strong>
+                        Send and receive money with ease.
+                    </span>
+                </div>
 
-                <form id="registerForm">
+                <div>
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>
+                        <strong>Financial Control</strong>
+                        Manage your personal and business finances.
+                    </span>
+                </div>
 
-                    <div id="registerMessage" class="form-message"></div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            © 2026 TechFlow Dynamic. All rights reserved.
+        </div>
+
+    </div>
 
 
-                    <div class="form-row">
+    <!-- RIGHT SIDE -->
+    <div class="auth-form-container">
 
-                        <div class="form-group">
+        <div class="auth-form">
+
+            <div class="mobile-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-building-columns"></i>
+                </div>
+
+                <span>TechFlow <b>Dynamic</b></span>
+            </div>
+
+            <div class="form-header">
+
+                <span class="form-label">
+                    GET STARTED
+                </span>
+
+                <h2>Create your account</h2>
+
+                <p>
+                    Fill in your details to open your account.
+                </p>
+
+            </div>
+
+
+            <!-- PROGRESS -->
+            <div class="progress">
+
+                <div class="progress-item active">
+                    <span>1</span>
+                    <small>Personal</small>
+                </div>
+
+                <div class="progress-line"></div>
+
+                <div class="progress-item">
+                    <span>2</span>
+                    <small>Account</small>
+                </div>
+
+                <div class="progress-line"></div>
+
+                <div class="progress-item">
+                    <span>3</span>
+                    <small>Security</small>
+                </div>
+
+            </div>
+
+
+            <form id="registerForm">
+
+                <!-- =====================
+                     STEP 1
+                ====================== -->
+
+                <div class="form-step active" id="step1">
+
+                    <h3>Personal Information</h3>
+
+                    <p class="step-description">
+                        Tell us a little about yourself.
+                    </p>
+
+                    <div class="form-grid">
+
+                        <div class="input-group">
 
                             <label for="firstName">
                                 First Name
                             </label>
 
-                            <div class="input-wrapper">
-
+                            <div class="input-box">
                                 <i class="fa-regular fa-user"></i>
 
                                 <input
                                     type="text"
                                     id="firstName"
-                                    placeholder="First name"
+                                    name="firstName"
+                                    placeholder="Enter first name"
                                     required
                                 >
-
                             </div>
 
                         </div>
 
 
-                        <div class="form-group">
+                        <div class="input-group">
 
                             <label for="lastName">
                                 Last Name
                             </label>
 
-                            <div class="input-wrapper">
-
+                            <div class="input-box">
                                 <i class="fa-regular fa-user"></i>
 
                                 <input
                                     type="text"
                                     id="lastName"
-                                    placeholder="Last name"
+                                    name="lastName"
+                                    placeholder="Enter last name"
                                     required
                                 >
+                            </div>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="email">
+                                Email Address
+                            </label>
+
+                            <div class="input-box">
+                                <i class="fa-regular fa-envelope"></i>
+
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="you@example.com"
+                                    required
+                                >
+                            </div>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="phone">
+                                Phone Number
+                            </label>
+
+                            <div class="input-box">
+                                <i class="fa-solid fa-phone"></i>
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    placeholder="08012345678"
+                                    required
+                                >
+                            </div>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="dob">
+                                Date of Birth
+                            </label>
+
+                            <div class="input-box">
+                                <i class="fa-regular fa-calendar"></i>
+
+                                <input
+                                    type="date"
+                                    id="dob"
+                                    name="dob"
+                                    required
+                                >
+                            </div>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label for="gender">
+                                Gender
+                            </label>
+
+                            <div class="input-box">
+
+                                <i class="fa-solid fa-venus-mars"></i>
+
+                                <select
+                                    id="gender"
+                                    name="gender"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select gender
+                                    </option>
+
+                                    <option value="male">
+                                        Male
+                                    </option>
+
+                                    <option value="female">
+                                        Female
+                                    </option>
+
+                                    <option value="other">
+                                        Other
+                                    </option>
+
+                                </select>
 
                             </div>
 
@@ -163,20 +290,138 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <button
+                        type="button"
+                        class="next-btn"
+                        onclick="nextStep(2)"
+                    >
+                        Continue
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
 
-                        <label for="email">
-                            Email Address
-                        </label>
+                </div>
 
-                        <div class="input-wrapper">
 
-                            <i class="fa-regular fa-envelope"></i>
+                <!-- =====================
+                     STEP 2
+                ====================== -->
+
+                <div class="form-step" id="step2">
+
+                    <h3>Account Information</h3>
+
+                    <p class="step-description">
+                        Choose the type of account you want to open.
+                    </p>
+
+
+                    <div class="account-types">
+
+                        <label class="account-option">
 
                             <input
-                                type="email"
-                                id="email"
-                                placeholder="you@example.com"
+                                type="radio"
+                                name="accountType"
+                                value="savings"
+                                required
+                            >
+
+                            <div class="account-card">
+
+                                <div class="account-icon blue">
+                                    <i class="fa-solid fa-piggy-bank"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Savings Account</strong>
+
+                                    <small>
+                                        For personal savings and everyday banking.
+                                    </small>
+                                </div>
+
+                                <i class="fa-solid fa-circle-check check"></i>
+
+                            </div>
+
+                        </label>
+
+
+                        <label class="account-option">
+
+                            <input
+                                type="radio"
+                                name="accountType"
+                                value="current"
+                            >
+
+                            <div class="account-card">
+
+                                <div class="account-icon green">
+                                    <i class="fa-solid fa-wallet"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Current Account</strong>
+
+                                    <small>
+                                        For frequent transactions and payments.
+                                    </small>
+                                </div>
+
+                                <i class="fa-solid fa-circle-check check"></i>
+
+                            </div>
+
+                        </label>
+
+
+                        <label class="account-option">
+
+                            <input
+                                type="radio"
+                                name="accountType"
+                                value="business"
+                            >
+
+                            <div class="account-card">
+
+                                <div class="account-icon purple">
+                                    <i class="fa-solid fa-briefcase"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Business Account</strong>
+
+                                    <small>
+                                        Manage your business finances professionally.
+                                    </small>
+                                </div>
+
+                                <i class="fa-solid fa-circle-check check"></i>
+
+                            </div>
+
+                        </label>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="accountName">
+                            Preferred Account Name
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-id-card"></i>
+
+                            <input
+                                type="text"
+                                id="accountName"
+                                name="accountName"
+                                placeholder="e.g. Mukhtar Afolabi"
                                 required
                             >
 
@@ -185,150 +430,97 @@
                     </div>
 
 
-                    <div class="form-row">
+                    <div class="button-row">
 
-                        <div class="form-group">
+                        <button
+                            type="button"
+                            class="back-btn"
+                            onclick="nextStep(1)"
+                        >
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Back
+                        </button>
 
-                            <label for="phone">
-                                Phone Number
-                            </label>
-
-                            <div class="input-wrapper">
-
-                                <i class="fa-solid fa-phone"></i>
-
-                                <input
-                                    type="tel"
-                                    id="phone"
-                                    placeholder="08012345678"
-                                    required
-                                >
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="dob">
-                                Date of Birth
-                            </label>
-
-                            <div class="input-wrapper">
-
-                                <i class="fa-regular fa-calendar"></i>
-
-                                <input
-                                    type="date"
-                                    id="dob"
-                                    required
-                                >
-
-                            </div>
-
-                        </div>
+                        <button
+                            type="button"
+                            class="next-btn"
+                            onclick="nextStep(3)"
+                        >
+                            Continue
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
 
                     </div>
 
-
-                    <div class="form-group">
-
-                        <label for="accountType">
-                            Account Type
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-solid fa-building-columns"></i>
-
-                            <select id="accountType" required>
-
-                                <option value="">
-                                    Select account type
-                                </option>
-
-                                <option value="Savings">
-                                    Savings Account
-                                </option>
-
-                                <option value="Current">
-                                    Current Account
-                                </option>
-
-                                <option value="Business">
-                                    Business Account
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                    </div>
+                </div>
 
 
-                    <div class="form-group">
+                <!-- =====================
+                     STEP 3
+                ====================== -->
+
+                <div class="form-step" id="step3">
+
+                    <h3>Secure Your Account</h3>
+
+                    <p class="step-description">
+                        Create your login and transaction security details.
+                    </p>
+
+
+                    <div class="input-group">
 
                         <label for="password">
                             Password
                         </label>
 
-                        <div class="input-wrapper">
+                        <div class="input-box">
 
                             <i class="fa-solid fa-lock"></i>
 
                             <input
                                 type="password"
                                 id="password"
-                                placeholder="Create a password"
+                                name="password"
+                                placeholder="Create a strong password"
                                 required
                             >
 
                             <button
                                 type="button"
-                                class="password-toggle"
-                                data-target="password"
+                                class="toggle-password"
+                                onclick="togglePassword('password', this)"
                             >
                                 <i class="fa-regular fa-eye"></i>
                             </button>
 
                         </div>
 
-                        <div class="password-strength">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-
-                        <small id="passwordHint">
-                            Use at least 8 characters.
-                        </small>
-
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="input-group">
 
                         <label for="confirmPassword">
                             Confirm Password
                         </label>
 
-                        <div class="input-wrapper">
+                        <div class="input-box">
 
                             <i class="fa-solid fa-lock"></i>
 
                             <input
                                 type="password"
                                 id="confirmPassword"
-                                placeholder="Confirm password"
+                                name="confirmPassword"
+                                placeholder="Confirm your password"
                                 required
                             >
 
                             <button
                                 type="button"
-                                class="password-toggle"
-                                data-target="confirmPassword"
+                                class="toggle-password"
+                                onclick="togglePassword('confirmPassword', this)"
                             >
                                 <i class="fa-regular fa-eye"></i>
                             </button>
@@ -338,9 +530,63 @@
                     </div>
 
 
-                    <label class="checkbox-label">
+                    <div class="input-group">
 
-                        <input type="checkbox" id="terms" required>
+                        <label for="pin">
+                            Transaction PIN
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-key"></i>
+
+                            <input
+                                type="password"
+                                id="pin"
+                                name="pin"
+                                maxlength="4"
+                                inputmode="numeric"
+                                placeholder="4-digit PIN"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label for="confirmPin">
+                            Confirm Transaction PIN
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-key"></i>
+
+                            <input
+                                type="password"
+                                id="confirmPin"
+                                name="confirmPin"
+                                maxlength="4"
+                                inputmode="numeric"
+                                placeholder="Confirm PIN"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <label class="terms">
+
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            required
+                        >
 
                         <span>
                             I agree to the
@@ -352,26 +598,39 @@
                     </label>
 
 
-                    <button type="submit" class="btn btn-primary auth-submit">
+                    <div class="button-row">
 
-                        Create Account
+                        <button
+                            type="button"
+                            class="back-btn"
+                            onclick="nextStep(2)"
+                        >
+                            <i class="fa-solid fa-arrow-left"></i>
+                            Back
+                        </button>
 
-                        <i class="fa-solid fa-arrow-right"></i>
+                        <button
+                            type="submit"
+                            class="submit-btn"
+                        >
+                            Create Account
+                            <i class="fa-solid fa-check"></i>
+                        </button>
 
-                    </button>
-
-                </form>
-
-
-                <div class="auth-footer">
-
-                    Already have an account?
-
-                    <a href="login.html">
-                        Sign in
-                    </a>
+                    </div>
 
                 </div>
+
+            </form>
+
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="login.html">
+                    Sign in
+                </a>
 
             </div>
 
@@ -379,8 +638,10 @@
 
     </div>
 
+</div>
 
-    <script src="js/auth.js"></script>
+
+<script src="../js/register.js"></script>
 
 </body>
 </html>
