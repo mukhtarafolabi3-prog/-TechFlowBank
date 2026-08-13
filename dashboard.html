@@ -1,448 +1,336 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Dashboard | TechFlow Bank</title>
+    <title>Dashboard | TechFlow Dynamic</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-
+    <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
-<body class="dashboard-page">
+<body>
 
+<div class="dashboard">
 
-<!-- =========================================
-     MOBILE OVERLAY
-========================================= -->
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
 
-<div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-
-<!-- =========================================
-     SIDEBAR
-========================================= -->
-
-<aside class="sidebar" id="sidebar">
-
-    <div class="sidebar-logo">
-
-        <a href="dashboard.html" class="logo">
-
-            <span class="logo-icon">
+        <div class="logo">
+            <div class="logo-icon">
                 <i class="fa-solid fa-building-columns"></i>
-            </span>
-
-            <span>
-                TechFlow<span class="logo-highlight">Bank</span>
-            </span>
-
-        </a>
-
-    </div>
-
-
-    <!-- MAIN NAVIGATION -->
-
-    <nav class="dashboard-nav">
-
-        <div class="nav-section-title">
-            MAIN MENU
-        </div>
-
-        <a href="dashboard.html" class="dashboard-nav-link active">
-            <i class="fa-solid fa-chart-pie"></i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="transfer.html" class="dashboard-nav-link">
-            <i class="fa-solid fa-paper-plane"></i>
-            <span>Transfer Money</span>
-        </a>
-
-        <a href="deposit.html" class="dashboard-nav-link">
-            <i class="fa-solid fa-wallet"></i>
-            <span>Deposit</span>
-        </a>
-
-        <a href="withdraw.html" class="dashboard-nav-link">
-            <i class="fa-solid fa-money-bill-transfer"></i>
-            <span>Withdraw</span>
-        </a>
-
-        <a href="bills.html" class="dashboard-nav-link">
-            <i class="fa-solid fa-mobile-screen-button"></i>
-            <span>Bills & Airtime</span>
-        </a>
-
-        <a href="transactions.html" class="dashboard-nav-link">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-            <span>Transactions</span>
-        </a>
-
-
-        <div class="nav-section-title second-title">
-            ACCOUNT
-        </div>
-
-        <a href="profile.html" class="dashboard-nav-link">
-            <i class="fa-regular fa-user"></i>
-            <span>My Profile</span>
-        </a>
-
-        <a href="#" class="dashboard-nav-link">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span>Security</span>
-        </a>
-
-        <a href="#" class="dashboard-nav-link">
-            <i class="fa-regular fa-circle-question"></i>
-            <span>Help & Support</span>
-        </a>
-
-    </nav>
-
-
-    <!-- SIDEBAR BOTTOM -->
-
-    <div class="sidebar-bottom">
-
-        <div class="support-card">
-
-            <div class="support-icon">
-                <i class="fa-solid fa-headset"></i>
             </div>
 
             <div>
-                <strong>Need help?</strong>
-
-                <p>
-                    Our support team is available.
-                </p>
-
-                <a href="#">
-                    Contact Support
-                </a>
+                <strong>TechFlow</strong>
+                <span>Dynamic Bank</span>
             </div>
-
         </div>
 
 
-        <button class="logout-btn" id="logoutBtn">
+        <div class="user-mini">
 
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
-            <span>Logout</span>
-
-        </button>
-
-    </div>
-
-</aside>
-
-
-
-<!-- =========================================
-     MAIN CONTENT
-========================================= -->
-
-<main class="dashboard-main">
-
-
-    <!-- =====================================
-         TOP BAR
-    ====================================== -->
-
-    <header class="dashboard-header">
-
-        <button class="sidebar-toggle" id="sidebarToggle">
-
-            <i class="fa-solid fa-bars"></i>
-
-        </button>
-
-
-        <div class="dashboard-search">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <input
-                type="search"
-                placeholder="Search transactions..."
-                id="dashboardSearch"
-            >
-
-        </div>
-
-
-        <div class="header-actions">
-
-
-            <!-- NOTIFICATION -->
-
-            <button class="notification-btn">
-
-                <i class="fa-regular fa-bell"></i>
-
-                <span class="notification-dot"></span>
-
-            </button>
-
-
-            <!-- USER -->
-
-            <div class="user-menu">
-
-                <div class="user-avatar" id="userAvatar">
-                    M
-                </div>
-
-                <div class="user-info">
-
-                    <strong id="headerUserName">
-                        User
-                    </strong>
-
-                    <small id="headerAccountType">
-                        Savings Account
-                    </small>
-
-                </div>
-
-                <i class="fa-solid fa-chevron-down user-chevron"></i>
-
+            <div class="avatar">
+                MA
             </div>
-
-        </div>
-
-    </header>
-
-
-
-    <!-- =====================================
-         DASHBOARD CONTENT
-    ====================================== -->
-
-    <div class="dashboard-content">
-
-
-        <!-- WELCOME -->
-
-        <section class="welcome-section">
 
             <div>
-
-                <span class="dashboard-date" id="dashboardDate">
-                    Sunday, August 9, 2026
-                </span>
-
-                <h1>
-                    Welcome back,
-                    <span id="welcomeUserName">User</span> 👋
-                </h1>
-
-                <p>
-                    Here's what's happening with your finances today.
-                </p>
-
+                <strong id="sidebarName">Mukhtar Afolabi</strong>
+                <small>Personal Banking</small>
             </div>
 
+        </div>
 
-            <a href="transfer.html" class="btn btn-primary">
 
-                <i class="fa-solid fa-paper-plane"></i>
+        <nav class="navigation">
 
-                Send Money
+            <p class="nav-title">MAIN MENU</p>
+
+            <a href="customer-dashboard.html"
+               class="nav-link active">
+
+                <i class="fa-solid fa-chart-pie"></i>
+                <span>Dashboard</span>
 
             </a>
 
-        </section>
+            <a href="accounts.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-wallet"></i>
+                <span>My Accounts</span>
+
+            </a>
+
+            <a href="deposit.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Deposit</span>
+
+            </a>
+
+            <a href="transfer.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                <span>Transfer</span>
+
+            </a>
+
+            <a href="withdraw.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-money-bill-transfer"></i>
+                <span>Withdraw</span>
+
+            </a>
+
+            <a href="transactions.html"
+               class="nav-link">
+
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>Transactions</span>
+
+            </a>
 
 
+            <p class="nav-title second">
+                ACCOUNT
+            </p>
 
-        <!-- =================================
-             ACCOUNT CARDS
-        ================================== -->
+            <a href="notifications.html"
+               class="nav-link">
 
-        <section class="account-cards">
+                <i class="fa-solid fa-bell"></i>
+                <span>Notifications</span>
+                <b class="notification-count">3</b>
 
+            </a>
 
-            <!-- TOTAL BALANCE -->
+            <a href="profile.html"
+               class="nav-link">
 
-            <div class="account-card total-card">
+                <i class="fa-solid fa-user"></i>
+                <span>Profile</span>
 
-                <div class="account-card-header">
+            </a>
 
-                    <div>
+            <a href="security.html"
+               class="nav-link">
 
-                        <span>Total Balance</span>
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Security</span>
 
-                        <h2 id="totalBalance">
-                            ₦0.00
-                        </h2>
+            </a>
 
-                    </div>
-
-                    <button
-                        class="hide-balance-btn"
-                        id="hideBalanceBtn"
-                    >
-
-                        <i class="fa-regular fa-eye"></i>
-
-                    </button>
-
-                </div>
+        </nav>
 
 
-                <div class="balance-growth">
+        <div class="sidebar-bottom">
 
-                    <span>
-                        <i class="fa-solid fa-arrow-trend-up"></i>
-                        12.5%
-                    </span>
+            <a href="#" class="help-link">
 
-                    <small>
-                        vs last month
-                    </small>
+                <i class="fa-solid fa-circle-question"></i>
 
-                </div>
+                <span>Help & Support</span>
+
+            </a>
+
+            <button class="logout-btn" id="logoutBtn">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </button>
+
+        </div>
+
+    </aside>
 
 
-                <div class="balance-card-footer">
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
 
-                    <div>
+        <!-- HEADER -->
+        <header class="topbar">
 
-                        <small>
-                            Account Number
-                        </small>
+            <div class="mobile-menu" id="mobileMenu">
+                <i class="fa-solid fa-bars"></i>
+            </div>
 
-                        <strong id="accountNumber">
-                            **********
-                        </strong>
+            <div class="welcome">
 
-                    </div>
+                <span>PERSONAL BANKING</span>
 
-                    <button
-                        class="copy-account-btn"
-                        id="copyAccountBtn"
-                        title="Copy account number"
-                    >
+                <h1>
+                    Good morning,
+                    <strong id="userName">Mukhtar</strong>
+                </h1>
 
-                        <i class="fa-regular fa-copy"></i>
-
-                    </button>
-
-                </div>
+                <p>
+                    Here's what's happening with your accounts today.
+                </p>
 
             </div>
 
 
+            <div class="top-actions">
 
-            <!-- PERSONAL ACCOUNT -->
+                <a href="notifications.html"
+                   class="notification-btn">
 
-            <div class="account-card personal-card">
+                    <i class="fa-solid fa-bell"></i>
 
-                <div class="account-card-header">
+                    <span>3</span>
 
-                    <div>
-
-                        <span>
-                            Personal Account
-                        </span>
-
-                        <h3 id="personalBalance">
-                            ₦0.00
-                        </h3>
-
-                    </div>
-
-                    <div class="small-card-icon">
-                        <i class="fa-solid fa-wallet"></i>
-                    </div>
-
-                </div>
-
-                <div class="card-account-type">
-                    Savings / Current
-                </div>
-
-                <a href="transfer.html" class="card-link">
-                    Manage Account
-                    <i class="fa-solid fa-arrow-right"></i>
                 </a>
 
-            </div>
 
+                <div class="profile">
 
+                    <div class="profile-avatar">
+                        MA
+                    </div>
 
-            <!-- BUSINESS ACCOUNT -->
+                    <div class="profile-info">
 
-            <div class="account-card business-card">
+                        <strong id="topUserName">
+                            Mukhtar Afolabi
+                        </strong>
 
-                <div class="account-card-header">
-
-                    <div>
-
-                        <span>
-                            Business Account
-                        </span>
-
-                        <h3 id="businessBalance">
-                            ₦0.00
-                        </h3>
+                        <small>
+                            Customer
+                        </small>
 
                     </div>
 
-                    <div class="small-card-icon">
+                    <i class="fa-solid fa-chevron-down"></i>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CONTENT -->
+        <section class="content">
+
+
+            <!-- BALANCE CARDS -->
+            <div class="balance-section">
+
+                <div class="balance-card main-balance">
+
+                    <div class="balance-top">
+
+                        <div>
+                            <span>Total Balance</span>
+
+                            <small>
+                                All your accounts
+                            </small>
+                        </div>
+
+                        <button
+                            class="eye-btn"
+                            id="balanceToggle"
+                        >
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+
+                    </div>
+
+
+                    <h2 id="totalBalance">
+                        ₦10,950,000.00
+                    </h2>
+
+
+                    <div class="balance-bottom">
+
+                        <span>
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                            +8.4% this month
+                        </span>
+
+                        <small>
+                            Updated just now
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="balance-card account-card savings">
+
+                    <div class="account-icon">
+                        <i class="fa-solid fa-piggy-bank"></i>
+                    </div>
+
+                    <span class="account-label">
+                        SAVINGS ACCOUNT
+                    </span>
+
+                    <h3>
+                        ₦2,450,000.00
+                    </h3>
+
+                    <p>
+                        **** 4521
+                    </p>
+
+                    <a href="accounts.html">
+                        View Account
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
+
+
+                <div class="balance-card account-card business">
+
+                    <div class="account-icon">
                         <i class="fa-solid fa-briefcase"></i>
                     </div>
 
-                </div>
+                    <span class="account-label">
+                        BUSINESS ACCOUNT
+                    </span>
 
-                <div class="card-account-type">
-                    Business finances
-                </div>
+                    <h3>
+                        ₦8,500,000.00
+                    </h3>
 
-                <a href="transactions.html" class="card-link">
-                    View Transactions
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
+                    <p>
+                        **** 8912
+                    </p>
+
+                    <a href="accounts.html">
+                        View Account
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                </div>
 
             </div>
 
-        </section>
 
-
-
-        <!-- =================================
-             QUICK ACTIONS
-        ================================== -->
-
-        <section class="dashboard-section">
-
-            <div class="section-title-row">
+            <!-- QUICK ACTIONS -->
+            <div class="section-heading">
 
                 <div>
-
                     <h2>Quick Actions</h2>
-
-                    <p>
-                        Manage your money quickly.
-                    </p>
-
+                    <p>Manage your money quickly.</p>
                 </div>
 
             </div>
@@ -450,300 +338,312 @@
 
             <div class="quick-actions">
 
-                <a href="transfer.html" class="quick-action">
+                <a href="deposit.html"
+                   class="quick-action">
 
-                    <span class="quick-icon blue">
+                    <div class="action-icon blue">
+                        <i class="fa-solid fa-circle-plus"></i>
+                    </div>
+
+                    <div>
+                        <strong>Deposit</strong>
+                        <span>Add money</span>
+                    </div>
+
+                    <i class="fa-solid fa-chevron-right arrow"></i>
+
+                </a>
+
+
+                <a href="transfer.html"
+                   class="quick-action">
+
+                    <div class="action-icon purple">
                         <i class="fa-solid fa-paper-plane"></i>
-                    </span>
+                    </div>
 
-                    <strong>Send Money</strong>
+                    <div>
+                        <strong>Transfer</strong>
+                        <span>Send money</span>
+                    </div>
 
-                    <small>
-                        Transfer funds
-                    </small>
-
-                </a>
-
-
-                <a href="deposit.html" class="quick-action">
-
-                    <span class="quick-icon green">
-                        <i class="fa-solid fa-plus"></i>
-                    </span>
-
-                    <strong>Deposit</strong>
-
-                    <small>
-                        Add money
-                    </small>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
 
                 </a>
 
 
-                <a href="withdraw.html" class="quick-action">
+                <a href="withdraw.html"
+                   class="quick-action">
 
-                    <span class="quick-icon orange">
+                    <div class="action-icon orange">
                         <i class="fa-solid fa-money-bill-transfer"></i>
-                    </span>
+                    </div>
 
-                    <strong>Withdraw</strong>
+                    <div>
+                        <strong>Withdraw</strong>
+                        <span>Take out money</span>
+                    </div>
 
-                    <small>
-                        Take out money
-                    </small>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
 
                 </a>
 
 
-                <a href="bills.html" class="quick-action">
+                <a href="transactions.html"
+                   class="quick-action">
 
-                    <span class="quick-icon purple">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                    </span>
+                    <div class="action-icon green">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
 
-                    <strong>Pay Bills</strong>
+                    <div>
+                        <strong>Transactions</strong>
+                        <span>View history</span>
+                    </div>
 
-                    <small>
-                        Airtime & data
-                    </small>
+                    <i class="fa-solid fa-chevron-right arrow"></i>
 
                 </a>
 
             </div>
 
-        </section>
+
+            <!-- LOWER GRID -->
+            <div class="lower-grid">
 
 
+                <!-- TRANSACTIONS -->
+                <section class="panel">
 
-        <!-- =================================
-             MAIN GRID
-        ================================== -->
-
-        <section class="dashboard-grid">
-
-
-            <!-- TRANSACTIONS -->
-
-            <div class="dashboard-panel transactions-panel">
-
-                <div class="panel-header">
-
-                    <div>
-
-                        <h2>Recent Transactions</h2>
-
-                        <p>
-                            Your latest account activity.
-                        </p>
-
-                    </div>
-
-                    <a href="transactions.html">
-                        View All
-                    </a>
-
-                </div>
-
-
-                <div id="recentTransactions">
-
-                    <!-- JS will load transactions here -->
-
-                    <div class="empty-transactions">
+                    <div class="panel-heading">
 
                         <div>
-                            <i class="fa-solid fa-receipt"></i>
+                            <h2>Recent Transactions</h2>
+
+                            <p>
+                                Your latest account activity.
+                            </p>
                         </div>
 
-                        <strong>
-                            No transactions yet
-                        </strong>
-
-                        <p>
-                            Your recent transactions will appear here.
-                        </p>
+                        <a href="transactions.html">
+                            View All
+                        </a>
 
                     </div>
 
-                </div>
 
-            </div>
-
+                    <div class="transactions">
 
 
-            <!-- SPENDING -->
+                        <div class="transaction">
 
-            <div class="dashboard-panel spending-panel">
+                            <div class="transaction-icon received">
+                                <i class="fa-solid fa-arrow-down"></i>
+                            </div>
 
-                <div class="panel-header">
+                            <div class="transaction-info">
 
-                    <div>
+                                <strong>
+                                    Salary Payment
+                                </strong>
 
-                        <h2>Financial Overview</h2>
+                                <small>
+                                    Aug 13, 2026 • 09:42 AM
+                                </small>
 
-                        <p>
-                            Your spending this month.
-                        </p>
+                            </div>
 
-                    </div>
-
-                </div>
-
-
-                <div class="spending-chart">
-
-                    <div class="chart-circle">
-
-                        <div>
-
-                            <strong>
-                                ₦0
-                            </strong>
-
-                            <small>
-                                Spent
-                            </small>
+                            <div class="transaction-amount received-text">
+                                +₦450,000.00
+                            </div>
 
                         </div>
 
+
+                        <div class="transaction">
+
+                            <div class="transaction-icon sent">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </div>
+
+                            <div class="transaction-info">
+
+                                <strong>
+                                    Transfer to Adebayo
+                                </strong>
+
+                                <small>
+                                    Aug 12, 2026 • 04:21 PM
+                                </small>
+
+                            </div>
+
+                            <div class="transaction-amount sent-text">
+                                -₦85,000.00
+                            </div>
+
+                        </div>
+
+
+                        <div class="transaction">
+
+                            <div class="transaction-icon received">
+                                <i class="fa-solid fa-arrow-down"></i>
+                            </div>
+
+                            <div class="transaction-info">
+
+                                <strong>
+                                    Deposit
+                                </strong>
+
+                                <small>
+                                    Aug 11, 2026 • 02:18 PM
+                                </small>
+
+                            </div>
+
+                            <div class="transaction-amount received-text">
+                                +₦100,000.00
+                            </div>
+
+                        </div>
+
+
+                        <div class="transaction">
+
+                            <div class="transaction-icon sent">
+                                <i class="fa-solid fa-arrow-up"></i>
+                            </div>
+
+                            <div class="transaction-info">
+
+                                <strong>
+                                    Electricity Bill
+                                </strong>
+
+                                <small>
+                                    Aug 10, 2026 • 11:05 AM
+                                </small>
+
+                            </div>
+
+                            <div class="transaction-amount sent-text">
+                                -₦32,500.00
+                            </div>
+
+                        </div>
+
                     </div>
 
-                </div>
+                </section>
 
 
-                <div class="spending-summary">
+                <!-- NOTIFICATIONS -->
+                <section class="panel notification-panel">
 
-                    <div>
+                    <div class="panel-heading">
 
-                        <span>
-                            <i class="dot blue-dot"></i>
-                            Transfers
-                        </span>
+                        <div>
+                            <h2>Notifications</h2>
 
-                        <strong>₦0</strong>
+                            <p>
+                                Recent alerts and updates.
+                            </p>
+                        </div>
 
-                    </div>
-
-                    <div>
-
-                        <span>
-                            <i class="dot green-dot"></i>
-                            Bills
-                        </span>
-
-                        <strong>₦0</strong>
+                        <a href="notifications.html">
+                            View All
+                        </a>
 
                     </div>
 
-                    <div>
 
-                        <span>
-                            <i class="dot orange-dot"></i>
-                            Others
-                        </span>
+                    <div class="dashboard-notifications">
 
-                        <strong>₦0</strong>
+
+                        <div class="dashboard-notification">
+
+                            <div class="notice-icon blue-notice">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Deposit Successful
+                                </strong>
+
+                                <p>
+                                    Your ₦100,000 deposit was successful.
+                                </p>
+
+                                <small>
+                                    10 minutes ago
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="dashboard-notification">
+
+                            <div class="notice-icon red-notice">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Security Alert
+                                </strong>
+
+                                <p>
+                                    A new login was detected.
+                                </p>
+
+                                <small>
+                                    2 hours ago
+                                </small>
+                            </div>
+
+                        </div>
+
+
+                        <div class="dashboard-notification">
+
+                            <div class="notice-icon green-notice">
+                                <i class="fa-solid fa-money-bill"></i>
+                            </div>
+
+                            <div>
+                                <strong>
+                                    Money Received
+                                </strong>
+
+                                <p>
+                                    You received ₦50,000.
+                                </p>
+
+                                <small>
+                                    Yesterday
+                                </small>
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
+                </section>
 
             </div>
 
         </section>
 
+    </main>
+
+</div>
 
 
-        <!-- =================================
-             ACCOUNT INFORMATION
-        ================================== -->
-
-        <section class="dashboard-section account-information">
-
-            <div class="section-title-row">
-
-                <div>
-
-                    <h2>Account Information</h2>
-
-                    <p>
-                        Your TechFlow Bank account details.
-                    </p>
-
-                </div>
-
-                <a href="profile.html" class="text-link">
-                    Edit Profile
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-
-            </div>
-
-
-            <div class="information-grid">
-
-
-                <div class="information-item">
-
-                    <span>
-                        Full Name
-                    </span>
-
-                    <strong id="profileFullName">
-                        User
-                    </strong>
-
-                </div>
-
-
-                <div class="information-item">
-
-                    <span>
-                        Email Address
-                    </span>
-
-                    <strong id="profileEmail">
-                        user@example.com
-                    </strong>
-
-                </div>
-
-
-                <div class="information-item">
-
-                    <span>
-                        Phone Number
-                    </span>
-
-                    <strong id="profilePhone">
-                        -
-                    </strong>
-
-                </div>
-
-
-                <div class="information-item">
-
-                    <span>
-                        Account Type
-                    </span>
-
-                    <strong id="profileAccountType">
-                        Savings
-                    </strong>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </div>
-
-</main>
-
-
-<script src="js/dashboard.js"></script>
+<script src="../js/dashboard.js"></script>
 
 </body>
 </html>
