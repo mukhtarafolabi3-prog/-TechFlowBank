@@ -204,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 // =================================
 
                 window.location.href =
-                    "customer-dashboard.html";
+                    "dashboard.html";
 
             }
 
