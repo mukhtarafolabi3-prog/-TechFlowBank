@@ -6,12 +6,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     const userId = localStorage.getItem("userId");
 
+    console.log("User ID:", userId);
+
 
     // ==========================================
     // CHECK LOGIN
     // ==========================================
 
     if (!userId) {
+
+        console.log("No user ID found. Redirecting to login.");
 
         window.location.href = "login.html";
 
@@ -29,9 +33,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             `http://localhost:3000/api/dashboard/${userId}`
         );
 
+        console.log("Response status:", response.status);
+
 
         const data = await response.json();
-
 
         console.log("Dashboard data:", data);
 
@@ -44,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             console.error(
                 "Dashboard error:",
-                data.message
+                data.message || "Unable to load dashboard"
             );
 
             return;
@@ -57,13 +62,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const user = data.user;
 
+        console.log("User:", user);
+
 
         const firstName = user.first_name;
         const lastName = user.last_name;
 
-
-        const fullName =
-            `${firstName} ${lastName}`;
+        const fullName = `${firstName} ${lastName}`;
 
 
         // ==========================================
@@ -73,11 +78,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const userName =
             document.getElementById("userName");
 
-
         if (userName) {
 
-            userName.textContent =
-                firstName;
+            userName.textContent = firstName;
 
         }
 
@@ -89,11 +92,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const topUserName =
             document.getElementById("topUserName");
 
-
         if (topUserName) {
 
-            topUserName.textContent =
-                fullName;
+            topUserName.textContent = fullName;
 
         }
 
@@ -105,11 +106,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         const sidebarName =
             document.getElementById("sidebarName");
 
-
         if (sidebarName) {
 
-            sidebarName.textContent =
-                fullName;
+            sidebarName.textContent = fullName;
 
         }
 
@@ -118,10 +117,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         // DISPLAY ACCOUNT TYPE
         // ==========================================
 
-        console.log(
-            "Account Type:",
-            user.account_type
-        );
+        const accountType =
+            document.getElementById("accountType");
+
+        if (accountType) {
+
+            accountType.textContent =
+                user.account_type || "Account";
+
+        }
 
 
         // ==========================================
@@ -141,8 +145,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         avatars.forEach(avatar => {
 
-            avatar.textContent =
-                initials;
+            avatar.textContent = initials;
 
         });
 
@@ -156,16 +159,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             firstName
         );
 
-
         localStorage.setItem(
             "lastName",
             lastName
         );
 
-
         localStorage.setItem(
             "email",
             user.email
+        );
+
+        localStorage.setItem(
+            "accountType",
+            user.account_type || ""
         );
 
 
