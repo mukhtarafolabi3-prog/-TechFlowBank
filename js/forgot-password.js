@@ -1,65 +1,52 @@
 const forgotPasswordForm =
     document.getElementById("forgotPasswordForm");
 
-
-forgotPasswordForm.addEventListener("submit", function (event) {
+forgotPasswordForm.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-
-    const email =
-        document.getElementById("email").value.trim();
-
+    const email = document
+        .getElementById("email")
+        .value
+        .trim();
 
     if (!email) {
-
         alert("Please enter your email address.");
-
         return;
     }
 
+    try {
 
-    // Basic email validation
-    const emailPattern =
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const response = await fetch(
+            "http://localhost:3000/api/auth/forgot-password",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: email
+                })
+            }
+        );
 
+        const data = await response.json();
 
-    if (!emailPattern.test(email)) {
+        console.log("Server response:", data);
 
-        alert("Please enter a valid email address.");
+        if (!response.ok) {
+            alert(data.message || "Request failed.");
+            return;
+        }
 
-        return;
+        alert(data.message);
+
+        window.location.href = "reset-password.html";
+
+    } catch (error) {
+
+        console.error("Forgot password error:", error);
+
+        alert("Unable to connect to the server.");
     }
-
-
-    /*
-        FRONTEND TEST ONLY
-
-        Backend will later handle:
-
-        POST /api/auth/forgot-password
-
-        The backend will:
-        1. Check the email
-        2. Generate OTP/token
-        3. Send OTP/reset link
-        4. Allow password reset
-    */
-
-
-    localStorage.setItem(
-        "passwordRecoveryEmail",
-        email
-    );
-
-
-    alert(
-        "If this email is registered, a password recovery code will be sent."
-    );
-
-
-    // Temporary frontend redirect
-    window.location.href =
-        "verify-otp.html";
-
 });
