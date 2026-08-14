@@ -1,116 +1,75 @@
-// ==========================================
-// TECHFLOW DYNAMIC BANK
-// CUSTOMER DASHBOARD
-// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
 
-const mobileMenu =
-    document.getElementById("mobileMenu");
+    // Get registered user's name
+    const firstName =
+        localStorage.getItem("firstName");
 
-const sidebar =
-    document.getElementById("sidebar");
+    const lastName =
+        localStorage.getItem("lastName");
 
 
-// MOBILE SIDEBAR
-if (mobileMenu) {
+    // Check if user is logged in
+    if (!firstName || !lastName) {
 
-    mobileMenu.addEventListener("click", () => {
+        window.location.href = "login.html";
 
-        sidebar.classList.toggle("open");
-
-    });
-
-}
+        return;
+    }
 
 
-// ACCOUNT SWITCHER
-const accountSwitcher =
-    document.getElementById("accountSwitcher");
-
-const accountMenu =
-    document.getElementById("accountMenu");
+    // Full registered name
+    const fullName =
+        `${firstName} ${lastName}`;
 
 
-if (accountSwitcher && accountMenu) {
+    // =================================
+    // DISPLAY NAME
+    // =================================
 
-    accountSwitcher.addEventListener("click", (event) => {
+    const userName =
+        document.getElementById("userName");
 
-        event.stopPropagation();
+    const topUserName =
+        document.getElementById("topUserName");
 
-        accountMenu.classList.toggle("show");
-
-    });
-
-
-    document.addEventListener("click", () => {
-
-        accountMenu.classList.remove("show");
-
-    });
-
-}
+    const sidebarName =
+        document.getElementById("sidebarName");
 
 
-// ACCOUNT SELECTION
-const accountOptions =
-    accountMenu?.querySelectorAll("button");
+    if (userName) {
+        userName.textContent = firstName;
+    }
 
 
-accountOptions?.forEach(option => {
+    if (topUserName) {
+        topUserName.textContent = fullName;
+    }
 
-    option.addEventListener("click", () => {
 
-        accountOptions.forEach(item => {
-            item.classList.remove("selected");
-        });
+    if (sidebarName) {
+        sidebarName.textContent = fullName;
+    }
 
-        option.classList.add("selected");
 
-        const name =
-            option.querySelector("strong").textContent;
+    // =================================
+    // DISPLAY INITIALS
+    // =================================
 
-        const number =
-            option.querySelector("small").textContent;
+    const initials =
+        `${firstName.charAt(0)}${lastName.charAt(0)}`
+        .toUpperCase();
 
-        const switcherName =
-            accountSwitcher.querySelector("strong");
 
-        const switcherNumber =
-            accountSwitcher.querySelector("small");
+    const avatars =
+        document.querySelectorAll(
+            ".avatar, .profile-avatar"
+        );
 
-        switcherName.textContent = name;
 
-        switcherNumber.textContent = number;
+    avatars.forEach(avatar => {
+
+        avatar.textContent = initials;
 
     });
 
 });
-
-
-// LOGOUT
-const logoutBtn =
-    document.getElementById("logoutBtn");
-
-
-if (logoutBtn) {
-
-    logoutBtn.addEventListener("click", () => {
-
-        const confirmLogout =
-            confirm("Are you sure you want to logout?");
-
-        if (confirmLogout) {
-
-            // Backend will eventually
-            // destroy the session/token here.
-
-            localStorage.removeItem(
-                "techflowRegistration"
-            );
-
-            window.location.href =
-                "login.html";
-        }
-
-    });
-
-}
