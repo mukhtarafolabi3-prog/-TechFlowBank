@@ -2,7 +2,7 @@ const API_URL = "http://localhost:3000";
 
 
 // =====================================
-// REGISTER FORM
+// GET REGISTER FORM
 // =====================================
 
 const registerForm = document.getElementById("registerForm");
@@ -21,15 +21,16 @@ function nextStep(step) {
         return;
     }
 
-    // Validate current step before moving forward
-    if (step > 1) {
 
-        const currentInputs =
+    // Only validate when moving forward
+    if (step > getCurrentStepNumber()) {
+
+        const inputs =
             currentStep.querySelectorAll(
                 "input, select"
             );
 
-        for (const input of currentInputs) {
+        for (const input of inputs) {
 
             if (!input.checkValidity()) {
 
@@ -42,7 +43,6 @@ function nextStep(step) {
 
 
     // Hide all steps
-
     document
         .querySelectorAll(".form-step")
         .forEach((formStep) => {
@@ -53,7 +53,6 @@ function nextStep(step) {
 
 
     // Show selected step
-
     const selectedStep =
         document.getElementById(`step${step}`);
 
@@ -64,8 +63,7 @@ function nextStep(step) {
     }
 
 
-    // Update progress indicators
-
+    // Update progress
     document
         .querySelectorAll(".progress-item")
         .forEach((item, index) => {
@@ -82,7 +80,6 @@ function nextStep(step) {
 
 
     // Update progress lines
-
     document
         .querySelectorAll(".progress-line")
         .forEach((line, index) => {
@@ -97,6 +94,25 @@ function nextStep(step) {
 
         });
 
+}
+
+
+// =====================================
+// GET CURRENT STEP
+// =====================================
+
+function getCurrentStepNumber() {
+
+    const currentStep =
+        document.querySelector(".form-step.active");
+
+    if (!currentStep) {
+        return 1;
+    }
+
+    return Number(
+        currentStep.id.replace("step", "")
+    );
 }
 
 
@@ -134,71 +150,175 @@ function togglePassword(inputId, button) {
 
 
 // =====================================
-// REGISTER
+// REGISTER FORM SUBMISSION
 // =====================================
 
 if (registerForm) {
 
     registerForm.addEventListener(
         "submit",
-        async (event) => {
+        async function (event) {
 
             event.preventDefault();
 
 
             // =================================
-            // GET FORM VALUES
+            // GET PERSONAL INFORMATION
             // =================================
 
             const firstName =
-                document.getElementById("firstName").value.trim();
+                document
+                    .getElementById("firstName")
+                    .value
+                    .trim();
+
 
             const lastName =
-                document.getElementById("lastName").value.trim();
+                document
+                    .getElementById("lastName")
+                    .value
+                    .trim();
+
 
             const email =
-                document.getElementById("email").value.trim();
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
+
 
             const phone =
-                document.getElementById("phone").value.trim();
+                document
+                    .getElementById("phone")
+                    .value
+                    .trim();
+
 
             const dob =
-                document.getElementById("dob").value;
+                document
+                    .getElementById("dob")
+                    .value;
+
 
             const gender =
-                document.getElementById("gender").value;
-
-            const accountType =
-                document.querySelector(
-                    'input[name="accountType"]:checked'
-                )?.value;
-
-            const accountName =
-                document.getElementById("accountName").value.trim();
-
-            const password =
-                document.getElementById("password").value;
-
-            const confirmPassword =
-                document.getElementById("confirmPassword").value;
-
-            const pin =
-                document.getElementById("pin").value;
-
-            const confirmPin =
-                document.getElementById("confirmPin").value;
-
-            const terms =
-                document.getElementById("terms").checked;
+                document
+                    .getElementById("gender")
+                    .value;
 
 
             // =================================
-            // VALIDATION
+            // GET ACCOUNT INFORMATION
+            // =================================
+
+            const accountTypeElement =
+                document.querySelector(
+                    'input[name="accountType"]:checked'
+                );
+
+
+            const accountType =
+                accountTypeElement
+                    ? accountTypeElement.value
+                    : "";
+
+
+            const accountName =
+                document
+                    .getElementById("accountName")
+                    .value
+                    .trim();
+
+
+            // =================================
+            // GET SECURITY INFORMATION
+            // =================================
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            const confirmPassword =
+                document
+                    .getElementById("confirmPassword")
+                    .value;
+
+
+            const pin =
+                document
+                    .getElementById("pin")
+                    .value;
+
+
+            const confirmPin =
+                document
+                    .getElementById("confirmPin")
+                    .value;
+
+
+            const terms =
+                document
+                    .getElementById("terms")
+                    .checked;
+
+
+            // =================================
+            // VALIDATE STEP 1
+            // =================================
+
+            if (
+                !firstName ||
+                !lastName ||
+                !email ||
+                !phone ||
+                !dob ||
+                !gender
+            ) {
+
+                alert(
+                    "Please complete all personal information."
+                );
+
+                nextStep(1);
+
+                return;
+            }
+
+
+            // =================================
+            // VALIDATE EMAIL
+            // =================================
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+            if (!emailPattern.test(email)) {
+
+                alert(
+                    "Please enter a valid email address."
+                );
+
+                nextStep(1);
+
+                document
+                    .getElementById("email")
+                    .focus();
+
+                return;
+            }
+
+
+            // =================================
+            // VALIDATE STEP 2
             // =================================
 
             if (!accountType) {
 
-                alert("Please select an account type.");
+                alert(
+                    "Please select an account type."
+                );
 
                 nextStep(2);
 
@@ -206,15 +326,61 @@ if (registerForm) {
             }
 
 
-            if (password !== confirmPassword) {
+            if (!accountName) {
 
-                alert("Passwords do not match.");
+                alert(
+                    "Please enter your preferred account name."
+                );
 
-                nextStep(3);
+                nextStep(2);
 
                 return;
             }
 
+
+            // =================================
+            // VALIDATE PASSWORD
+            // =================================
+
+            if (password.length < 8) {
+
+                alert(
+                    "Password must be at least 8 characters."
+                );
+
+                nextStep(3);
+
+                document
+                    .getElementById("password")
+                    .focus();
+
+                return;
+            }
+
+
+            // =================================
+            // CONFIRM PASSWORD
+            // =================================
+
+            if (password !== confirmPassword) {
+
+                alert(
+                    "Passwords do not match."
+                );
+
+                nextStep(3);
+
+                document
+                    .getElementById("confirmPassword")
+                    .focus();
+
+                return;
+            }
+
+
+            // =================================
+            // VALIDATE PIN
+            // =================================
 
             if (!/^\d{4}$/.test(pin)) {
 
@@ -224,19 +390,37 @@ if (registerForm) {
 
                 nextStep(3);
 
+                document
+                    .getElementById("pin")
+                    .focus();
+
                 return;
             }
 
+
+            // =================================
+            // CONFIRM PIN
+            // =================================
 
             if (pin !== confirmPin) {
 
-                alert("Transaction PINs do not match.");
+                alert(
+                    "Transaction PINs do not match."
+                );
 
                 nextStep(3);
+
+                document
+                    .getElementById("confirmPin")
+                    .focus();
 
                 return;
             }
 
+
+            // =================================
+            // TERMS
+            // =================================
 
             if (!terms) {
 
@@ -284,7 +468,37 @@ if (registerForm) {
 
 
             // =================================
-            // SUBMIT TO BACKEND
+            // FIND SUBMIT BUTTON
+            // =================================
+
+            const submitButton =
+                registerForm.querySelector(
+                    ".submit-btn"
+                );
+
+
+            const originalButtonText =
+                submitButton
+                    ? submitButton.innerHTML
+                    : "";
+
+
+            // =================================
+            // DISABLE BUTTON
+            // =================================
+
+            if (submitButton) {
+
+                submitButton.disabled = true;
+
+                submitButton.innerHTML =
+                    '<i class="fa-solid fa-spinner fa-spin"></i> Creating Account...';
+
+            }
+
+
+            // =================================
+            // SEND TO BACKEND
             // =================================
 
             try {
@@ -308,12 +522,16 @@ if (registerForm) {
                     );
 
 
+                // =================================
+                // GET SERVER RESPONSE
+                // =================================
+
                 const data =
                     await response.json();
 
 
                 console.log(
-                    "Server response:",
+                    "Registration response:",
                     data
                 );
 
@@ -328,10 +546,25 @@ if (registerForm) {
                 ) {
 
                     alert(
-                        "Registration successful! Your account has been created."
+                        "Registration successful!\n\nYour account number is: " +
+                        data.accountNumber
                     );
 
 
+                    // Save basic account information
+                    localStorage.setItem(
+                        "techflowAccountNumber",
+                        data.accountNumber
+                    );
+
+
+                    localStorage.setItem(
+                        "techflowUserId",
+                        data.userId
+                    );
+
+
+                    // Go to login
                     window.location.href =
                         "login.html";
 
@@ -346,8 +579,9 @@ if (registerForm) {
 
                 alert(
                     data.message ||
-                    "Registration failed."
+                    "Registration failed. Please try again."
                 );
+
 
             } catch (error) {
 
@@ -358,8 +592,26 @@ if (registerForm) {
 
 
                 alert(
-                    "Unable to connect to server. Please make sure your backend is running."
+                    "Unable to connect to server.\n\n" +
+                    "Please make sure your backend is running on:\n" +
+                    API_URL
                 );
+
+
+            } finally {
+
+                // =================================
+                // RESTORE BUTTON
+                // =================================
+
+                if (submitButton) {
+
+                    submitButton.disabled = false;
+
+                    submitButton.innerHTML =
+                        originalButtonText;
+
+                }
 
             }
 
