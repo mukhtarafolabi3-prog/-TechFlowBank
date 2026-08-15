@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     // ==========================================
@@ -16,7 +17,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         greeting = "Good evening";
     }
 
-    const greetingElement = document.getElementById("greeting");
+    const greetingElement =
+        document.getElementById("greeting");
 
     if (greetingElement) {
         greetingElement.textContent = greeting;
@@ -27,17 +29,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     // GET USER ID
     // ==========================================
 
-    const userId = localStorage.getItem("userId");
+    const userId =
+        localStorage.getItem("userId");
 
     if (!userId) {
-        console.error("No userId found in localStorage");
-
         window.location.href = "login.html";
-
         return;
     }
-
-    console.log("User ID:", userId);
 
 
     // ==========================================
@@ -50,32 +48,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             `http://localhost:3000/api/dashboard/${userId}`
         );
 
-        // Check if server returned JSON
         const data = await response.json();
 
-        console.log("Dashboard response:", data);
+        console.log("Dashboard data:", data);
 
 
-        // ==========================================
-        // CHECK RESPONSE
-        // ==========================================
-
-        if (!response.ok) {
-
-            console.error(
-                "Server error:",
-                data.message || "Unable to load dashboard"
-            );
-
-            return;
-        }
-
-
-        if (!data.success) {
+        if (!response.ok || !data.success) {
 
             console.error(
                 "Dashboard error:",
-                data.message || "Dashboard request failed"
+                data.message
             );
 
             return;
@@ -83,21 +65,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         // ==========================================
-        // USER DATA
+        // USER
         // ==========================================
 
         const user = data.user || {};
 
-        const firstName = user.first_name || "";
+        const firstName =
+            user.first_name || "";
 
-        const lastName = user.last_name || "";
+        const lastName =
+            user.last_name || "";
 
         const fullName =
             `${firstName} ${lastName}`.trim();
 
 
         // ==========================================
-        // ACCOUNT DATA
+        // ACCOUNT
         // ==========================================
 
         const accountNumber =
@@ -109,21 +93,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         const balance =
             Number(user.balance || 0);
 
-
-        // ==========================================
-        // DISPLAY SIDEBAR USER NAME
-        // ==========================================
-
-        const sidebarUserName =
-            document.getElementById("sidebarUserName");
-
-        if (sidebarUserName) {
-            sidebarUserName.textContent = fullName;
-        }
+        const currency =
+            user.currency || "NGN";
 
 
         // ==========================================
-        // DISPLAY DASHBOARD FIRST NAME
+        // NAME
         // ==========================================
 
         const userName =
@@ -134,68 +109,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
 
-        // ==========================================
-        // DISPLAY ACCOUNT BALANCE
-        // ==========================================
-
-        const accountBalance =
-            document.getElementById("accountBalance");
-
-        if (accountBalance) {
-
-            accountBalance.textContent =
-                `₦${balance.toLocaleString("en-NG", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                })}`;
-
-        }
-
-
-        // ==========================================
-        // DISPLAY ACCOUNT NUMBER
-        // ==========================================
-
-        const accountNumberElement =
-            document.getElementById("accountNumber");
-
-        if (accountNumberElement) {
-            accountNumberElement.textContent =
-                accountNumber;
-        }
-
-
-        // ==========================================
-        // DISPLAY ACCOUNT TYPE
-        // ==========================================
-
-        const accountTypeElement =
-            document.getElementById("accountType");
-
-        if (accountTypeElement) {
-
-            accountTypeElement.textContent =
-                `${accountType} Account`;
-
-        }
-
-
-        // ==========================================
-        // DISPLAY HEADER USER
-        // ==========================================
-
-        const headerUser =
-            document.querySelector(".header-user strong");
-
-        if (headerUser) {
-            headerUser.textContent = firstName;
-        }
-
-
-        // ==========================================
-        // DISPLAY FULL NAME
-        // ==========================================
-
         const topUserName =
             document.getElementById("topUserName");
 
@@ -204,8 +117,82 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
 
+        const sidebarName =
+            document.getElementById("sidebarName");
+
+        if (sidebarName) {
+            sidebarName.textContent = fullName;
+        }
+
+
         // ==========================================
-        // DISPLAY AVATARS
+        // BALANCE
+        // ==========================================
+
+        const accountBalance =
+            document.getElementById("accountBalance");
+
+        if (accountBalance) {
+
+            accountBalance.textContent =
+                `₦${balance.toLocaleString(
+                    "en-NG",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                )}`;
+        }
+
+
+        // ==========================================
+        // ACCOUNT NUMBER
+        // ==========================================
+
+        const accountNumberElement =
+            document.getElementById(
+                "accountNumber"
+            );
+
+        if (accountNumberElement) {
+            accountNumberElement.textContent =
+                accountNumber;
+        }
+
+
+        // ==========================================
+        // ACCOUNT TYPE
+        // ==========================================
+
+        const accountTypeElement =
+            document.getElementById(
+                "accountType"
+            );
+
+        if (accountTypeElement) {
+
+            accountTypeElement.textContent =
+                `${accountType} Account`;
+        }
+
+
+        // ==========================================
+        // CURRENCY
+        // ==========================================
+
+        const currencyElement =
+            document.getElementById(
+                "currency"
+            );
+
+        if (currencyElement) {
+            currencyElement.textContent =
+                currency;
+        }
+
+
+        // ==========================================
+        // AVATAR
         // ==========================================
 
         const initials =
@@ -214,7 +201,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const avatars =
             document.querySelectorAll(
-                ".user-avatar, .header-avatar, .avatar, .profile-avatar"
+                ".avatar, .profile-avatar"
             );
 
         avatars.forEach((avatar) => {
@@ -223,7 +210,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         // ==========================================
-        // SAVE USER DATA
+        // SAVE DATA
         // ==========================================
 
         localStorage.setItem(
@@ -237,11 +224,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
         localStorage.setItem(
-            "email",
-            user.email || ""
-        );
-
-        localStorage.setItem(
             "accountNumber",
             accountNumber
         );
@@ -251,8 +233,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             accountType
         );
 
-
-        console.log("Dashboard loaded successfully");
+        localStorage.setItem(
+            "currency",
+            currency
+        );
 
 
     } catch (error) {
@@ -266,81 +250,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     // ==========================================
-    // COPY ACCOUNT NUMBER
-    // ==========================================
-
-    const copyAccount =
-        document.getElementById("copyAccount");
-
-    const accountNumberElement =
-        document.getElementById("accountNumber");
-
-    const toast =
-        document.getElementById("dashboardToast");
-
-    const toastMessage =
-        document.getElementById("toastMessage");
-
-
-    if (
-        copyAccount &&
-        accountNumberElement
-    ) {
-
-        copyAccount.addEventListener(
-            "click",
-            async () => {
-
-                try {
-
-                    await navigator.clipboard.writeText(
-                        accountNumberElement.textContent
-                    );
-
-
-                    if (toastMessage) {
-
-                        toastMessage.textContent =
-                            "Account number copied.";
-
-                    }
-
-
-                    if (toast) {
-
-                        toast.classList.add("show");
-
-
-                        setTimeout(() => {
-
-                            toast.classList.remove("show");
-
-                        }, 2500);
-
-                    }
-
-                } catch (error) {
-
-                    console.error(
-                        "Copy error:",
-                        error
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-    // ==========================================
     // LOGOUT
     // ==========================================
 
     const logoutBtn =
         document.getElementById("logoutBtn");
-
 
     if (logoutBtn) {
 
@@ -348,20 +262,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             "click",
             () => {
 
-                localStorage.removeItem("userId");
-
-                localStorage.removeItem("firstName");
-
-                localStorage.removeItem("lastName");
-
-                localStorage.removeItem("email");
-
-                localStorage.removeItem("accountNumber");
-
-                localStorage.removeItem("accountType");
-
-                localStorage.removeItem("token");
-
+                localStorage.clear();
 
                 window.location.href =
                     "login.html";
@@ -371,4 +272,4 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     }
 
-});
+})
