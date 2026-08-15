@@ -1,5 +1,5 @@
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
 
     const depositForm =
         document.getElementById("depositForm");
@@ -13,46 +13,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     const depositBtn =
         document.getElementById("depositBtn");
 
-    const accountTypeElement =
-        document.getElementById("accountType");
+    const message =
+        document.getElementById("depositMessage");
 
     const accountNumberElement =
         document.getElementById("accountNumber");
 
-    const summaryAccountType =
-        document.getElementById(
-            "summaryAccountType"
-        );
-
-    const summaryAccountNumber =
-        document.getElementById(
-            "summaryAccountNumber"
-        );
-
-    const currentBalanceElement =
-        document.getElementById(
-            "currentBalance"
-        );
-
-    const currencyElement =
-        document.getElementById("currency");
-
-    const depositResult =
-        document.getElementById("depositResult");
-
-    const resultMessage =
-        document.getElementById("resultMessage");
-
-    const resultDetails =
-        document.getElementById("resultDetails");
-
 
     // ==========================================
-    // GET USER ID
+    // GET USER DATA
     // ==========================================
 
     const userId =
         localStorage.getItem("userId");
+
+    const accountNumber =
+        localStorage.getItem("accountNumber");
 
 
     if (!userId) {
@@ -65,135 +41,20 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     // ==========================================
-    // GET DASHBOARD / ACCOUNT DATA
+    // DISPLAY ACCOUNT NUMBER
     // ==========================================
 
-    try {
+    if (accountNumberElement) {
 
-        const response =
-            await fetch(
-                `http://localhost:3000/api/dashboard/${userId}`
-            );
+        accountNumberElement.textContent =
+            accountNumber ||
+            "Not available";
 
-        const data =
-            await response.json();
-
-
-        if (!response.ok || !data.success) {
-
-            throw new Error(
-                data.message ||
-                "Unable to load account"
-            );
-        }
-
-
-        const user =
-            data.user || {};
-
-
-        const accountType =
-            user.account_type ||
-            "Account";
-
-        const accountNumber =
-            user.account_number ||
-            "Not assigned";
-
-        const balance =
-            Number(user.balance || 0);
-
-        const currency =
-            user.currency ||
-            "NGN";
-
-
-        // ==========================================
-        // DISPLAY ACCOUNT
-        // ==========================================
-
-        if (accountTypeElement) {
-            accountTypeElement.textContent =
-                `${accountType} Account`;
-        }
-
-
-        if (accountNumberElement) {
-            accountNumberElement.textContent =
-                maskAccountNumber(accountNumber);
-        }
-
-
-        if (summaryAccountType) {
-            summaryAccountType.textContent =
-                accountType;
-        }
-
-
-        if (summaryAccountNumber) {
-            summaryAccountNumber.textContent =
-                accountNumber;
-        }
-
-
-        if (currentBalanceElement) {
-
-            currentBalanceElement.textContent =
-                formatMoney(balance);
-
-        }
-
-
-        if (currencyElement) {
-            currencyElement.textContent =
-                currency;
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "Account loading error:",
-            error
-        );
-
-        if (accountTypeElement) {
-            accountTypeElement.textContent =
-                "Unable to load";
-        }
-
-        if (accountNumberElement) {
-            accountNumberElement.textContent =
-                "Unable to load";
-        }
     }
 
 
     // ==========================================
-    // QUICK AMOUNT BUTTONS
-    // ==========================================
-
-    document
-        .querySelectorAll(".quick-amount")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    amountInput.value =
-                        button.dataset.amount;
-
-                    amountInput.focus();
-
-                }
-            );
-
-        });
-
-
-    // ==========================================
-    // SUBMIT DEPOSIT
+    // FORM
     // ==========================================
 
     depositForm.addEventListener(
@@ -213,12 +74,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 descriptionInput.value.trim();
 
 
-            const accountNumber =
-                localStorage.getItem(
-                    "accountNumber"
-                );
-
-
             // ==========================================
             // VALIDATION
             // ==========================================
@@ -228,11 +83,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 amount <= 0
             ) {
 
-                alert(
-                    "Please enter a valid deposit amount."
+                showMessage(
+                    "Please enter a valid deposit amount.",
+                    "error"
                 );
-
-                amountInput.focus();
 
                 return;
             }
@@ -240,27 +94,27 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             if (!accountNumber) {
 
-                alert(
-                    "Your account number could not be found."
+                showMessage(
+                    "Account number is not available.",
+                    "error"
                 );
 
                 return;
             }
 
 
-            // ==========================================
-            // DISABLE BUTTON
-            // ==========================================
-
-            depositBtn.disabled = true;
-
-            depositBtn.querySelector(
-                "span"
-            ).textContent =
-                "Processing...";
-
-
             try {
+
+                // ==========================================
+                // DISABLE BUTTON
+                // ==========================================
+
+                depositBtn.disabled =
+                    true;
+
+                depositBtn.textContent =
+                    "Processing...";
+
 
                 // ==========================================
                 // SEND DEPOSIT
@@ -280,7 +134,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                             body: JSON.stringify({
 
                                 userId:
-                                    Number(userId),
+                                    userId,
 
                                 accountNumber:
                                     accountNumber,
@@ -293,7 +147,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                                     "Account deposit"
 
                             })
-
                         }
                     );
 
@@ -309,7 +162,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                 // ==========================================
-                // ERROR
+                // CHECK RESPONSE
                 // ==========================================
 
                 if (
@@ -317,9 +170,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     !data.success
                 ) {
 
-                    alert(
+                    showMessage(
                         data.message ||
-                        "Deposit failed."
+                        "Deposit failed.",
+                        "error"
                     );
 
                     return;
@@ -327,15 +181,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                 // ==========================================
-                // NEW ACCOUNT BALANCE
+                // GET NEW BALANCE
                 // ==========================================
 
                 const newBalance =
                     Number(
-                        data.account?.balance || 0
+                        data.account.balance
                     );
 
 
+                // Save updated balance
                 localStorage.setItem(
                     "balance",
                     String(newBalance)
@@ -343,65 +198,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
                 // ==========================================
-                // UPDATE BALANCE
-                // ==========================================
-
-                if (currentBalanceElement) {
-
-                    currentBalanceElement.textContent =
-                        formatMoney(
-                            newBalance
-                        );
-
-                }
-
-
-                // ==========================================
                 // SHOW SUCCESS
                 // ==========================================
 
-                if (resultMessage) {
-
-                    resultMessage.textContent =
-                        "Deposit successful.";
-
-                }
-
-
-                if (resultDetails) {
-
-                    const reference =
-                        data.transaction?.reference ||
-                        "Transaction completed";
-
-                    resultDetails.textContent =
-                        `₦${amount.toLocaleString(
-                            "en-NG",
-                            {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            }
-                        )} deposited successfully. Reference: ${reference}`;
-
-                }
+                showMessage(
+                    `Deposit successful. New balance: ₦${newBalance.toLocaleString(
+                        "en-NG",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    )}`,
+                    "success"
+                );
 
 
-                if (depositResult) {
-
-                    depositResult.classList.add(
-                        "show"
-                    );
-
-                }
-
-
-                // ==========================================
-                // RESET FORM
-                // ==========================================
-
+                // Clear amount
                 amountInput.value = "";
 
                 descriptionInput.value = "";
+
+
+                // ==========================================
+                // OPTIONAL REDIRECT
+                // ==========================================
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        "customer-dashboard.html";
+
+                }, 1500);
 
 
             } catch (error) {
@@ -411,17 +238,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                     error
                 );
 
-                alert(
-                    "Unable to connect to the banking server."
+
+                showMessage(
+                    "Unable to connect to the banking server.",
+                    "error"
                 );
 
             } finally {
 
-                depositBtn.disabled = false;
+                depositBtn.disabled =
+                    false;
 
-                depositBtn.querySelector(
-                    "span"
-                ).textContent =
+                depositBtn.textContent =
                     "Deposit Money";
 
             }
@@ -429,46 +257,48 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     );
 
-});
 
+    // ==========================================
+    // MESSAGE
+    // ==========================================
 
-// ==========================================
-// FORMAT MONEY
-// ==========================================
-
-function formatMoney(amount) {
-
-    return `₦${Number(amount).toLocaleString(
-        "en-NG",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    )}`;
-
-}
-
-
-// ==========================================
-// MASK ACCOUNT NUMBER
-// ==========================================
-
-function maskAccountNumber(accountNumber) {
-
-    const value =
-        String(accountNumber || "");
-
-    if (
-        !value ||
-        value === "Not assigned"
+    function showMessage(
+        text,
+        type
     ) {
-        return "Not assigned";
+
+        message.style.display =
+            "block";
+
+        message.textContent =
+            text;
+
+
+        if (type === "success") {
+
+            message.style.color =
+                "#15803d";
+
+            message.style.background =
+                "#ecfdf5";
+
+        } else {
+
+            message.style.color =
+                "#b91c1c";
+
+            message.style.background =
+                "#fef2f2";
+
+        }
+
+
+        message.style.padding =
+            "12px";
+
+        message.style.borderRadius =
+            "10px";
+
     }
 
-    if (value.length <= 4) {
-        return value;
-    }
-
-    return `**** ${value.slice(-4)}`;
-
-}
+});

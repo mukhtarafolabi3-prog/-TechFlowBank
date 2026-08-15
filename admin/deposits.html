@@ -3,7 +3,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -20,92 +19,28 @@
 
     <link
         rel="stylesheet"
-        href="../css/deposit.css"
+        <link rel="stylesheet" href="../css/deposit.css">
     >
-
 </head>
-
 
 <body>
 
-<div class="deposit-page">
+<div class="app">
 
-    <!-- HEADER -->
+    <main class="main" style="width:100%; margin-left:0;">
 
-    <header class="deposit-header">
+        <section class="content">
 
-        <a
-            href="customer-dashboard.html"
-            class="back-link"
-        >
-            <i class="fa-solid fa-arrow-left"></i>
-            Dashboard
-        </a>
+            <div class="panel">
 
-
-        <div class="brand">
-
-            <div class="brand-icon">
-                <i class="fa-solid fa-building-columns"></i>
-            </div>
-
-            <span>
-                TechFlow <b>Dynamic</b>
-            </span>
-
-        </div>
-
-    </header>
-
-
-    <!-- MAIN -->
-
-    <main class="deposit-container">
-
-        <!-- PAGE INTRO -->
-
-        <section class="page-intro">
-
-            <span class="eyebrow">
-                MONEY MANAGEMENT
-            </span>
-
-            <h1>
-                Deposit Money
-            </h1>
-
-            <p>
-                Add money to your TechFlow Dynamic account securely.
-            </p>
-
-        </section>
-
-
-        <!-- GRID -->
-
-        <section class="deposit-grid">
-
-
-            <!-- DEPOSIT FORM -->
-
-            <div class="deposit-card">
-
-                <div class="card-header">
+                <div class="panel-heading">
 
                     <div>
+                        <span>TRANSACTIONS</span>
 
-                        <span>
-                            MAKE A DEPOSIT
-                        </span>
-
-                        <h2>
-                            Add money to your account
-                        </h2>
-
-                    </div>
-
-                    <div class="card-icon">
-                        <i class="fa-solid fa-circle-down"></i>
+                        <h3>
+                            Deposit Money
+                        </h3>
                     </div>
 
                 </div>
@@ -113,272 +48,88 @@
 
                 <form id="depositForm">
 
-
-                    <!-- ACCOUNT -->
-
-                    <div class="form-group">
-
-                        <label>
-                            Deposit Account
-                        </label>
-
-                        <div class="account-preview">
-
-                            <div class="account-preview-icon">
-                                <i class="fa-solid fa-wallet"></i>
-                            </div>
-
-                            <div>
-
-                                <strong id="accountType">
-                                    Loading...
-                                </strong>
-
-                                <small id="accountNumber">
-                                    Loading...
-                                </small>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- AMOUNT -->
-
-                    <div class="form-group">
+                    <div style="margin-bottom:16px;">
 
                         <label for="amount">
                             Deposit Amount
                         </label>
 
-                        <div class="amount-input">
-
-                            <span>
-                                ₦
-                            </span>
-
-                            <input
-                                type="number"
-                                id="amount"
-                                name="amount"
-                                min="1"
-                                step="0.01"
-                                placeholder="0.00"
-                                required
-                            >
-
-                        </div>
+                        <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            min="100"
+                            step="0.01"
+                            placeholder="Enter amount"
+                            required
+                            style="
+                                width:100%;
+                                padding:12px;
+                                margin-top:7px;
+                                border:1px solid #e2e8f0;
+                                border-radius:10px;
+                            "
+                        >
 
                     </div>
 
 
-                    <!-- QUICK AMOUNTS -->
-
-                    <div class="quick-amounts">
-
-                        <button
-                            type="button"
-                            class="quick-amount"
-                            data-amount="1000"
-                        >
-                            ₦1,000
-                        </button>
-
-                        <button
-                            type="button"
-                            class="quick-amount"
-                            data-amount="5000"
-                        >
-                            ₦5,000
-                        </button>
-
-                        <button
-                            type="button"
-                            class="quick-amount"
-                            data-amount="10000"
-                        >
-                            ₦10,000
-                        </button>
-
-                        <button
-                            type="button"
-                            class="quick-amount"
-                            data-amount="50000"
-                        >
-                            ₦50,000
-                        </button>
-
-                    </div>
-
-
-                    <!-- DESCRIPTION -->
-
-                    <div class="form-group">
+                    <div style="margin-bottom:16px;">
 
                         <label for="description">
                             Description
-                            <small>(Optional)</small>
                         </label>
 
                         <input
                             type="text"
                             id="description"
                             name="description"
-                            maxlength="255"
                             placeholder="e.g. Cash deposit"
+                            style="
+                                width:100%;
+                                padding:12px;
+                                margin-top:7px;
+                                border:1px solid #e2e8f0;
+                                border-radius:10px;
+                            "
                         >
 
                     </div>
 
 
-                    <!-- BUTTON -->
+                    <div style="margin-bottom:20px;">
+
+                        <p>
+                            Account Number
+                        </p>
+
+                        <strong id="accountNumber">
+                            Loading...
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        id="depositMessage"
+                        style="
+                            margin-bottom:15px;
+                            display:none;
+                        "
+                    ></div>
+
 
                     <button
                         type="submit"
-                        class="deposit-btn"
+                        class="next-btn"
                         id="depositBtn"
                     >
-
-                        <span>
-                            Deposit Money
-                        </span>
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
+                        Deposit Money
                     </button>
-
-
-                    <p class="secure-note">
-
-                        <i class="fa-solid fa-shield-halved"></i>
-
-                        Your transaction is processed securely.
-
-                    </p>
 
                 </form>
 
             </div>
-
-
-            <!-- ACCOUNT SUMMARY -->
-
-            <aside class="summary-card">
-
-                <div class="summary-header">
-
-                    <span>
-                        ACCOUNT SUMMARY
-                    </span>
-
-                    <i class="fa-solid fa-wallet"></i>
-
-                </div>
-
-
-                <div class="balance-box">
-
-                    <small>
-                        CURRENT BALANCE
-                    </small>
-
-                    <strong id="currentBalance">
-                        ₦0.00
-                    </strong>
-
-                </div>
-
-
-                <div class="summary-row">
-
-                    <span>
-                        Account Type
-                    </span>
-
-                    <strong id="summaryAccountType">
-                        Loading...
-                    </strong>
-
-                </div>
-
-
-                <div class="summary-row">
-
-                    <span>
-                        Account Number
-                    </span>
-
-                    <strong id="summaryAccountNumber">
-                        Loading...
-                    </strong>
-
-                </div>
-
-
-                <div class="summary-row">
-
-                    <span>
-                        Currency
-                    </span>
-
-                    <strong id="currency">
-                        NGN
-                    </strong>
-
-                </div>
-
-
-                <div class="info-box">
-
-                    <i class="fa-solid fa-circle-info"></i>
-
-                    <p>
-                        Your balance will be updated immediately
-                        after a successful deposit.
-                    </p>
-
-                </div>
-
-            </aside>
-
-        </section>
-
-
-        <!-- SUCCESS RESULT -->
-
-        <section
-            class="result-card"
-            id="depositResult"
-        >
-
-            <div class="result-icon">
-                <i class="fa-solid fa-circle-check"></i>
-            </div>
-
-            <div>
-
-                <span>
-                    DEPOSIT SUCCESSFUL
-                </span>
-
-                <h2 id="resultMessage">
-                    Deposit completed successfully.
-                </h2>
-
-                <p id="resultDetails">
-                    Your transaction has been processed.
-                </p>
-
-            </div>
-
-            <a
-                href="customer-dashboard.html"
-                class="dashboard-btn"
-            >
-                Back to Dashboard
-            </a>
 
         </section>
 
