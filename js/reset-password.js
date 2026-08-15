@@ -1,137 +1,91 @@
-document.addEventListener("DOMContentLoaded", () => {
 
-    const resetPasswordForm =
-        document.getElementById("resetPasswordForm");
-
-    if (!resetPasswordForm) {
-        console.error("resetPasswordForm not found");
-        return;
-    }
+const API_URL =
+    "https://techflow-banking-backend.vercel.app";
 
 
-    resetPasswordForm.addEventListener(
-        "submit",
-        async (event) => {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-            event.preventDefault();
-
-
-            // ==========================================
-            // GET PASSWORDS
-            // ==========================================
-
-            const newPassword =
-                document
-                    .getElementById("newPassword")
-                    .value;
-
-            const confirmPassword =
-                document
-                    .getElementById("confirmPassword")
-                    .value;
+        const resetPasswordForm =
+            document.getElementById(
+                "resetPasswordForm"
+            );
 
 
-            // ==========================================
-            // VALIDATE
-            // ==========================================
+        if (!resetPasswordForm) {
 
-            if (!newPassword || !confirmPassword) {
+            console.error(
+                "resetPasswordForm not found"
+            );
 
-                alert(
-                    "Please fill in both password fields."
-                );
-
-                return;
-            }
+            return;
+        }
 
 
-            if (newPassword.length < 8) {
+        resetPasswordForm.addEventListener(
+            "submit",
+            async (event) => {
 
-                alert(
-                    "Password must be at least 8 characters."
-                );
-
-                return;
-            }
-
-
-            if (newPassword !== confirmPassword) {
-
-                alert(
-                    "Passwords do not match."
-                );
-
-                return;
-            }
-
-
-            // ==========================================
-            // GET RESET TOKEN FROM URL
-            // ==========================================
-
-            const urlParams =
-                new URLSearchParams(
-                    window.location.search
-                );
-
-            const token =
-                urlParams.get("token");
-
-
-            if (!token) {
-
-                alert(
-                    "Reset token is missing."
-                );
-
-                return;
-            }
-
-
-            // ==========================================
-            // SEND TO BACKEND
-            // ==========================================
-
-            try {
-
-                const response =
-                    await fetch(
-                        "http://localhost:3000/api/auth/reset-password",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-                                token: token,
-                                password: newPassword
-                            })
-                        }
-                    );
-
-
-                const data =
-                    await response.json();
-
-
-                console.log(
-                    "Reset password response:",
-                    data
-                );
+                event.preventDefault();
 
 
                 // ==========================================
-                // CHECK RESPONSE
+                // GET PASSWORDS
                 // ==========================================
 
-                if (!response.ok || !data.success) {
+                const newPassword =
+                    document
+                        .getElementById(
+                            "newPassword"
+                        )
+                        .value;
+
+
+                const confirmPassword =
+                    document
+                        .getElementById(
+                            "confirmPassword"
+                        )
+                        .value;
+
+
+                // ==========================================
+                // VALIDATE
+                // ==========================================
+
+                if (
+                    !newPassword ||
+                    !confirmPassword
+                ) {
 
                     alert(
-                        data.message ||
-                        "Password reset failed."
+                        "Please fill in both password fields."
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    newPassword.length < 8
+                ) {
+
+                    alert(
+                        "Password must be at least 8 characters."
+                    );
+
+                    return;
+                }
+
+
+                if (
+                    newPassword !==
+                    confirmPassword
+                ) {
+
+                    alert(
+                        "Passwords do not match."
                     );
 
                     return;
@@ -139,30 +93,126 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // ==========================================
-                // SUCCESS
+                // GET RESET TOKEN FROM URL
                 // ==========================================
 
-                alert(
-                    "Password reset successfully. Please login."
-                );
+                const urlParams =
+                    new URLSearchParams(
+                        window.location.search
+                    );
 
 
-                window.location.href =
-                    "login.html";
+                const token =
+                    urlParams.get(
+                        "token"
+                    );
 
-            } catch (error) {
 
-                console.error(
-                    "Reset password error:",
-                    error
-                );
+                if (!token) {
 
-                alert(
-                    "Unable to connect to the server."
-                );
+                    alert(
+                        "Reset token is missing."
+                    );
+
+                    return;
+                }
+
+
+                // ==========================================
+                // SEND TO LIVE BACKEND
+                // ==========================================
+
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/auth/reset-password`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        token:
+                                            token,
+
+                                        password:
+                                            newPassword
+                                    })
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    console.log(
+                        "Reset password response:",
+                        data
+                    );
+
+
+                    // ==========================================
+                    // CHECK RESPONSE
+                    // ==========================================
+
+                    if (
+                        !response.ok ||
+                        !data.success
+                    ) {
+
+                        alert(
+                            data.message ||
+                            "Password reset failed."
+                        );
+
+                        return;
+                    }
+
+
+                    // ==========================================
+                    // REMOVE RESET EMAIL
+                    // ==========================================
+
+                    localStorage.removeItem(
+                        "resetEmail"
+                    );
+
+
+                    // ==========================================
+                    // SUCCESS
+                    // ==========================================
+
+                    alert(
+                        "Password reset successfully. Please login."
+                    );
+
+
+                    window.location.href =
+                        "login.html";
+
+                } catch (error) {
+
+                    console.error(
+                        "Reset password error:",
+                        error
+                    );
+
+
+                    alert(
+                        "Unable to connect to the banking server."
+                    );
+
+                }
+
             }
+        );
 
-        }
-    );
+    }
+);
 
-});

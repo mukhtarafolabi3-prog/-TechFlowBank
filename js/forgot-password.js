@@ -1,87 +1,57 @@
 
-console.log("FORGOT PASSWORD JS LOADED");
-document.addEventListener("DOMContentLoaded", () => {
-
-    const forgotPasswordForm =
-        document.getElementById("forgotPasswordForm");
-
-    if (!forgotPasswordForm) {
-        console.error("forgotPasswordForm not found");
-        return;
-    }
+const API_URL =
+    "https://techflow-banking-backend.vercel.app";
 
 
-    forgotPasswordForm.addEventListener(
-        "submit",
-        async (event) => {
-
-            event.preventDefault();
+console.log(
+    "FORGOT PASSWORD JS LOADED"
+);
 
 
-            // ==========================================
-            // GET EMAIL
-            // ==========================================
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-            const email =
-                document
-                    .getElementById("email")
-                    .value
-                    .trim();
-
-
-            if (!email) {
-
-                alert(
-                    "Please enter your email address."
-                );
-
-                return;
-            }
+        const forgotPasswordForm =
+            document.getElementById(
+                "forgotPasswordForm"
+            );
 
 
-            // ==========================================
-            // SEND REQUEST
-            // ==========================================
+        if (!forgotPasswordForm) {
 
-            try {
+            console.error(
+                "forgotPasswordForm not found"
+            );
 
-                const response =
-                    await fetch(
-                        "http://localhost:3000/api/auth/forgot-password",
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-                                email: email
-                            })
-                        }
-                    );
+            return;
+        }
 
 
-                const data =
-                    await response.json();
+        forgotPasswordForm.addEventListener(
+            "submit",
+            async (event) => {
 
-
-                console.log(
-                    "Forgot password response:",
-                    data
-                );
+                event.preventDefault();
 
 
                 // ==========================================
-                // CHECK RESPONSE
+                // GET EMAIL
                 // ==========================================
 
-                if (!response.ok || !data.success) {
+                const email =
+                    document
+                        .getElementById(
+                            "email"
+                        )
+                        .value
+                        .trim();
+
+
+                if (!email) {
 
                     alert(
-                        data.message ||
-                        "Password recovery failed."
+                        "Please enter your email address."
                     );
 
                     return;
@@ -89,59 +59,116 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // ==========================================
-                // GET RESET TOKEN
+                // SEND REQUEST TO LIVE BACKEND
                 // ==========================================
 
-                const token =
-                    data.reset_token;
+                try {
+
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/auth/forgot-password`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        email: email
+                                    })
+                            }
+                        );
 
 
-                if (!token) {
+                    const data =
+                        await response.json();
 
-                    console.error(
-                        "No reset token returned:",
+
+                    console.log(
+                        "Forgot password response:",
                         data
                     );
 
-                    alert(
-                        "The reset token was not returned by the server."
+
+                    // ==========================================
+                    // CHECK RESPONSE
+                    // ==========================================
+
+                    if (
+                        !response.ok ||
+                        !data.success
+                    ) {
+
+                        alert(
+                            data.message ||
+                            "Password recovery failed."
+                        );
+
+                        return;
+                    }
+
+
+                    // ==========================================
+                    // GET RESET TOKEN
+                    // ==========================================
+
+                    const token =
+                        data.reset_token;
+
+
+                    if (!token) {
+
+                        console.error(
+                            "No reset token returned:",
+                            data
+                        );
+
+                        alert(
+                            "The reset token was not returned by the server."
+                        );
+
+                        return;
+                    }
+
+
+                    // ==========================================
+                    // SAVE EMAIL
+                    // ==========================================
+
+                    localStorage.setItem(
+                        "resetEmail",
+                        email
                     );
 
-                    return;
+
+                    // ==========================================
+                    // GO TO RESET PASSWORD
+                    // ==========================================
+
+                    window.location.href =
+                        `reset-password.html?token=${encodeURIComponent(
+                            token
+                        )}`;
+
+                } catch (error) {
+
+                    console.error(
+                        "Forgot password error:",
+                        error
+                    );
+
+                    alert(
+                        "Unable to connect to the banking server."
+                    );
+
                 }
 
-
-                // ==========================================
-                // SAVE EMAIL
-                // ==========================================
-
-                localStorage.setItem(
-                    "resetEmail",
-                    email
-                );
-
-
-                // ==========================================
-                // GO TO RESET PASSWORD PAGE
-                // ==========================================
-
-                window.location.href =
-                    `reset-password.html?token=${encodeURIComponent(token)}`;
-
-            } catch (error) {
-
-                console.error(
-                    "Forgot password error:",
-                    error
-                );
-
-                alert(
-                    "Unable to connect to the server."
-                );
-
             }
+        );
 
-        }
-    );
+    }
+);
 
-});

@@ -1,3 +1,8 @@
+
+const API_URL =
+    "https://techflow-banking-backend.vercel.app";
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const loginForm =
@@ -59,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const response =
                     await fetch(
-                        "http://localhost:3000/api/auth/login",
+                        `${API_URL}/api/auth/login`,
                         {
                             method: "POST",
 
@@ -90,7 +95,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 // CHECK LOGIN
                 // =================================
 
-                if (!response.ok || !data.success) {
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
 
                     alert(
                         data.message ||
@@ -105,7 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 // CHECK USER DATA
                 // =================================
 
-                if (!data.user || !data.user.id) {
+                if (
+                    !data.user ||
+                    !data.user.id
+                ) {
 
                     console.error(
                         "User data missing:",
@@ -126,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 localStorage.setItem(
                     "userId",
-                    data.user.id
+                    String(data.user.id)
                 );
 
 
@@ -136,12 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 localStorage.setItem(
                     "firstName",
-                    data.user.first_name
+                    data.user.first_name || ""
                 );
+
 
                 localStorage.setItem(
                     "lastName",
-                    data.user.last_name
+                    data.user.last_name || ""
                 );
 
 
@@ -151,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 localStorage.setItem(
                     "email",
-                    data.user.email
+                    data.user.email || ""
                 );
 
 
@@ -180,7 +192,74 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // =================================
-                // CHECK SAVED DATA
+                // GET ACCOUNT INFORMATION
+                // =================================
+
+                // Your login endpoint currently returns
+                // user information but not account_number/balance.
+                // Fetch the dashboard once to get them.
+
+                try {
+
+                    const dashboardResponse =
+                        await fetch(
+                            `${API_URL}/api/dashboard/${data.user.id}`
+                        );
+
+
+                    const dashboardData =
+                        await dashboardResponse.json();
+
+
+                    if (
+                        dashboardResponse.ok &&
+                        dashboardData.success &&
+                        dashboardData.user
+                    ) {
+
+                        const dashboardUser =
+                            dashboardData.user;
+
+
+                        localStorage.setItem(
+                            "accountNumber",
+                            dashboardUser.account_number || ""
+                        );
+
+
+                        localStorage.setItem(
+                            "accountType",
+                            dashboardUser.account_type || ""
+                        );
+
+
+                        localStorage.setItem(
+                            "balance",
+                            String(
+                                dashboardUser.balance || 0
+                            )
+                        );
+
+
+                        localStorage.setItem(
+                            "currency",
+                            dashboardUser.currency || "NGN"
+                        );
+
+                    }
+
+                } catch (dashboardError) {
+
+                    console.warn(
+                        "Could not load account information during login:",
+                        dashboardError
+                    );
+
+                }
+
+
+                // =================================
+                // DEBUG
                 // =================================
 
                 console.log(
@@ -198,17 +277,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.getItem("lastName")
                 );
 
+                console.log(
+                    "Account Number:",
+                    localStorage.getItem("accountNumber")
+                );
+
 
                 // =================================
                 // GO TO DASHBOARD
                 // =================================
 
                 window.location.href =
-                    "dashboard.html";
+                    "customer-dashboard.html";
 
-            }
-
-            catch (error) {
+            } catch (error) {
 
                 console.error(
                     "Login error:",
@@ -216,7 +298,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
                 alert(
-                    "Unable to connect to the server."
+                    "Unable to connect to the banking server."
                 );
 
             }

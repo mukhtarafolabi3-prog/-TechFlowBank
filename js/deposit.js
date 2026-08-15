@@ -1,4 +1,8 @@
 
+const API_URL =
+    "https://techflow-banking-backend.vercel.app";
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const depositForm =
@@ -56,6 +60,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     // FORM
     // ==========================================
+
+    if (!depositForm) {
+
+        console.error(
+            "depositForm not found"
+        );
+
+        return;
+    }
+
 
     depositForm.addEventListener(
         "submit",
@@ -117,12 +131,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // ==========================================
-                // SEND DEPOSIT
+                // SEND DEPOSIT TO LIVE BACKEND
                 // ==========================================
 
                 const response =
                     await fetch(
-                        "http://localhost:3000/api/transactions/deposit",
+                        `${API_URL}/api/transactions/deposit`,
                         {
                             method: "POST",
 
@@ -190,7 +204,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
 
-                // Save updated balance
+                // ==========================================
+                // SAVE UPDATED BALANCE
+                // ==========================================
+
                 localStorage.setItem(
                     "balance",
                     String(newBalance)
@@ -213,14 +230,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                // Clear amount
+                // ==========================================
+                // CLEAR FORM
+                // ==========================================
+
                 amountInput.value = "";
 
                 descriptionInput.value = "";
 
 
                 // ==========================================
-                // OPTIONAL REDIRECT
+                // REDIRECT TO DASHBOARD
                 // ==========================================
 
                 setTimeout(() => {
@@ -266,6 +286,12 @@ document.addEventListener("DOMContentLoaded", () => {
         text,
         type
     ) {
+
+        if (!message) {
+            alert(text);
+            return;
+        }
+
 
         message.style.display =
             "block";

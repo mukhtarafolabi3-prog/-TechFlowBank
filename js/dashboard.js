@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
 
         const response = await fetch(
-            `http://localhost:3000/api/dashboard/${userId}`
+            `https://techflow-banking-backend.vercel.app/api/dashboard/${userId}`
         );
 
 

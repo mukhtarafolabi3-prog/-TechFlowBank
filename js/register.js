@@ -1,4 +1,12 @@
 
+const API_URL =
+    "https://techflow-banking-backend.vercel.app";
+
+
+// ================================
+// CURRENT STEP
+// ================================
+
 let currentStep = 1;
 
 
@@ -25,7 +33,9 @@ function nextStep(step) {
         .querySelectorAll(".form-step")
         .forEach((formStep) => {
 
-            formStep.classList.remove("active");
+            formStep.classList.remove(
+                "active"
+            );
 
         });
 
@@ -38,7 +48,9 @@ function nextStep(step) {
 
     if (nextFormStep) {
 
-        nextFormStep.classList.add("active");
+        nextFormStep.classList.add(
+            "active"
+        );
 
         currentStep = step;
 
@@ -71,7 +83,7 @@ function validateStep(stepElement) {
 
     for (const input of inputs) {
 
-        // Radio button
+        // RADIO
         if (input.type === "radio") {
 
             const radioGroup =
@@ -100,7 +112,7 @@ function validateStep(stepElement) {
         }
 
 
-        // Checkbox
+        // CHECKBOX
         if (input.type === "checkbox") {
 
             if (!input.checked) {
@@ -117,7 +129,7 @@ function validateStep(stepElement) {
         }
 
 
-        // Empty field
+        // EMPTY
         if (!input.value.trim()) {
 
             input.focus();
@@ -130,7 +142,7 @@ function validateStep(stepElement) {
         }
 
 
-        // Invalid input
+        // INVALID
         if (!input.checkValidity()) {
 
             input.focus();
@@ -212,6 +224,7 @@ function validateStep(stepElement) {
 
             return false;
         }
+
     }
 
 
@@ -488,7 +501,6 @@ document.addEventListener(
                                 "pin"
                             )
                             .value
-
                 };
 
 
@@ -499,14 +511,14 @@ document.addEventListener(
 
 
                 // ================================
-                // SEND TO BACKEND
+                // SEND TO LIVE BACKEND
                 // ================================
 
                 try {
 
                     const response =
                         await fetch(
-                            "http://localhost:3000/api/auth/register",
+                            `${API_URL}/api/auth/register`,
                             {
                                 method: "POST",
 
@@ -552,7 +564,7 @@ document.addEventListener(
 
 
                     // ================================
-                    // GET ACCOUNT DETAILS
+                    // GET ACCOUNT
                     // ================================
 
                     const account =
@@ -579,7 +591,7 @@ document.addEventListener(
 
 
                     // ================================
-                    // SAVE ACCOUNT DATA
+                    // SAVE DATA
                     // ================================
 
                     localStorage.setItem(
@@ -602,7 +614,7 @@ document.addEventListener(
 
                     localStorage.setItem(
                         "balance",
-                        account.balance
+                        String(account.balance)
                     );
 
 
@@ -638,10 +650,15 @@ document.addEventListener(
                         `Registration successful!\n\n` +
                         `Account Type: ${account.account_type}\n` +
                         `Account Number: ${account.account_number}\n` +
-                        `Balance: ₦${Number(account.balance).toLocaleString("en-NG", {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        })}`
+                        `Balance: ₦${Number(
+                            account.balance
+                        ).toLocaleString(
+                            "en-NG",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        )}`
                     );
 
 
@@ -652,6 +669,7 @@ document.addEventListener(
                     window.location.href =
                         "login.html";
 
+
                 } catch (error) {
 
                     console.error(
@@ -661,7 +679,7 @@ document.addEventListener(
 
 
                     alert(
-                        "Cannot connect to the backend. Make sure the server is running."
+                        "Unable to connect to the banking server."
                     );
 
                 }
