@@ -1,52 +1,77 @@
-const forgotPasswordForm =
-    document.getElementById("forgotPasswordForm");
 
-forgotPasswordForm.addEventListener("submit", async (event) => {
+<!DOCTYPE html>
+<html lang="en">
 
-    event.preventDefault();
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    const email = document
-        .getElementById("email")
-        .value
-        .trim();
+    <title>Reset Password | TechFlow Dynamic</title>
 
-    if (!email) {
-        alert("Please enter your email address.");
-        return;
-    }
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
 
-    try {
+<body>
 
-        const response = await fetch(
-            "http://localhost:3000/api/auth/forgot-password",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email: email
-                })
-            }
-        );
+    <div class="auth-container">
 
-        const data = await response.json();
+        <div class="auth-card">
 
-        console.log("Server response:", data);
+            <h1>Reset Password</h1>
 
-        if (!response.ok) {
-            alert(data.message || "Request failed.");
-            return;
-        }
+            <p>
+                Enter your new password below.
+            </p>
 
-        alert(data.message);
+            <form id="resetPasswordForm">
 
-        window.location.href = "reset-password.html";
+                <div class="form-group">
 
-    } catch (error) {
+                    <label for="newPassword">
+                        New Password
+                    </label>
 
-        console.error("Forgot password error:", error);
+                    <input
+                        type="password"
+                        id="newPassword"
+                        placeholder="Enter new password"
+                        minlength="8"
+                        required
+                    >
 
-        alert("Unable to connect to the server.");
-    }
-});
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm new password"
+                        minlength="8"
+                        required
+                    >
+
+                </div>
+
+
+                <button type="submit">
+                    Reset Password
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/reset-password.js"></script>
+
+</body>
+
+</html>
