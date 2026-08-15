@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // =====================================================
 
     const API_URL =
-        "https://techflow-banking-backend-ffmn.vercel.app/";
+        "https://techflow-banking-backend-ffmn.vercel.app";
 
 
     // =====================================================
@@ -59,26 +59,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (currentHour < 12) {
 
-        greeting =
-            "Good morning";
+        greeting = "Good morning";
 
     } else if (currentHour < 18) {
 
-        greeting =
-            "Good afternoon";
+        greeting = "Good afternoon";
 
     } else {
 
-        greeting =
-            "Good evening";
+        greeting = "Good evening";
 
     }
 
 
     const greetingElement =
-        document.getElementById(
-            "greeting"
-        );
+        document.getElementById("greeting");
 
 
     if (greetingElement) {
@@ -96,8 +91,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
 
         const headers = {
-            "Content-Type":
-                "application/json"
+            "Content-Type": "application/json"
         };
 
 
@@ -107,6 +101,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 `Bearer ${token}`;
 
         }
+
+
+        console.log(
+            "Requesting dashboard:",
+            `${API_URL}/api/dashboard/${userId}`
+        );
 
 
         const response =
@@ -129,16 +129,35 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
 
-        if (
-            !response.ok ||
-            !data.success
-        ) {
+        // =====================================================
+        // CHECK RESPONSE
+        // =====================================================
+
+        if (!response.ok) {
+
+            console.error(
+                "Dashboard HTTP error:",
+                response.status,
+                data
+            );
+
+
+            showToast(
+                data.message ||
+                `Dashboard error: ${response.status}`
+            );
+
+            return;
+        }
+
+
+        if (!data.success) {
 
             console.error(
                 "Dashboard error:",
-                data.message ||
-                "Unable to load dashboard"
+                data.message
             );
+
 
             showToast(
                 data.message ||
@@ -149,13 +168,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
 
+        // =====================================================
+        // USER DATA
+        // =====================================================
+
         const user =
             data.user || {};
 
-
-        // =====================================================
-        // USER INFORMATION
-        // =====================================================
 
         const firstName =
             user.first_name || "";
@@ -170,7 +189,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         // =====================================================
-        // ACCOUNT INFORMATION
+        // ACCOUNT DATA
         // =====================================================
 
         const accountNumber =
@@ -238,6 +257,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             topUserName.textContent =
                 fullName ||
+                "Customer";
+
+        }
+
+
+        // =====================================================
+        // HEADER USER
+        // =====================================================
+
+        const headerUser =
+            document.querySelector(
+                ".header-user strong"
+            );
+
+
+        if (headerUser) {
+
+            headerUser.textContent =
+                firstName ||
                 "Customer";
 
         }
@@ -401,7 +439,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const avatars =
             document.querySelectorAll(
-                ".avatar"
+                ".avatar, .user-avatar, .header-avatar, .profile-avatar"
             );
 
 
@@ -470,6 +508,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             userId,
             API_URL,
             token
+        );
+
+
+        console.log(
+            "Dashboard loaded successfully."
         );
 
 
@@ -660,9 +703,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (sidebar) {
 
         sidebar
-            .querySelectorAll(
-                ".nav-link"
-            )
+            .querySelectorAll(".nav-link")
             .forEach(
                 (link) => {
 
@@ -803,8 +844,8 @@ async function loadRecentTransactions(
 
     if (!transactionContainer) {
 
-        console.error(
-            "recentTransactions element not found"
+        console.log(
+            "recentTransactions element not found."
         );
 
         return;
@@ -827,12 +868,6 @@ async function loadRecentTransactions(
 
         }
 
-
-        // =====================================================
-        // IMPORTANT:
-        // USE VERCEL BACKEND
-        // NOT localhost
-        // =====================================================
 
         const response =
             await fetch(
@@ -887,6 +922,7 @@ async function loadRecentTransactions(
         // =====================================================
 
         let totalIncome = 0;
+
         let totalExpense = 0;
 
 
@@ -1102,7 +1138,6 @@ async function loadRecentTransactions(
                                     <i class="fa-solid ${icon}"></i>
 
                                 </div>
-
 
                                 <div>
 
