@@ -1,34 +1,25 @@
+document.addEventListener("DOMContentLoaded", async () => {
 
-document.addEventLis
-tener("DOMContentLoaded", async () => {
+    // ==========================================
+    // GREETING
+    // ==========================================
 
     const currentHour = new Date().getHours();
 
     let greeting;
 
     if (currentHour < 12) {
-
         greeting = "Good morning";
-
     } else if (currentHour < 18) {
-
         greeting = "Good afternoon";
-
     } else {
-
         greeting = "Good evening";
-
     }
 
-
-    const greetingElement =
-        document.getElementById("greeting");
+    const greetingElement = document.getElementById("greeting");
 
     if (greetingElement) {
-
-        greetingElement.textContent =
-            greeting;
-
+        greetingElement.textContent = greeting;
     }
 
 
@@ -36,15 +27,17 @@ tener("DOMContentLoaded", async () => {
     // GET USER ID
     // ==========================================
 
-    const userId =
-        localStorage.getItem("userId");
+    const userId = localStorage.getItem("userId");
 
     if (!userId) {
+        console.error("No userId found in localStorage");
 
         window.location.href = "login.html";
 
         return;
     }
+
+    console.log("User ID:", userId);
 
 
     // ==========================================
@@ -57,21 +50,32 @@ tener("DOMContentLoaded", async () => {
             `http://localhost:3000/api/dashboard/${userId}`
         );
 
-
+        // Check if server returned JSON
         const data = await response.json();
 
-
-        console.log(
-            "Dashboard data:",
-            data
-        );
+        console.log("Dashboard response:", data);
 
 
-        if (!response.ok || !data.success) {
+        // ==========================================
+        // CHECK RESPONSE
+        // ==========================================
+
+        if (!response.ok) {
+
+            console.error(
+                "Server error:",
+                data.message || "Unable to load dashboard"
+            );
+
+            return;
+        }
+
+
+        if (!data.success) {
 
             console.error(
                 "Dashboard error:",
-                data.message
+                data.message || "Dashboard request failed"
             );
 
             return;
@@ -82,15 +86,11 @@ tener("DOMContentLoaded", async () => {
         // USER DATA
         // ==========================================
 
-        const user = data.user;
+        const user = data.user || {};
 
+        const firstName = user.first_name || "";
 
-        const firstName =
-            user.first_name || "";
-
-        const lastName =
-            user.last_name || "";
-
+        const lastName = user.last_name || "";
 
         const fullName =
             `${firstName} ${lastName}`.trim();
@@ -101,34 +101,24 @@ tener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountNumber =
-            user.account_number ||
-            "Not assigned";
-
+            user.account_number || "Not assigned";
 
         const accountType =
-            user.account_type ||
-            "Not available";
-
+            user.account_type || "Not available";
 
         const balance =
             Number(user.balance || 0);
 
 
         // ==========================================
-        // DISPLAY USER NAME
+        // DISPLAY SIDEBAR USER NAME
         // ==========================================
 
         const sidebarUserName =
-            document.getElementById(
-                "sidebarUserName"
-            );
-
+            document.getElementById("sidebarUserName");
 
         if (sidebarUserName) {
-
-            sidebarUserName.textContent =
-                fullName;
-
+            sidebarUserName.textContent = fullName;
         }
 
 
@@ -137,16 +127,10 @@ tener("DOMContentLoaded", async () => {
         // ==========================================
 
         const userName =
-            document.getElementById(
-                "userName"
-            );
-
+            document.getElementById("userName");
 
         if (userName) {
-
-            userName.textContent =
-                firstName;
-
+            userName.textContent = firstName;
         }
 
 
@@ -155,21 +139,15 @@ tener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountBalance =
-            document.getElementById(
-                "accountBalance"
-            );
-
+            document.getElementById("accountBalance");
 
         if (accountBalance) {
 
             accountBalance.textContent =
-                `₦${balance.toLocaleString(
-                    "en-NG",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }
-                )}`;
+                `₦${balance.toLocaleString("en-NG", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
 
         }
 
@@ -179,16 +157,11 @@ tener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountNumberElement =
-            document.getElementById(
-                "accountNumber"
-            );
-
+            document.getElementById("accountNumber");
 
         if (accountNumberElement) {
-
             accountNumberElement.textContent =
                 accountNumber;
-
         }
 
 
@@ -197,10 +170,7 @@ tener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountTypeElement =
-            document.getElementById(
-                "accountType"
-            );
-
+            document.getElementById("accountType");
 
         if (accountTypeElement) {
 
@@ -215,16 +185,22 @@ tener("DOMContentLoaded", async () => {
         // ==========================================
 
         const headerUser =
-            document.querySelector(
-                ".header-user strong"
-            );
-
+            document.querySelector(".header-user strong");
 
         if (headerUser) {
+            headerUser.textContent = firstName;
+        }
 
-            headerUser.textContent =
-                firstName;
 
+        // ==========================================
+        // DISPLAY FULL NAME
+        // ==========================================
+
+        const topUserName =
+            document.getElementById("topUserName");
+
+        if (topUserName) {
+            topUserName.textContent = fullName;
         }
 
 
@@ -236,18 +212,13 @@ tener("DOMContentLoaded", async () => {
             `${firstName.charAt(0)}${lastName.charAt(0)}`
                 .toUpperCase();
 
-
         const avatars =
             document.querySelectorAll(
                 ".user-avatar, .header-avatar, .avatar, .profile-avatar"
             );
 
-
-        avatars.forEach(avatar => {
-
-            avatar.textContent =
-                initials;
-
+        avatars.forEach((avatar) => {
+            avatar.textContent = initials;
         });
 
 
@@ -260,29 +231,28 @@ tener("DOMContentLoaded", async () => {
             firstName
         );
 
-
         localStorage.setItem(
             "lastName",
             lastName
         );
-
 
         localStorage.setItem(
             "email",
             user.email || ""
         );
 
-
         localStorage.setItem(
             "accountNumber",
             accountNumber
         );
 
-
         localStorage.setItem(
             "accountType",
             accountType
         );
+
+
+        console.log("Dashboard loaded successfully");
 
 
     } catch (error) {
@@ -300,27 +270,16 @@ tener("DOMContentLoaded", async () => {
     // ==========================================
 
     const copyAccount =
-        document.getElementById(
-            "copyAccount"
-        );
-
+        document.getElementById("copyAccount");
 
     const accountNumberElement =
-        document.getElementById(
-            "accountNumber"
-        );
-
+        document.getElementById("accountNumber");
 
     const toast =
-        document.getElementById(
-            "dashboardToast"
-        );
-
+        document.getElementById("dashboardToast");
 
     const toastMessage =
-        document.getElementById(
-            "toastMessage"
-        );
+        document.getElementById("toastMessage");
 
 
     if (
@@ -349,16 +308,12 @@ tener("DOMContentLoaded", async () => {
 
                     if (toast) {
 
-                        toast.classList.add(
-                            "show"
-                        );
+                        toast.classList.add("show");
 
 
                         setTimeout(() => {
 
-                            toast.classList.remove(
-                                "show"
-                            );
+                            toast.classList.remove("show");
 
                         }, 2500);
 
@@ -384,9 +339,7 @@ tener("DOMContentLoaded", async () => {
     // ==========================================
 
     const logoutBtn =
-        document.getElementById(
-            "logoutBtn"
-        );
+        document.getElementById("logoutBtn");
 
 
     if (logoutBtn) {
@@ -395,33 +348,19 @@ tener("DOMContentLoaded", async () => {
             "click",
             () => {
 
-                localStorage.removeItem(
-                    "userId"
-                );
+                localStorage.removeItem("userId");
 
-                localStorage.removeItem(
-                    "firstName"
-                );
+                localStorage.removeItem("firstName");
 
-                localStorage.removeItem(
-                    "lastName"
-                );
+                localStorage.removeItem("lastName");
 
-                localStorage.removeItem(
-                    "email"
-                );
+                localStorage.removeItem("email");
 
-                localStorage.removeItem(
-                    "accountNumber"
-                );
+                localStorage.removeItem("accountNumber");
 
-                localStorage.removeItem(
-                    "accountType"
-                );
+                localStorage.removeItem("accountType");
 
-                localStorage.removeItem(
-                    "token"
-                );
+                localStorage.removeItem("token");
 
 
                 window.location.href =
@@ -432,3 +371,4 @@ tener("DOMContentLoaded", async () => {
 
     }
 
+});
