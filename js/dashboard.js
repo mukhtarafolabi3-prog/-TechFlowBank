@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     console.log("Dashboard User ID:", userId);
 
+
     if (!userId) {
 
         console.error("No user ID found.");
@@ -45,6 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const greetingElement =
         document.getElementById("greeting");
 
+
     if (greetingElement) {
 
         greetingElement.textContent =
@@ -56,8 +58,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     // =====================================================
     // GET DASHBOARD DATA
     // =====================================================
-
-    let user = null;
 
     try {
 
@@ -87,7 +87,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
 
 
-        user = data.user || {};
+        const user =
+            data.user || {};
 
 
         // =====================================================
@@ -97,8 +98,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         const firstName =
             user.first_name || "";
 
+
         const lastName =
             user.last_name || "";
+
 
         const fullName =
             `${firstName} ${lastName}`.trim();
@@ -112,12 +115,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             user.account_number ||
             "Not assigned";
 
+
         const accountType =
             user.account_type ||
             "Not available";
 
+
         const balance =
             Number(user.balance || 0);
+
 
         const currency =
             user.currency ||
@@ -129,7 +135,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         // =====================================================
 
         const userName =
-            document.getElementById("userName");
+            document.getElementById(
+                "userName"
+            );
+
 
         if (userName) {
 
@@ -140,7 +149,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         const sidebarName =
-            document.getElementById("sidebarName");
+            document.getElementById(
+                "sidebarName"
+            );
+
 
         if (sidebarName) {
 
@@ -151,7 +163,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         const topUserName =
-            document.getElementById("topUserName");
+            document.getElementById(
+                "topUserName"
+            );
+
 
         if (topUserName) {
 
@@ -165,20 +180,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         // DISPLAY ACCOUNT BALANCE
         // =====================================================
 
+        const formattedBalance =
+            formatCurrency(balance);
+
+
         const accountBalance =
             document.getElementById(
                 "accountBalance"
             );
-
-
-        const formattedBalance =
-            `₦${balance.toLocaleString(
-                "en-NG",
-                {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }
-            )}`;
 
 
         if (accountBalance) {
@@ -193,6 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.getElementById(
                 "summaryBalance"
             );
+
 
         if (summaryBalance) {
 
@@ -233,7 +243,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (accountTypeElement) {
 
             accountTypeElement.textContent =
-                accountType;
+                `${accountType} Account`;
 
         }
 
@@ -246,6 +256,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             document.getElementById(
                 "accountTypeSwitcher"
             );
+
 
         if (accountTypeSwitcher) {
 
@@ -264,7 +275,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (accountNumberSwitcher) {
 
             accountNumberSwitcher.textContent =
-                maskAccountNumber(accountNumber);
+                maskAccountNumber(
+                    accountNumber
+                );
 
         }
 
@@ -292,7 +305,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (menuAccountNumber) {
 
             menuAccountNumber.textContent =
-                maskAccountNumber(accountNumber);
+                maskAccountNumber(
+                    accountNumber
+                );
 
         }
 
@@ -401,16 +416,16 @@ document.addEventListener("DOMContentLoaded", async () => {
             "click",
             async () => {
 
-                const accountNumber =
+                const accountNumberElement =
                     document.getElementById(
                         "accountNumber"
                     );
 
 
                 if (
-                    !accountNumber ||
-                    !accountNumber.textContent ||
-                    accountNumber.textContent ===
+                    !accountNumberElement ||
+                    !accountNumberElement.textContent ||
+                    accountNumberElement.textContent ===
                     "Not assigned"
                 ) {
 
@@ -419,14 +434,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     );
 
                     return;
-
                 }
 
 
                 try {
 
                     await navigator.clipboard.writeText(
-                        accountNumber.textContent
+                        accountNumberElement.textContent.trim()
                     );
 
 
@@ -478,10 +492,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         accountSwitcher.addEventListener(
             "click",
-            () => {
+            (event) => {
+
+                event.stopPropagation();
 
                 accountMenu.classList.toggle(
-                    "show"
+                    "open"
                 );
 
             }
@@ -502,7 +518,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 ) {
 
                     accountMenu.classList.remove(
-                        "show"
+                        "open"
                     );
 
                 }
@@ -544,6 +560,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             }
         );
+
+    }
+
+
+    // =====================================================
+    // CLOSE MOBILE SIDEBAR AFTER LINK CLICK
+    // =====================================================
+
+    if (sidebar) {
+
+        sidebar
+            .querySelectorAll(".nav-link")
+            .forEach((link) => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        sidebar.classList.remove(
+                            "open"
+                        );
+
+                    }
+                );
+
+            });
 
     }
 
@@ -608,7 +650,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
     }
-
 
 });
 
@@ -709,7 +750,71 @@ async function loadRecentTransactions(
 
 
         const transactions =
-            data.transactions || [];
+            Array.isArray(
+                data.transactions
+            )
+                ? data.transactions
+                : [];
+
+
+        // =====================================================
+        // CALCULATE INCOME / EXPENSE
+        // =====================================================
+
+        let totalIncome = 0;
+        let totalExpense = 0;
+
+
+        transactions.forEach(
+            (transaction) => {
+
+                const amount =
+                    Number(
+                        transaction.amount || 0
+                    );
+
+
+                const type =
+                    transaction.transaction_type;
+
+
+                if (type === "Deposit") {
+
+                    totalIncome +=
+                        amount;
+
+                } else {
+
+                    totalExpense +=
+                        amount;
+
+                }
+
+            }
+        );
+
+
+        updateAmountElement(
+            "totalIncome",
+            totalIncome
+        );
+
+
+        updateAmountElement(
+            "totalExpense",
+            totalExpense
+        );
+
+
+        updateAmountElement(
+            "spendingTotal",
+            totalExpense
+        );
+
+
+        updateSpendingChart(
+            totalExpense
+        );
 
 
         // =====================================================
@@ -818,21 +923,20 @@ async function loadRecentTransactions(
 
 
                     const amountText =
-                        `₦${amount.toLocaleString(
-                            "en-NG",
-                            {
-                                minimumFractionDigits:
-                                    2,
-
-                                maximumFractionDigits:
-                                    2
-                            }
-                        )}`;
+                        formatCurrency(
+                            amount
+                        );
 
 
                     const description =
                         escapeHtml(
                             transaction.description ||
+                            transactionType
+                        );
+
+
+                    const typeText =
+                        escapeHtml(
                             transactionType
                         );
 
@@ -864,9 +968,7 @@ async function loadRecentTransactions(
                                     </strong>
 
                                     <small>
-                                        ${escapeHtml(
-                                            transactionType
-                                        )}
+                                        ${typeText}
                                     </small>
 
                                 </div>
@@ -895,6 +997,7 @@ async function loadRecentTransactions(
                 }
             );
 
+
     } catch (error) {
 
         console.error(
@@ -914,6 +1017,51 @@ async function loadRecentTransactions(
         `;
 
     }
+
+}
+
+
+// =====================================================
+// UPDATE AMOUNT ELEMENT
+// =====================================================
+
+function updateAmountElement(
+    elementId,
+    amount
+) {
+
+    const element =
+        document.getElementById(
+            elementId
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        formatCurrency(amount);
+
+}
+
+
+// =====================================================
+// FORMAT CURRENCY
+// =====================================================
+
+function formatCurrency(
+    amount
+) {
+
+    return `₦${Number(amount || 0).toLocaleString(
+        "en-NG",
+        {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    )}`;
 
 }
 
@@ -964,7 +1112,9 @@ function formatTransactionDate(
 // ESCAPE HTML
 // =====================================================
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
     const div =
         document.createElement(
@@ -982,10 +1132,102 @@ function escapeHtml(value) {
 
 
 // =====================================================
+// UPDATE SPENDING CHART
+// =====================================================
+
+function updateSpendingChart(
+    totalExpense
+) {
+
+    const donut =
+        document.querySelector(
+            ".donut"
+        );
+
+
+    const percentage =
+        document.querySelector(
+            ".donut strong"
+        );
+
+
+    if (!donut) {
+        return;
+    }
+
+
+    if (
+        !totalExpense ||
+        totalExpense <= 0
+    ) {
+
+        donut.style.background =
+            "conic-gradient(#2563eb 0deg, #e8eef7 0deg)";
+
+
+        if (percentage) {
+
+            percentage.textContent =
+                "0%";
+
+        }
+
+        return;
+
+    }
+
+
+    const balance =
+        Number(
+            localStorage.getItem(
+                "balance"
+            ) || 0
+        );
+
+
+    const baseAmount =
+        balance + totalExpense;
+
+
+    const spendingPercentage =
+        baseAmount > 0
+            ? Math.min(
+                100,
+                Math.round(
+                    (totalExpense / baseAmount) * 100
+                )
+            )
+            : 0;
+
+
+    const degrees =
+        spendingPercentage * 3.6;
+
+
+    donut.style.background =
+        `conic-gradient(
+            #2563eb ${degrees}deg,
+            #e8eef7 ${degrees}deg
+        )`;
+
+
+    if (percentage) {
+
+        percentage.textContent =
+            `${spendingPercentage}%`;
+
+    }
+
+}
+
+
+// =====================================================
 // TOAST
 // =====================================================
 
-function showToast(message) {
+function showToast(
+    message
+) {
 
     const toast =
         document.getElementById(
