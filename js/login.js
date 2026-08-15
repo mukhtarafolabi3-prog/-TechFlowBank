@@ -1,7 +1,10 @@
-
 const API_URL =
     "https://techflow-banking-backend.vercel.app";
 
+
+// =====================================================
+// LOGIN
+// =====================================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -11,9 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!loginForm) {
 
-        console.error(
-            "Login form not found"
-        );
+        console.error("Login form not found");
 
         return;
     }
@@ -21,30 +22,42 @@ document.addEventListener("DOMContentLoaded", () => {
 
     loginForm.addEventListener(
         "submit",
-        async (e) => {
+        async (event) => {
 
-            e.preventDefault();
+            event.preventDefault();
 
 
-            // =================================
+            // =====================================================
             // GET FORM VALUES
-            // =================================
+            // =====================================================
+
+            const emailInput =
+                document.getElementById("email");
+
+            const passwordInput =
+                document.getElementById("password");
+
+
+            if (!emailInput || !passwordInput) {
+
+                console.error(
+                    "Email or password input not found"
+                );
+
+                return;
+            }
+
 
             const email =
-                document
-                    .getElementById("email")
-                    .value
-                    .trim();
+                emailInput.value.trim();
 
             const password =
-                document
-                    .getElementById("password")
-                    .value;
+                passwordInput.value;
 
 
-            // =================================
-            // VALIDATE
-            // =================================
+            // =====================================================
+            // VALIDATION
+            // =====================================================
 
             if (!email || !password) {
 
@@ -58,9 +71,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
             try {
 
-                // =================================
+                // =====================================================
+                // DISABLE BUTTON
+                // =====================================================
+
+                const loginButton =
+                    loginForm.querySelector(
+                        'button[type="submit"]'
+                    );
+
+
+                if (loginButton) {
+
+                    loginButton.disabled = true;
+
+                    loginButton.textContent =
+                        "Logging in...";
+
+                }
+
+
+                // =====================================================
                 // LOGIN REQUEST
-                // =================================
+                // =====================================================
 
                 const response =
                     await fetch(
@@ -73,13 +106,18 @@ document.addEventListener("DOMContentLoaded", () => {
                                     "application/json"
                             },
 
-                            body: JSON.stringify({
-                                email,
-                                password
-                            })
+                            body:
+                                JSON.stringify({
+                                    email: email,
+                                    password: password
+                                })
                         }
                     );
 
+
+                // =====================================================
+                // GET RESPONSE
+                // =====================================================
 
                 const data =
                     await response.json();
@@ -91,9 +129,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                // =================================
+                // =====================================================
                 // CHECK LOGIN
-                // =================================
+                // =====================================================
 
                 if (
                     !response.ok ||
@@ -109,9 +147,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                // =================================
-                // CHECK USER DATA
-                // =================================
+                // =====================================================
+                // CHECK USER
+                // =====================================================
 
                 if (
                     !data.user ||
@@ -131,9 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                // =================================
+                // =====================================================
                 // SAVE USER ID
-                // =================================
+                // =====================================================
 
                 localStorage.setItem(
                     "userId",
@@ -141,9 +179,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                // =================================
-                // SAVE REGISTERED NAME
-                // =================================
+                // =====================================================
+                // SAVE USER INFORMATION
+                // =====================================================
 
                 localStorage.setItem(
                     "firstName",
@@ -157,19 +195,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                // =================================
-                // SAVE EMAIL
-                // =================================
-
                 localStorage.setItem(
                     "email",
                     data.user.email || ""
                 );
 
-
-                // =================================
-                // SAVE ACCOUNT TYPE
-                // =================================
 
                 localStorage.setItem(
                     "accountType",
@@ -177,9 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                // =================================
+                // =====================================================
                 // SAVE JWT TOKEN
-                // =================================
+                // =====================================================
 
                 if (data.token) {
 
@@ -191,24 +221,41 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                // =================================
-                // GET ACCOUNT INFORMATION
-                // =================================
-
-                // Your login endpoint currently returns
-                // user information but not account_number/balance.
-                // Fetch the dashboard once to get them.
+                // =====================================================
+                // LOAD ACCOUNT INFORMATION
+                // =====================================================
 
                 try {
 
                     const dashboardResponse =
                         await fetch(
-                            `${API_URL}/api/dashboard/${data.user.id}`
+                            `${API_URL}/api/dashboard/${data.user.id}`,
+                            {
+                                method: "GET",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json",
+
+                                    ...(data.token
+                                        ? {
+                                            Authorization:
+                                                `Bearer ${data.token}`
+                                        }
+                                        : {})
+                                }
+                            }
                         );
 
 
                     const dashboardData =
                         await dashboardResponse.json();
+
+
+                    console.log(
+                        "Dashboard data:",
+                        dashboardData
+                    );
 
 
                     if (
@@ -217,50 +264,74 @@ document.addEventListener("DOMContentLoaded", () => {
                         dashboardData.user
                     ) {
 
-                        const dashboardUser =
+                        const user =
                             dashboardData.user;
 
 
+                        // =====================================================
+                        // SAVE ACCOUNT NUMBER
+                        // =====================================================
+
                         localStorage.setItem(
                             "accountNumber",
-                            dashboardUser.account_number || ""
+                            user.account_number || ""
                         );
 
+
+                        // =====================================================
+                        // SAVE ACCOUNT TYPE
+                        // =====================================================
 
                         localStorage.setItem(
                             "accountType",
-                            dashboardUser.account_type || ""
+                            user.account_type || ""
                         );
 
+
+                        // =====================================================
+                        // SAVE BALANCE
+                        // =====================================================
 
                         localStorage.setItem(
                             "balance",
                             String(
-                                dashboardUser.balance || 0
+                                user.balance || 0
                             )
                         );
 
 
+                        // =====================================================
+                        // SAVE CURRENCY
+                        // =====================================================
+
                         localStorage.setItem(
                             "currency",
-                            dashboardUser.currency || "NGN"
+                            user.currency || "NGN"
+                        );
+
+                    } else {
+
+                        console.warn(
+                            "Account information could not be loaded:",
+                            dashboardData
                         );
 
                     }
 
+
                 } catch (dashboardError) {
 
-                    console.warn(
-                        "Could not load account information during login:",
+                    console.error(
+                        "Dashboard request error:",
                         dashboardError
                     );
 
                 }
 
 
-                // =================================
-                // DEBUG
-                // =================================
+                // =====================================================
+                // CHECK SAVED DATA
+                // =====================================================
 
                 console.log(
                     "User ID:",
@@ -278,17 +349,42 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
                 console.log(
+                    "Email:",
+                    localStorage.getItem("email")
+                );
+
+                console.log(
                     "Account Number:",
                     localStorage.getItem("accountNumber")
                 );
 
+                console.log(
+                    "Account Type:",
+                    localStorage.getItem("accountType")
+                );
 
-                // =================================
+                console.log(
+                    "Balance:",
+                    localStorage.getItem("balance")
+                );
+
+
+                // =====================================================
+                // LOGIN SUCCESS
+                // =====================================================
+
+                alert(
+                    `Welcome ${data.user.first_name || ""}!`
+                );
+
+
+                // =====================================================
                 // GO TO DASHBOARD
-                // =================================
+                // =====================================================
 
                 window.location.href =
                     "customer-dashboard.html";
+
 
             } catch (error) {
 
@@ -297,9 +393,29 @@ document.addEventListener("DOMContentLoaded", () => {
                     error
                 );
 
+
                 alert(
                     "Unable to connect to the banking server."
                 );
+
+
+            } finally {
+
+                const loginButton =
+                    loginForm.querySelector(
+                        'button[type="submit"]'
+                    );
+
+
+                if (loginButton) {
+
+                    loginButton.disabled =
+                        false;
+
+                    loginButton.textContent =
+                        "Login";
+
+                }
 
             }
 

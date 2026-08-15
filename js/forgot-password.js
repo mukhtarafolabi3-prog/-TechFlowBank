@@ -1,12 +1,20 @@
+// =====================================================
+// TECHFLOW DYNAMIC BANK
+// FORGOT PASSWORD
+// =====================================================
 
 const API_URL =
-    "https://techflow-banking-backend.vercel.app";
+    "https://techflow-banking-backend-ffmn.vercel.app";
 
 
 console.log(
     "FORGOT PASSWORD JS LOADED"
 );
 
+
+// =====================================================
+// PAGE LOAD
+// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -28,6 +36,10 @@ document.addEventListener(
         }
 
 
+        // =====================================================
+        // FORM SUBMIT
+        // =====================================================
+
         forgotPasswordForm.addEventListener(
             "submit",
             async (event) => {
@@ -35,18 +47,33 @@ document.addEventListener(
                 event.preventDefault();
 
 
-                // ==========================================
+                // =====================================================
                 // GET EMAIL
-                // ==========================================
+                // =====================================================
+
+                const emailInput =
+                    document.getElementById(
+                        "email"
+                    );
+
+
+                if (!emailInput) {
+
+                    alert(
+                        "Email field not found."
+                    );
+
+                    return;
+                }
+
 
                 const email =
-                    document
-                        .getElementById(
-                            "email"
-                        )
-                        .value
-                        .trim();
+                    emailInput.value.trim();
 
+
+                // =====================================================
+                // VALIDATE EMAIL
+                // =====================================================
 
                 if (!email) {
 
@@ -54,15 +81,67 @@ document.addEventListener(
                         "Please enter your email address."
                     );
 
+                    emailInput.focus();
+
                     return;
                 }
 
 
-                // ==========================================
-                // SEND REQUEST TO LIVE BACKEND
-                // ==========================================
+                if (
+                    !emailInput.checkValidity()
+                ) {
+
+                    alert(
+                        "Please enter a valid email address."
+                    );
+
+                    emailInput.focus();
+
+                    return;
+                }
+
+
+                // =====================================================
+                // GET BUTTON
+                // =====================================================
+
+                const submitButton =
+                    forgotPasswordForm.querySelector(
+                        'button[type="submit"]'
+                    );
+
+
+                const originalButtonText =
+                    submitButton
+                        ? submitButton.textContent
+                        : "Continue";
+
 
                 try {
+
+                    // =====================================================
+                    // DISABLE BUTTON
+                    // =====================================================
+
+                    if (submitButton) {
+
+                        submitButton.disabled =
+                            true;
+
+                        submitButton.textContent =
+                            "Checking...";
+
+                    }
+
+
+                    console.log(
+                        "Sending forgot-password request..."
+                    );
+
+
+                    // =====================================================
+                    // SEND REQUEST TO LIVE BACKEND
+                    // =====================================================
 
                     const response =
                         await fetch(
@@ -77,14 +156,38 @@ document.addEventListener(
 
                                 body:
                                     JSON.stringify({
-                                        email: email
+                                        email:
+                                            email
                                     })
                             }
                         );
 
 
-                    const data =
-                        await response.json();
+                    // =====================================================
+                    // READ RESPONSE
+                    // =====================================================
+
+                    let data;
+
+
+                    try {
+
+                        data =
+                            await response.json();
+
+                    } catch (jsonError) {
+
+                        console.error(
+                            "Invalid server response:",
+                            jsonError
+                        );
+
+                        alert(
+                            "The server returned an invalid response."
+                        );
+
+                        return;
+                    }
 
 
                     console.log(
@@ -93,9 +196,9 @@ document.addEventListener(
                     );
 
 
-                    // ==========================================
-                    // CHECK RESPONSE
-                    // ==========================================
+                    // =====================================================
+                    // CHECK BACKEND RESPONSE
+                    // =====================================================
 
                     if (
                         !response.ok ||
@@ -111,9 +214,9 @@ document.addEventListener(
                     }
 
 
-                    // ==========================================
+                    // =====================================================
                     // GET RESET TOKEN
-                    // ==========================================
+                    // =====================================================
 
                     const token =
                         data.reset_token;
@@ -122,21 +225,21 @@ document.addEventListener(
                     if (!token) {
 
                         console.error(
-                            "No reset token returned:",
+                            "Reset token missing:",
                             data
                         );
 
                         alert(
-                            "The reset token was not returned by the server."
+                            "The server did not return a reset token."
                         );
 
                         return;
                     }
 
 
-                    // ==========================================
+                    // =====================================================
                     // SAVE EMAIL
-                    // ==========================================
+                    // =====================================================
 
                     localStorage.setItem(
                         "resetEmail",
@@ -144,9 +247,9 @@ document.addEventListener(
                     );
 
 
-                    // ==========================================
-                    // GO TO RESET PASSWORD
-                    // ==========================================
+                    // =====================================================
+                    // GO TO RESET PASSWORD PAGE
+                    // =====================================================
 
                     window.location.href =
                         `reset-password.html?token=${encodeURIComponent(
@@ -160,9 +263,26 @@ document.addEventListener(
                         error
                     );
 
+
                     alert(
-                        "Unable to connect to the banking server."
+                        "Unable to connect to the banking server. Please try again."
                     );
+
+                } finally {
+
+                    // =====================================================
+                    // ENABLE BUTTON AGAIN
+                    // =====================================================
+
+                    if (submitButton) {
+
+                        submitButton.disabled =
+                            false;
+
+                        submitButton.textContent =
+                            originalButtonText;
+
+                    }
 
                 }
 
@@ -171,4 +291,3 @@ document.addEventListener(
 
     }
 );
-

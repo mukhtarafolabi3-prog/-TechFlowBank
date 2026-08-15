@@ -1,11 +1,5 @@
-
-// =====================================================
-// TECHFLOW DYNAMIC BANK
-// FRONTEND AUTHENTICATION
-// =====================================================
-
 const API_URL =
-    "https://techflow-banking-backend.vercel.app";
+    "https://techflow-banking-backend-ffmn.vercel.app";
 
 
 // =====================================================
@@ -126,7 +120,6 @@ function saveLoginData(data) {
 
 
     return true;
-
 }
 
 
@@ -144,9 +137,7 @@ async function loadAccountData() {
 
 
     if (!userId) {
-
         return null;
-
     }
 
 
@@ -180,6 +171,12 @@ async function loadAccountData() {
             await response.json();
 
 
+        console.log(
+            "Account data:",
+            data
+        );
+
+
         if (
             !response.ok ||
             !data.success ||
@@ -192,7 +189,6 @@ async function loadAccountData() {
             );
 
             return null;
-
         }
 
 
@@ -234,9 +230,7 @@ async function loadAccountData() {
         );
 
         return null;
-
     }
-
 }
 
 
@@ -246,50 +240,19 @@ async function loadAccountData() {
 
 function logout() {
 
-    localStorage.removeItem(
-        "userId"
-    );
-
-    localStorage.removeItem(
-        "firstName"
-    );
-
-    localStorage.removeItem(
-        "lastName"
-    );
-
-    localStorage.removeItem(
-        "email"
-    );
-
-    localStorage.removeItem(
-        "accountNumber"
-    );
-
-    localStorage.removeItem(
-        "accountType"
-    );
-
-    localStorage.removeItem(
-        "balance"
-    );
-
-    localStorage.removeItem(
-        "currency"
-    );
-
-    localStorage.removeItem(
-        "token"
-    );
-
-    localStorage.removeItem(
-        "resetEmail"
-    );
-
+    localStorage.removeItem("userId");
+    localStorage.removeItem("firstName");
+    localStorage.removeItem("lastName");
+    localStorage.removeItem("email");
+    localStorage.removeItem("accountNumber");
+    localStorage.removeItem("accountType");
+    localStorage.removeItem("balance");
+    localStorage.removeItem("currency");
+    localStorage.removeItem("token");
+    localStorage.removeItem("resetEmail");
 
     window.location.href =
         "login.html";
-
 }
 
 
@@ -305,16 +268,14 @@ function requireLogin() {
             "login.html";
 
         return false;
-
     }
 
     return true;
-
 }
 
 
 // =====================================================
-// REDIRECT ALREADY LOGGED-IN USER
+// REDIRECT LOGGED-IN USER
 // =====================================================
 
 function redirectIfLoggedIn() {
@@ -325,16 +286,14 @@ function redirectIfLoggedIn() {
             "customer-dashboard.html";
 
         return true;
-
     }
 
     return false;
-
 }
 
 
 // =====================================================
-// AUTH FETCH HELPER
+// AUTH FETCH
 // =====================================================
 
 async function authFetch(
@@ -347,10 +306,12 @@ async function authFetch(
 
 
     const headers = {
+
         "Content-Type":
             "application/json",
 
         ...(options.headers || {})
+
     };
 
 
@@ -366,15 +327,14 @@ async function authFetch(
         `${API_URL}${endpoint}`,
         {
             ...options,
-            headers: headers
+            headers
         }
     );
-
 }
 
 
 // =====================================================
-// EXPORT FOR USE IN OTHER FILES
+// EXPORT
 // =====================================================
 
 window.TechFlowAuth = {
@@ -398,4 +358,3 @@ window.TechFlowAuth = {
     authFetch
 
 };
-

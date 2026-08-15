@@ -1,7 +1,25 @@
 
+// =====================================================
+// TECHFLOW DYNAMIC BANK
+// RESET PASSWORD
+// =====================================================
+
 const API_URL =
     "https://techflow-banking-backend.vercel.app";
 
+
+// =====================================================
+// PAGE LOADED
+// =====================================================
+
+console.log(
+    "RESET PASSWORD JS LOADED"
+);
+
+
+// =====================================================
+// DOM READY
+// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -23,6 +41,10 @@ document.addEventListener(
         }
 
 
+        // =================================================
+        // FORM SUBMIT
+        // =================================================
+
         resetPasswordForm.addEventListener(
             "submit",
             async (event) => {
@@ -30,29 +52,46 @@ document.addEventListener(
                 event.preventDefault();
 
 
-                // ==========================================
-                // GET PASSWORDS
-                // ==========================================
+                // =========================================
+                // GET INPUTS
+                // =========================================
+
+                const newPasswordInput =
+                    document.getElementById(
+                        "newPassword"
+                    );
+
+
+                const confirmPasswordInput =
+                    document.getElementById(
+                        "confirmPassword"
+                    );
+
+
+                if (
+                    !newPasswordInput ||
+                    !confirmPasswordInput
+                ) {
+
+                    alert(
+                        "Password fields could not be found."
+                    );
+
+                    return;
+                }
+
 
                 const newPassword =
-                    document
-                        .getElementById(
-                            "newPassword"
-                        )
-                        .value;
+                    newPasswordInput.value;
 
 
                 const confirmPassword =
-                    document
-                        .getElementById(
-                            "confirmPassword"
-                        )
-                        .value;
+                    confirmPasswordInput.value;
 
 
-                // ==========================================
-                // VALIDATE
-                // ==========================================
+                // =========================================
+                // VALIDATE EMPTY FIELDS
+                // =========================================
 
                 if (
                     !newPassword ||
@@ -67,6 +106,10 @@ document.addEventListener(
                 }
 
 
+                // =========================================
+                // PASSWORD LENGTH
+                // =========================================
+
                 if (
                     newPassword.length < 8
                 ) {
@@ -75,9 +118,15 @@ document.addEventListener(
                         "Password must be at least 8 characters."
                     );
 
+                    newPasswordInput.focus();
+
                     return;
                 }
 
+
+                // =========================================
+                // PASSWORD MATCH
+                // =========================================
 
                 if (
                     newPassword !==
@@ -88,13 +137,15 @@ document.addEventListener(
                         "Passwords do not match."
                     );
 
+                    confirmPasswordInput.focus();
+
                     return;
                 }
 
 
-                // ==========================================
-                // GET RESET TOKEN FROM URL
-                // ==========================================
+                // =========================================
+                // GET TOKEN FROM URL
+                // =========================================
 
                 const urlParams =
                     new URLSearchParams(
@@ -110,19 +161,55 @@ document.addEventListener(
 
                 if (!token) {
 
+                    console.error(
+                        "Reset token missing from URL."
+                    );
+
+
                     alert(
-                        "Reset token is missing."
+                        "Reset token is missing or invalid."
                     );
 
                     return;
                 }
 
 
-                // ==========================================
-                // SEND TO LIVE BACKEND
-                // ==========================================
+                console.log(
+                    "Reset token found."
+                );
+
+
+                // =========================================
+                // FIND SUBMIT BUTTON
+                // =========================================
+
+                const submitButton =
+                    resetPasswordForm.querySelector(
+                        'button[type="submit"]'
+                    );
+
+
+                if (submitButton) {
+
+                    submitButton.disabled =
+                        true;
+
+                    submitButton.textContent =
+                        "Resetting Password...";
+
+                }
+
+
+                // =========================================
+                // SEND REQUEST TO LIVE BACKEND
+                // =========================================
 
                 try {
+
+                    console.log(
+                        "Sending password reset request..."
+                    );
+
 
                     const response =
                         await fetch(
@@ -137,18 +224,44 @@ document.addEventListener(
 
                                 body:
                                     JSON.stringify({
+
                                         token:
                                             token,
 
                                         password:
                                             newPassword
+
                                     })
                             }
                         );
 
 
-                    const data =
-                        await response.json();
+                    // =====================================
+                    // READ RESPONSE SAFELY
+                    // =====================================
+
+                    let data;
+
+
+                    try {
+
+                        data =
+                            await response.json();
+
+                    } catch (jsonError) {
+
+                        console.error(
+                            "Invalid server response:",
+                            jsonError
+                        );
+
+
+                        alert(
+                            "The server returned an invalid response."
+                        );
+
+                        return;
+                    }
 
 
                     console.log(
@@ -157,9 +270,9 @@ document.addEventListener(
                     );
 
 
-                    // ==========================================
-                    // CHECK RESPONSE
-                    // ==========================================
+                    // =====================================
+                    // CHECK BACKEND RESPONSE
+                    // =====================================
 
                     if (
                         !response.ok ||
@@ -175,23 +288,27 @@ document.addEventListener(
                     }
 
 
-                    // ==========================================
-                    // REMOVE RESET EMAIL
-                    // ==========================================
+                    // =====================================
+                    // REMOVE OLD RESET DATA
+                    // =====================================
 
                     localStorage.removeItem(
                         "resetEmail"
                     );
 
 
-                    // ==========================================
+                    // =====================================
                     // SUCCESS
-                    // ==========================================
+                    // =====================================
 
                     alert(
-                        "Password reset successfully. Please login."
+                        "Password reset successfully. Please login with your new password."
                     );
 
+
+                    // =====================================
+                    // REDIRECT TO LOGIN
+                    // =====================================
 
                     window.location.href =
                         "login.html";
@@ -205,8 +322,24 @@ document.addEventListener(
 
 
                     alert(
-                        "Unable to connect to the banking server."
+                        "Unable to connect to the banking server. Please try again."
                     );
+
+                } finally {
+
+                    // =====================================
+                    // ENABLE BUTTON
+                    // =====================================
+
+                    if (submitButton) {
+
+                        submitButton.disabled =
+                            false;
+
+                        submitButton.textContent =
+                            "Reset Password";
+
+                    }
 
                 }
 
@@ -215,4 +348,3 @@ document.addEventListener(
 
     }
 );
-

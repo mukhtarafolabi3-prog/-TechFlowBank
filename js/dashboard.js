@@ -1,50 +1,84 @@
+// =====================================================
+// TECHFLOW DYNAMIC BANK
+// CUSTOMER DASHBOARD JAVASCRIPT
+// =====================================================
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    // =====================================================
+    // BACKEND URL
+    // =====================================================
+
+    const API_URL =
+        "https://techflow-banking-backend.vercel.app";
+
 
     // =====================================================
     // GET USER ID
     // =====================================================
 
-    const userId = localStorage.getItem("userId");
+    const userId =
+        localStorage.getItem("userId");
 
-    console.log("Dashboard User ID:", userId);
+    console.log(
+        "Dashboard User ID:",
+        userId
+    );
 
 
     if (!userId) {
 
-        console.error("No user ID found.");
+        console.error(
+            "No user ID found."
+        );
 
-        window.location.href = "login.html";
+        window.location.href =
+            "login.html";
 
         return;
     }
 
 
     // =====================================================
+    // GET TOKEN
+    // =====================================================
+
+    const token =
+        localStorage.getItem("token");
+
+
+    // =====================================================
     // GREETING
     // =====================================================
 
-    const currentHour = new Date().getHours();
+    const currentHour =
+        new Date().getHours();
 
     let greeting;
 
+
     if (currentHour < 12) {
 
-        greeting = "Good morning";
+        greeting =
+            "Good morning";
 
     } else if (currentHour < 18) {
 
-        greeting = "Good afternoon";
+        greeting =
+            "Good afternoon";
 
     } else {
 
-        greeting = "Good evening";
+        greeting =
+            "Good evening";
 
     }
 
 
     const greetingElement =
-        document.getElementById("greeting");
+        document.getElementById(
+            "greeting"
+        );
 
 
     if (greetingElement) {
@@ -61,12 +95,32 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     try {
 
-        const response = await fetch(
-            `https://techflow-banking-backend.vercel.app/api/dashboard/${userId}`
-        );
+        const headers = {
+            "Content-Type":
+                "application/json"
+        };
 
 
-        const data = await response.json();
+        if (token) {
+
+            headers.Authorization =
+                `Bearer ${token}`;
+
+        }
+
+
+        const response =
+            await fetch(
+                `${API_URL}/api/dashboard/${userId}`,
+                {
+                    method: "GET",
+                    headers: headers
+                }
+            );
+
+
+        const data =
+            await response.json();
 
 
         console.log(
@@ -75,12 +129,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
 
 
-        if (!response.ok || !data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             console.error(
                 "Dashboard error:",
                 data.message ||
                 "Unable to load dashboard"
+            );
+
+            showToast(
+                data.message ||
+                "Unable to load dashboard."
             );
 
             return;
@@ -122,7 +184,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         const balance =
-            Number(user.balance || 0);
+            Number(
+                user.balance || 0
+            );
 
 
         const currency =
@@ -143,7 +207,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (userName) {
 
             userName.textContent =
-                firstName;
+                firstName ||
+                "Customer";
 
         }
 
@@ -157,7 +222,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (sidebarName) {
 
             sidebarName.textContent =
-                fullName;
+                fullName ||
+                "Customer";
 
         }
 
@@ -171,18 +237,26 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (topUserName) {
 
             topUserName.textContent =
-                fullName;
+                fullName ||
+                "Customer";
 
         }
 
 
         // =====================================================
-        // DISPLAY ACCOUNT BALANCE
+        // FORMAT BALANCE
         // =====================================================
 
         const formattedBalance =
-            formatCurrency(balance);
+            formatCurrency(
+                balance,
+                currency
+            );
 
+
+        // =====================================================
+        // MAIN BALANCE
+        // =====================================================
 
         const accountBalance =
             document.getElementById(
@@ -197,6 +271,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         }
 
+
+        // =====================================================
+        // SUMMARY BALANCE
+        // =====================================================
 
         const summaryBalance =
             document.getElementById(
@@ -213,7 +291,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         // =====================================================
-        // DISPLAY ACCOUNT NUMBER
+        // ACCOUNT NUMBER
         // =====================================================
 
         const accountNumberElement =
@@ -231,7 +309,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         // =====================================================
-        // DISPLAY ACCOUNT TYPE
+        // ACCOUNT TYPE
         // =====================================================
 
         const accountTypeElement =
@@ -327,12 +405,15 @@ document.addEventListener("DOMContentLoaded", async () => {
             );
 
 
-        avatars.forEach((avatar) => {
+        avatars.forEach(
+            (avatar) => {
 
-            avatar.textContent =
-                initials || "U";
+                avatar.textContent =
+                    initials ||
+                    "U";
 
-        });
+            }
+        );
 
 
         // =====================================================
@@ -386,7 +467,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         // =====================================================
 
         await loadRecentTransactions(
-            userId
+            userId,
+            API_URL,
+            token
         );
 
 
@@ -395,6 +478,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         console.error(
             "Dashboard connection error:",
             error
+        );
+
+
+        showToast(
+            "Unable to connect to the banking server."
         );
 
     }
@@ -425,7 +513,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (
                     !accountNumberElement ||
                     !accountNumberElement.textContent ||
-                    accountNumberElement.textContent ===
+                    accountNumberElement.textContent.trim() ===
                     "Not assigned"
                 ) {
 
@@ -496,6 +584,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 event.stopPropagation();
 
+
                 accountMenu.classList.toggle(
                     "open"
                 );
@@ -565,27 +654,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
     // =====================================================
-    // CLOSE MOBILE SIDEBAR AFTER LINK CLICK
+    // CLOSE SIDEBAR WHEN LINK IS CLICKED
     // =====================================================
 
     if (sidebar) {
 
         sidebar
-            .querySelectorAll(".nav-link")
-            .forEach((link) => {
+            .querySelectorAll(
+                ".nav-link"
+            )
+            .forEach(
+                (link) => {
 
-                link.addEventListener(
-                    "click",
-                    () => {
+                    link.addEventListener(
+                        "click",
+                        () => {
 
-                        sidebar.classList.remove(
-                            "open"
-                        );
+                            sidebar.classList.remove(
+                                "open"
+                            );
 
-                    }
-                );
+                        }
+                    );
 
-            });
+                }
+            );
 
     }
 
@@ -642,6 +735,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                     "token"
                 );
 
+                localStorage.removeItem(
+                    "resetEmail"
+                );
+
 
                 window.location.href =
                     "login.html";
@@ -658,7 +755,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 // MASK ACCOUNT NUMBER
 // =====================================================
 
-function maskAccountNumber(accountNumber) {
+function maskAccountNumber(
+    accountNumber
+) {
 
     if (
         !accountNumber ||
@@ -691,7 +790,9 @@ function maskAccountNumber(accountNumber) {
 // =====================================================
 
 async function loadRecentTransactions(
-    userId
+    userId,
+    API_URL,
+    token
 ) {
 
     const transactionContainer =
@@ -713,9 +814,33 @@ async function loadRecentTransactions(
 
     try {
 
+        const headers = {
+            "Content-Type":
+                "application/json"
+        };
+
+
+        if (token) {
+
+            headers.Authorization =
+                `Bearer ${token}`;
+
+        }
+
+
+        // =====================================================
+        // IMPORTANT:
+        // USE VERCEL BACKEND
+        // NOT localhost
+        // =====================================================
+
         const response =
             await fetch(
-                `http://localhost:3000/api/transactions/user/${userId}`
+                `${API_URL}/api/transactions/user/${userId}`,
+                {
+                    method: "GET",
+                    headers: headers
+                }
             );
 
 
@@ -758,7 +883,7 @@ async function loadRecentTransactions(
 
 
         // =====================================================
-        // CALCULATE INCOME / EXPENSE
+        // CALCULATE INCOME AND EXPENSE
         // =====================================================
 
         let totalIncome = 0;
@@ -775,10 +900,16 @@ async function loadRecentTransactions(
 
 
                 const type =
-                    transaction.transaction_type;
+                    String(
+                        transaction.transaction_type ||
+                        ""
+                    ).toLowerCase();
 
 
-                if (type === "Deposit") {
+                if (
+                    type === "deposit" ||
+                    type === "credit"
+                ) {
 
                     totalIncome +=
                         amount;
@@ -793,6 +924,10 @@ async function loadRecentTransactions(
             }
         );
 
+
+        // =====================================================
+        // UPDATE SUMMARY
+        // =====================================================
 
         updateAmountElement(
             "totalIncome",
@@ -818,7 +953,7 @@ async function loadRecentTransactions(
 
 
         // =====================================================
-        // KEEP HEADER
+        // TRANSACTION HEADER
         // =====================================================
 
         transactionContainer.innerHTML = `
@@ -893,9 +1028,17 @@ async function loadRecentTransactions(
                         "Transaction";
 
 
+                    const normalizedType =
+                        String(
+                            transactionType
+                        ).toLowerCase();
+
+
                     const isIncoming =
-                        transactionType ===
-                        "Deposit";
+                        normalizedType ===
+                            "deposit" ||
+                        normalizedType ===
+                            "credit";
 
 
                     const sign =
@@ -1037,12 +1180,16 @@ function updateAmountElement(
 
 
     if (!element) {
+
         return;
+
     }
 
 
     element.textContent =
-        formatCurrency(amount);
+        formatCurrency(
+            amount
+        );
 
 }
 
@@ -1052,16 +1199,39 @@ function updateAmountElement(
 // =====================================================
 
 function formatCurrency(
-    amount
+    amount,
+    currency = "NGN"
 ) {
 
-    return `₦${Number(amount || 0).toLocaleString(
+    const numericAmount =
+        Number(
+            amount || 0
+        );
+
+
+    if (
+        currency === "NGN" ||
+        currency === "Naira"
+    ) {
+
+        return `₦${numericAmount.toLocaleString(
+            "en-NG",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        )}`;
+
+    }
+
+
+    return numericAmount.toLocaleString(
         "en-NG",
         {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
         }
-    )}`;
+    );
 
 }
 
@@ -1082,7 +1252,9 @@ function formatTransactionDate(
 
 
     const date =
-        new Date(dateValue);
+        new Date(
+            dateValue
+        );
 
 
     if (
@@ -1152,7 +1324,9 @@ function updateSpendingChart(
 
 
     if (!donut) {
+
         return;
+
     }
 
 
@@ -1172,6 +1346,7 @@ function updateSpendingChart(
 
         }
 
+
         return;
 
     }
@@ -1186,7 +1361,8 @@ function updateSpendingChart(
 
 
     const baseAmount =
-        balance + totalExpense;
+        balance +
+        totalExpense;
 
 
     const spendingPercentage =
@@ -1194,14 +1370,18 @@ function updateSpendingChart(
             ? Math.min(
                 100,
                 Math.round(
-                    (totalExpense / baseAmount) * 100
+                    (
+                        totalExpense /
+                        baseAmount
+                    ) * 100
                 )
             )
             : 0;
 
 
     const degrees =
-        spendingPercentage * 3.6;
+        spendingPercentage *
+        3.6;
 
 
     donut.style.background =

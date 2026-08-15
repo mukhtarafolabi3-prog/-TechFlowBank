@@ -1,7 +1,15 @@
+// =====================================================
+// TECHFLOW DYNAMIC BANK
+// DEPOSIT
+// =====================================================
 
 const API_URL =
     "https://techflow-banking-backend.vercel.app";
 
+
+// =====================================================
+// PAGE LOAD
+// =====================================================
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -24,18 +32,30 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("accountNumber");
 
 
-    // ==========================================
-    // GET USER DATA
-    // ==========================================
+    // =====================================================
+    // GET LOGIN DATA
+    // =====================================================
 
     const userId =
         localStorage.getItem("userId");
+
+    const token =
+        localStorage.getItem("token");
 
     const accountNumber =
         localStorage.getItem("accountNumber");
 
 
-    if (!userId) {
+    console.log("User ID:", userId);
+    console.log("Account Number:", accountNumber);
+    console.log("Token exists:", Boolean(token));
+
+
+    // =====================================================
+    // CHECK LOGIN
+    // =====================================================
+
+    if (!userId || !token) {
 
         window.location.href =
             "login.html";
@@ -44,22 +64,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ==========================================
-    // DISPLAY ACCOUNT NUMBER
-    // ==========================================
-
-    if (accountNumberElement) {
-
-        accountNumberElement.textContent =
-            accountNumber ||
-            "Not available";
-
-    }
-
-
-    // ==========================================
-    // FORM
-    // ==========================================
+    // =====================================================
+    // CHECK FORM
+    // =====================================================
 
     if (!depositForm) {
 
@@ -71,6 +78,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // =====================================================
+    // DISPLAY ACCOUNT NUMBER
+    // =====================================================
+
+    if (accountNumberElement) {
+
+        accountNumberElement.textContent =
+            accountNumber ||
+            "Not available";
+
+    }
+
+
+    // =====================================================
+    // SUBMIT DEPOSIT
+    // =====================================================
+
     depositForm.addEventListener(
         "submit",
         async (event) => {
@@ -78,19 +102,29 @@ document.addEventListener("DOMContentLoaded", () => {
             event.preventDefault();
 
 
+            // =================================================
+            // GET AMOUNT
+            // =================================================
+
             const amount =
                 Number(
                     amountInput.value
                 );
 
 
+            // =================================================
+            // GET DESCRIPTION
+            // =================================================
+
             const description =
-                descriptionInput.value.trim();
+                descriptionInput
+                    ? descriptionInput.value.trim()
+                    : "";
 
 
-            // ==========================================
-            // VALIDATION
-            // ==========================================
+            // =================================================
+            // VALIDATE AMOUNT
+            // =================================================
 
             if (
                 !Number.isFinite(amount) ||
@@ -106,10 +140,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
+            // =================================================
+            // CHECK ACCOUNT
+            // =================================================
+
             if (!accountNumber) {
 
                 showMessage(
-                    "Account number is not available.",
+                    "Your account number could not be found. Please login again.",
                     "error"
                 );
 
@@ -117,11 +155,11 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
 
-            try {
+            // =================================================
+            // DISABLE BUTTON
+            // =================================================
 
-                // ==========================================
-                // DISABLE BUTTON
-                // ==========================================
+            if (depositBtn) {
 
                 depositBtn.disabled =
                     true;
@@ -129,10 +167,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 depositBtn.textContent =
                     "Processing...";
 
+            }
 
-                // ==========================================
-                // SEND DEPOSIT TO LIVE BACKEND
-                // ==========================================
+
+            try {
+
+                // =================================================
+                // SEND REQUEST TO LIVE BACKEND
+                // =================================================
 
                 const response =
                     await fetch(
@@ -141,29 +183,40 @@ document.addEventListener("DOMContentLoaded", () => {
                             method: "POST",
 
                             headers: {
+
                                 "Content-Type":
-                                    "application/json"
+                                    "application/json",
+
+                                "Authorization":
+                                    `Bearer ${token}`
+
                             },
 
-                            body: JSON.stringify({
+                            body:
+                                JSON.stringify({
 
-                                userId:
-                                    userId,
+                                    userId:
+                                        userId,
 
-                                accountNumber:
-                                    accountNumber,
+                                    accountNumber:
+                                        accountNumber,
 
-                                amount:
-                                    amount,
+                                    amount:
+                                        amount,
 
-                                description:
-                                    description ||
-                                    "Account deposit"
+                                    description:
+                                        description ||
+                                        "Account deposit"
 
-                            })
+                                })
+
                         }
                     );
 
+
+                // =================================================
+                // READ RESPONSE
+                // =================================================
 
                 const data =
                     await response.json();
@@ -175,9 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                // ==========================================
-                // CHECK RESPONSE
-                // ==========================================
+                // =================================================
+                // CHECK BACKEND RESPONSE
+                // =================================================
 
                 if (
                     !response.ok ||
@@ -194,19 +247,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
-                // ==========================================
+                // =================================================
                 // GET NEW BALANCE
-                // ==========================================
+                // =================================================
 
                 const newBalance =
                     Number(
-                        data.account.balance
+                        data.account?.balance ||
+                        0
                     );
 
 
-                // ==========================================
-                // SAVE UPDATED BALANCE
-                // ==========================================
+                // =================================================
+                // SAVE NEW BALANCE
+                // =================================================
 
                 localStorage.setItem(
                     "balance",
@@ -214,41 +268,56 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
 
 
-                // ==========================================
-                // SHOW SUCCESS
-                // ==========================================
+                // =================================================
+                // SUCCESS MESSAGE
+                // =================================================
 
                 showMessage(
-                    `Deposit successful. New balance: ₦${newBalance.toLocaleString(
+                    `Deposit successful! New balance: ₦${newBalance.toLocaleString(
                         "en-NG",
                         {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
+                            minimumFractionDigits:
+                                2,
+
+                            maximumFractionDigits:
+                                2
                         }
                     )}`,
                     "success"
                 );
 
 
-                // ==========================================
+                // =================================================
                 // CLEAR FORM
-                // ==========================================
+                // =================================================
 
-                amountInput.value = "";
+                if (amountInput) {
 
-                descriptionInput.value = "";
+                    amountInput.value = "";
+
+                }
 
 
-                // ==========================================
-                // REDIRECT TO DASHBOARD
-                // ==========================================
+                if (descriptionInput) {
 
-                setTimeout(() => {
+                    descriptionInput.value = "";
 
-                    window.location.href =
-                        "customer-dashboard.html";
+                }
 
-                }, 1500);
+
+                // =================================================
+                // REDIRECT
+                // =================================================
+
+                setTimeout(
+                    () => {
+
+                        window.location.href =
+                            "customer-dashboard.html";
+
+                    },
+                    1500
+                );
 
 
             } catch (error) {
@@ -264,13 +333,22 @@ document.addEventListener("DOMContentLoaded", () => {
                     "error"
                 );
 
+
             } finally {
 
-                depositBtn.disabled =
-                    false;
+                // =================================================
+                // ENABLE BUTTON
+                // =================================================
 
-                depositBtn.textContent =
-                    "Deposit Money";
+                if (depositBtn) {
+
+                    depositBtn.disabled =
+                        false;
+
+                    depositBtn.textContent =
+                        "Deposit Money";
+
+                }
 
             }
 
@@ -278,9 +356,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    // ==========================================
-    // MESSAGE
-    // ==========================================
+    // =====================================================
+    // SHOW MESSAGE
+    // =====================================================
 
     function showMessage(
         text,
@@ -288,7 +366,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ) {
 
         if (!message) {
+
             alert(text);
+
             return;
         }
 
@@ -296,8 +376,21 @@ document.addEventListener("DOMContentLoaded", () => {
         message.style.display =
             "block";
 
+
         message.textContent =
             text;
+
+
+        message.style.padding =
+            "12px";
+
+
+        message.style.borderRadius =
+            "10px";
+
+
+        message.style.marginTop =
+            "10px";
 
 
         if (type === "success") {
@@ -317,13 +410,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 "#fef2f2";
 
         }
-
-
-        message.style.padding =
-            "12px";
-
-        message.style.borderRadius =
-            "10px";
 
     }
 

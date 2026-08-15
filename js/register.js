@@ -1,27 +1,30 @@
 
+// =====================================================
+// TECHFLOW DYNAMIC BANK
+// REGISTRATION
+// =====================================================
+
 const API_URL =
     "https://techflow-banking-backend.vercel.app";
 
 
-// ================================
+// =====================================================
 // CURRENT STEP
-// ================================
+// =====================================================
 
 let currentStep = 1;
 
 
-// ================================
+// =====================================================
 // NEXT STEP
-// ================================
+// =====================================================
 
 function nextStep(step) {
 
     if (step > currentStep) {
 
         const currentFormStep =
-            document.getElementById(
-                `step${currentStep}`
-            );
+            document.getElementById(`step${currentStep}`);
 
         if (!validateStep(currentFormStep)) {
             return;
@@ -33,24 +36,18 @@ function nextStep(step) {
         .querySelectorAll(".form-step")
         .forEach((formStep) => {
 
-            formStep.classList.remove(
-                "active"
-            );
+            formStep.classList.remove("active");
 
         });
 
 
     const nextFormStep =
-        document.getElementById(
-            `step${step}`
-        );
+        document.getElementById(`step${step}`);
 
 
     if (nextFormStep) {
 
-        nextFormStep.classList.add(
-            "active"
-        );
+        nextFormStep.classList.add("active");
 
         currentStep = step;
 
@@ -59,17 +56,15 @@ function nextStep(step) {
 }
 
 
-// ================================
+// =====================================================
 // VALIDATE STEP
-// ================================
+// =====================================================
 
 function validateStep(stepElement) {
 
     if (!stepElement) {
 
-        console.error(
-            "Step not found"
-        );
+        console.error("Step not found");
 
         return false;
     }
@@ -100,9 +95,7 @@ function validateStep(stepElement) {
 
             if (!checked) {
 
-                alert(
-                    "Please select an account type."
-                );
+                alert("Please select an account type.");
 
                 return false;
             }
@@ -129,7 +122,7 @@ function validateStep(stepElement) {
         }
 
 
-        // EMPTY
+        // EMPTY FIELD
         if (!input.value.trim()) {
 
             input.focus();
@@ -142,7 +135,7 @@ function validateStep(stepElement) {
         }
 
 
-        // INVALID
+        // INVALID FIELD
         if (!input.checkValidity()) {
 
             input.focus();
@@ -156,34 +149,23 @@ function validateStep(stepElement) {
     }
 
 
-    // ================================
-    // STEP 3 VALIDATION
-    // ================================
+    // =================================================
+    // PASSWORD AND PIN VALIDATION
+    // =================================================
 
     if (stepElement.id === "step3") {
 
         const password =
-            document.getElementById(
-                "password"
-            ).value;
-
+            document.getElementById("password")?.value || "";
 
         const confirmPassword =
-            document.getElementById(
-                "confirmPassword"
-            ).value;
-
+            document.getElementById("confirmPassword")?.value || "";
 
         const pin =
-            document.getElementById(
-                "pin"
-            ).value;
-
+            document.getElementById("pin")?.value || "";
 
         const confirmPin =
-            document.getElementById(
-                "confirmPin"
-            ).value;
+            document.getElementById("confirmPin")?.value || "";
 
 
         if (password.length < 8) {
@@ -198,9 +180,7 @@ function validateStep(stepElement) {
 
         if (password !== confirmPassword) {
 
-            alert(
-                "Passwords do not match."
-            );
+            alert("Passwords do not match.");
 
             return false;
         }
@@ -208,9 +188,7 @@ function validateStep(stepElement) {
 
         if (!/^\d{4}$/.test(pin)) {
 
-            alert(
-                "PIN must be exactly 4 digits."
-            );
+            alert("PIN must be exactly 4 digits.");
 
             return false;
         }
@@ -218,13 +196,10 @@ function validateStep(stepElement) {
 
         if (pin !== confirmPin) {
 
-            alert(
-                "PINs do not match."
-            );
+            alert("PINs do not match.");
 
             return false;
         }
-
     }
 
 
@@ -232,9 +207,9 @@ function validateStep(stepElement) {
 }
 
 
-// ================================
-// FIELD NAME
-// ================================
+// =====================================================
+// GET FIELD NAME
+// =====================================================
 
 function getFieldName(input) {
 
@@ -250,22 +225,17 @@ function getFieldName(input) {
 }
 
 
-// ================================
-// PROGRESS BAR
-// ================================
+// =====================================================
+// UPDATE PROGRESS BAR
+// =====================================================
 
 function updateProgress(step) {
 
     const progressItems =
-        document.querySelectorAll(
-            ".progress-item"
-        );
-
+        document.querySelectorAll(".progress-item");
 
     const progressLines =
-        document.querySelectorAll(
-            ".progress-line"
-        );
+        document.querySelectorAll(".progress-line");
 
 
     progressItems.forEach(
@@ -273,15 +243,11 @@ function updateProgress(step) {
 
             if (index < step) {
 
-                item.classList.add(
-                    "active"
-                );
+                item.classList.add("active");
 
             } else {
 
-                item.classList.remove(
-                    "active"
-                );
+                item.classList.remove("active");
 
             }
 
@@ -294,15 +260,11 @@ function updateProgress(step) {
 
             if (index < step - 1) {
 
-                line.classList.add(
-                    "active"
-                );
+                line.classList.add("active");
 
             } else {
 
-                line.classList.remove(
-                    "active"
-                );
+                line.classList.remove("active");
 
             }
 
@@ -311,19 +273,14 @@ function updateProgress(step) {
 }
 
 
-// ================================
+// =====================================================
 // PASSWORD TOGGLE
-// ================================
+// =====================================================
 
-function togglePassword(
-    inputId,
-    button
-) {
+function togglePassword(inputId, button) {
 
     const input =
-        document.getElementById(
-            inputId
-        );
+        document.getElementById(inputId);
 
 
     if (!input) {
@@ -332,48 +289,48 @@ function togglePassword(
 
 
     const icon =
-        button.querySelector("i");
+        button?.querySelector("i");
 
 
     if (input.type === "password") {
 
         input.type = "text";
 
-        icon.classList.remove(
-            "fa-eye"
-        );
 
-        icon.classList.add(
-            "fa-eye-slash"
-        );
+        if (icon) {
+
+            icon.classList.remove("fa-eye");
+
+            icon.classList.add("fa-eye-slash");
+
+        }
 
     } else {
 
         input.type = "password";
 
-        icon.classList.remove(
-            "fa-eye-slash"
-        );
 
-        icon.classList.add(
-            "fa-eye"
-        );
+        if (icon) {
+
+            icon.classList.remove("fa-eye-slash");
+
+            icon.classList.add("fa-eye");
+
+        }
     }
 }
 
 
-// ================================
-// REGISTER USER
-// ================================
+// =====================================================
+// REGISTRATION
+// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
 
         const registerForm =
-            document.getElementById(
-                "registerForm"
-            );
+            document.getElementById("registerForm");
 
 
         if (!registerForm) {
@@ -398,14 +355,12 @@ document.addEventListener(
                 );
 
 
-                // ================================
+                // =========================================
                 // VALIDATE FINAL STEP
-                // ================================
+                // =========================================
 
                 const step3 =
-                    document.getElementById(
-                        "step3"
-                    );
+                    document.getElementById("step3");
 
 
                 if (!validateStep(step3)) {
@@ -413,9 +368,9 @@ document.addEventListener(
                 }
 
 
-                // ================================
+                // =========================================
                 // GET ACCOUNT TYPE
-                // ================================
+                // =========================================
 
                 const accountType =
                     document.querySelector(
@@ -423,96 +378,120 @@ document.addEventListener(
                     );
 
 
-                // ================================
-                // COLLECT USER DATA
-                // ================================
+                if (!accountType) {
+
+                    alert(
+                        "Please select an account type."
+                    );
+
+                    return;
+                }
+
+
+                // =========================================
+                // COLLECT FORM DATA
+                // =========================================
 
                 const userData = {
 
                     firstName:
                         document
-                            .getElementById(
-                                "firstName"
-                            )
-                            .value
-                            .trim(),
+                            .getElementById("firstName")
+                            ?.value
+                            .trim() || "",
+
 
                     lastName:
                         document
-                            .getElementById(
-                                "lastName"
-                            )
-                            .value
-                            .trim(),
+                            .getElementById("lastName")
+                            ?.value
+                            .trim() || "",
+
 
                     email:
                         document
-                            .getElementById(
-                                "email"
-                            )
-                            .value
-                            .trim(),
+                            .getElementById("email")
+                            ?.value
+                            .trim() || "",
+
 
                     phone:
                         document
-                            .getElementById(
-                                "phone"
-                            )
-                            .value
-                            .trim(),
+                            .getElementById("phone")
+                            ?.value
+                            .trim() || "",
+
 
                     dob:
                         document
-                            .getElementById(
-                                "dob"
-                            )
-                            .value,
+                            .getElementById("dob")
+                            ?.value || "",
+
 
                     gender:
                         document
-                            .getElementById(
-                                "gender"
-                            )
-                            .value,
+                            .getElementById("gender")
+                            ?.value || "",
+
 
                     accountType:
-                        accountType
-                            ? accountType.value
-                            : "",
+                        accountType.value,
+
 
                     accountName:
                         document
-                            .getElementById(
-                                "accountName"
-                            )
-                            .value
-                            .trim(),
+                            .getElementById("accountName")
+                            ?.value
+                            .trim() || "",
+
 
                     password:
                         document
-                            .getElementById(
-                                "password"
-                            )
-                            .value,
+                            .getElementById("password")
+                            ?.value || "",
+
 
                     pin:
                         document
-                            .getElementById(
-                                "pin"
-                            )
-                            .value
+                            .getElementById("pin")
+                            ?.value || ""
+
                 };
 
 
                 console.log(
-                    "User data:",
-                    userData
+                    "Registration data:",
+                    {
+                        ...userData,
+                        password: "***",
+                        pin: "****"
+                    }
                 );
 
 
-                // ================================
+                // =========================================
+                // DISABLE SUBMIT BUTTON
+                // =========================================
+
+                const submitButton =
+                    registerForm.querySelector(
+                        'button[type="submit"]'
+                    );
+
+
+                if (submitButton) {
+
+                    submitButton.disabled = true;
+
+                    submitButton.textContent =
+                        "Creating Account...";
+
+                }
+
+
+                // =========================================
                 // SEND TO LIVE BACKEND
-                // ================================
+                // =========================================
 
                 try {
 
@@ -535,19 +514,42 @@ document.addEventListener(
                         );
 
 
-                    const data =
-                        await response.json();
+                    // =====================================
+                    // READ RESPONSE
+                    // =====================================
+
+                    let data;
+
+
+                    try {
+
+                        data =
+                            await response.json();
+
+                    } catch (jsonError) {
+
+                        console.error(
+                            "Invalid server response:",
+                            jsonError
+                        );
+
+                        alert(
+                            "The server returned an invalid response."
+                        );
+
+                        return;
+                    }
 
 
                     console.log(
-                        "Backend response:",
+                        "Registration response:",
                         data
                     );
 
 
-                    // ================================
-                    // BACKEND ERROR
-                    // ================================
+                    // =====================================
+                    // CHECK BACKEND RESPONSE
+                    // =====================================
 
                     if (
                         !response.ok ||
@@ -563,9 +565,9 @@ document.addEventListener(
                     }
 
 
-                    // ================================
+                    // =====================================
                     // GET ACCOUNT
-                    // ================================
+                    // =====================================
 
                     const account =
                         data.account;
@@ -583,22 +585,30 @@ document.addEventListener(
 
 
                         alert(
-                            "Registration succeeded, but the account number could not be retrieved."
+                            "Registration succeeded, but account information was not returned."
                         );
 
                         return;
                     }
 
 
-                    // ================================
-                    // SAVE DATA
-                    // ================================
+                    // =====================================
+                    // SAVE USER ID
+                    // =====================================
 
-                    localStorage.setItem(
-                        "userId",
-                        data.user_id
-                    );
+                    if (data.user_id) {
 
+                        localStorage.setItem(
+                            "userId",
+                            String(data.user_id)
+                        );
+
+                    }
+
+
+                    // =====================================
+                    // SAVE ACCOUNT NUMBER
+                    // =====================================
 
                     localStorage.setItem(
                         "accountNumber",
@@ -606,23 +616,39 @@ document.addEventListener(
                     );
 
 
+                    // =====================================
+                    // SAVE ACCOUNT TYPE
+                    // =====================================
+
                     localStorage.setItem(
                         "accountType",
-                        account.account_type
+                        account.account_type || userData.accountType
                     );
 
+
+                    // =====================================
+                    // SAVE BALANCE
+                    // =====================================
 
                     localStorage.setItem(
                         "balance",
-                        String(account.balance)
+                        String(account.balance || 0)
                     );
 
+
+                    // =====================================
+                    // SAVE CURRENCY
+                    // =====================================
 
                     localStorage.setItem(
                         "currency",
-                        account.currency
+                        account.currency || "NGN"
                     );
 
+
+                    // =====================================
+                    // SAVE USER INFORMATION
+                    // =====================================
 
                     localStorage.setItem(
                         "firstName",
@@ -642,16 +668,30 @@ document.addEventListener(
                     );
 
 
-                    // ================================
-                    // SHOW ACCOUNT NUMBER
-                    // ================================
+                    // =====================================
+                    // SAVE TOKEN IF BACKEND RETURNS ONE
+                    // =====================================
+
+                    if (data.token) {
+
+                        localStorage.setItem(
+                            "token",
+                            data.token
+                        );
+
+                    }
+
+
+                    // =====================================
+                    // DISPLAY SUCCESS
+                    // =====================================
 
                     alert(
                         `Registration successful!\n\n` +
-                        `Account Type: ${account.account_type}\n` +
+                        `Account Type: ${account.account_type || userData.accountType}\n` +
                         `Account Number: ${account.account_number}\n` +
                         `Balance: ₦${Number(
-                            account.balance
+                            account.balance || 0
                         ).toLocaleString(
                             "en-NG",
                             {
@@ -662,13 +702,12 @@ document.addEventListener(
                     );
 
 
-                    // ================================
+                    // =====================================
                     // GO TO LOGIN
-                    // ================================
+                    // =====================================
 
                     window.location.href =
                         "login.html";
-
 
                 } catch (error) {
 
@@ -682,10 +721,25 @@ document.addEventListener(
                         "Unable to connect to the banking server."
                     );
 
+                } finally {
+
+                    // =====================================
+                    // ENABLE BUTTON AGAIN
+                    // =====================================
+
+                    if (submitButton) {
+
+                        submitButton.disabled = false;
+
+                        submitButton.textContent =
+                            "Create Account";
+
+                    }
+
                 }
 
             }
         );
 
-    }
-);
+    });
+
