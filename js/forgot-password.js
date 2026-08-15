@@ -1,77 +1,147 @@
 
-<!DOCTYPE html>
-<html lang="en">
+console.log("FORGOT PASSWORD JS LOADED");
+document.addEventListener("DOMContentLoaded", () => {
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    const forgotPasswordForm =
+        document.getElementById("forgotPasswordForm");
 
-    <title>Reset Password | TechFlow Dynamic</title>
-
-    <link rel="stylesheet" href="../css/auth.css">
-</head>
-
-<body>
-
-    <div class="auth-container">
-
-        <div class="auth-card">
-
-            <h1>Reset Password</h1>
-
-            <p>
-                Enter your new password below.
-            </p>
-
-            <form id="resetPasswordForm">
-
-                <div class="form-group">
-
-                    <label for="newPassword">
-                        New Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="newPassword"
-                        placeholder="Enter new password"
-                        minlength="8"
-                        required
-                    >
-
-                </div>
+    if (!forgotPasswordForm) {
+        console.error("forgotPasswordForm not found");
+        return;
+    }
 
 
-                <div class="form-group">
+    forgotPasswordForm.addEventListener(
+        "submit",
+        async (event) => {
 
-                    <label for="confirmPassword">
-                        Confirm Password
-                    </label>
-
-                    <input
-                        type="password"
-                        id="confirmPassword"
-                        placeholder="Confirm new password"
-                        minlength="8"
-                        required
-                    >
-
-                </div>
+            event.preventDefault();
 
 
-                <button type="submit">
-                    Reset Password
-                </button>
+            // ==========================================
+            // GET EMAIL
+            // ==========================================
 
-            </form>
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
-        </div>
 
-    </div>
+            if (!email) {
+
+                alert(
+                    "Please enter your email address."
+                );
+
+                return;
+            }
 
 
-    <script src="../js/reset-password.js"></script>
+            // ==========================================
+            // SEND REQUEST
+            // ==========================================
 
-</body>
+            try {
 
-</html>
+                const response =
+                    await fetch(
+                        "http://localhost:3000/api/auth/forgot-password",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email: email
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "Forgot password response:",
+                    data
+                );
+
+
+                // ==========================================
+                // CHECK RESPONSE
+                // ==========================================
+
+                if (!response.ok || !data.success) {
+
+                    alert(
+                        data.message ||
+                        "Password recovery failed."
+                    );
+
+                    return;
+                }
+
+
+                // ==========================================
+                // GET RESET TOKEN
+                // ==========================================
+
+                const token =
+                    data.reset_token;
+
+
+                if (!token) {
+
+                    console.error(
+                        "No reset token returned:",
+                        data
+                    );
+
+                    alert(
+                        "The reset token was not returned by the server."
+                    );
+
+                    return;
+                }
+
+
+                // ==========================================
+                // SAVE EMAIL
+                // ==========================================
+
+                localStorage.setItem(
+                    "resetEmail",
+                    email
+                );
+
+
+                // ==========================================
+                // GO TO RESET PASSWORD PAGE
+                // ==========================================
+
+                window.location.href =
+                    `reset-password.html?token=${encodeURIComponent(token)}`;
+
+            } catch (error) {
+
+                console.error(
+                    "Forgot password error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+
+            }
+
+        }
+    );
+
+});
