@@ -1,425 +1,248 @@
-const API_URL =
-    "https://techflow-banking-backend-ffmn.vercel.app/";
+// ==========================================
+// TECHFLOW BANK - LOGIN
+// ==========================================
+
+const API_URL = "http://localhost:3000";
 
 
-// =====================================================
+// ==========================================
+// ELEMENTS
+// ==========================================
+
+const loginForm = document.getElementById("loginForm");
+
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+
+const emailError = document.getElementById("emailError");
+const passwordError = document.getElementById("passwordError");
+
+const formMessage = document.getElementById("formMessage");
+
+const loginBtn = document.getElementById("loginBtn");
+
+const passwordToggle =
+    document.getElementById("passwordToggle");
+
+
+// ==========================================
+// PASSWORD SHOW / HIDE
+// ==========================================
+
+passwordToggle.addEventListener("click", () => {
+
+    if (passwordInput.type === "password") {
+
+        passwordInput.type = "text";
+
+        passwordToggle.innerHTML =
+            '<i class="fa-regular fa-eye-slash"></i>';
+
+    } else {
+
+        passwordInput.type = "password";
+
+        passwordToggle.innerHTML =
+            '<i class="fa-regular fa-eye"></i>';
+
+    }
+
+});
+
+
+// ==========================================
+// CLEAR ERRORS
+// ==========================================
+
+function clearErrors() {
+
+    emailError.textContent = "";
+    passwordError.textContent = "";
+
+    formMessage.textContent = "";
+
+    formMessage.className = "form-message";
+
+}
+
+
+// ==========================================
+// SHOW MESSAGE
+// ==========================================
+
+function showMessage(message, type) {
+
+    formMessage.textContent = message;
+
+    formMessage.className =
+        `form-message ${type}`;
+
+}
+
+
+// ==========================================
 // LOGIN
-// =====================================================
+// ==========================================
 
-document.addEventListener("DOMContentLoaded", () => {
+loginForm.addEventListener("submit", async (event) => {
 
-    const loginForm =
-        document.getElementById("loginForm");
+    event.preventDefault();
+
+    clearErrors();
 
 
-    if (!loginForm) {
+    const email =
+        emailInput.value.trim();
 
-        console.error("Login form not found");
+    const password =
+        passwordInput.value;
 
+
+    // ======================================
+    // VALIDATION
+    // ======================================
+
+    let valid = true;
+
+
+    if (!email) {
+
+        emailError.textContent =
+            "Please enter your email address.";
+
+        valid = false;
+
+    }
+
+
+    if (!password) {
+
+        passwordError.textContent =
+            "Please enter your password.";
+
+        valid = false;
+
+    }
+
+
+    if (!valid) {
         return;
     }
 
 
-    loginForm.addEventListener(
-        "submit",
-        async (event) => {
+    // ======================================
+    // DISABLE BUTTON
+    // ======================================
 
-            event.preventDefault();
+    loginBtn.disabled = true;
 
-
-            // =====================================================
-            // GET FORM VALUES
-            // =====================================================
-
-            const emailInput =
-                document.getElementById("email");
-
-            const passwordInput =
-                document.getElementById("password");
+    loginBtn.querySelector("span").textContent =
+        "Signing in...";
 
 
-            if (!emailInput || !passwordInput) {
+    try {
 
-                console.error(
-                    "Email or password input not found"
-                );
+        // ==================================
+        // SEND LOGIN REQUEST
+        // ==================================
 
-                return;
+        const response = await fetch(
+            `${API_URL}/api/auth/login`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
             }
+        );
 
 
-            const email =
-                emailInput.value.trim();
+        // ==================================
+        // GET RESPONSE
+        // ==================================
 
-            const password =
-                passwordInput.value;
+        const data =
+            await response.json();
 
 
-            // =====================================================
-            // VALIDATION
-            // =====================================================
+        console.log("Login response:", data);
 
-            if (!email || !password) {
 
-                alert(
-                    "Please enter your email and password."
-                );
+        // ==================================
+        // LOGIN SUCCESS
+        // ==================================
 
-                return;
-            }
+        if (data.success) {
 
+            showMessage(
+                "Login successful. Redirecting...",
+                "success"
+            );
 
-            try {
 
-                // =====================================================
-                // DISABLE BUTTON
-                // =====================================================
+            // Save logged-in user
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
 
-                const loginButton =
-                    loginForm.querySelector(
-                        'button[type="submit"]'
-                    );
 
-
-                if (loginButton) {
-
-                    loginButton.disabled = true;
-
-                    loginButton.textContent =
-                        "Logging in...";
-
-                }
-
-
-                // =====================================================
-                // LOGIN REQUEST
-                // =====================================================
-
-                const response =
-                    await fetch(
-                        `${API_URL}/api/auth/login`,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify({
-                                    email: email,
-                                    password: password
-                                })
-                        }
-                    );
-
-
-                // =====================================================
-                // GET RESPONSE
-                // =====================================================
-
-                const data =
-                    await response.json();
-
-
-                console.log(
-                    "Login response:",
-                    data
-                );
-
-
-                // =====================================================
-                // CHECK LOGIN
-                // =====================================================
-
-                if (
-                    !response.ok ||
-                    !data.success
-                ) {
-
-                    alert(
-                        data.message ||
-                        "Invalid email or password."
-                    );
-
-                    return;
-                }
-
-
-                // =====================================================
-                // CHECK USER
-                // =====================================================
-
-                if (
-                    !data.user ||
-                    !data.user.id
-                ) {
-
-                    console.error(
-                        "User data missing:",
-                        data
-                    );
-
-                    alert(
-                        "Login succeeded, but user information was not returned."
-                    );
-
-                    return;
-                }
-
-
-                // =====================================================
-                // SAVE USER ID
-                // =====================================================
-
-                localStorage.setItem(
-                    "userId",
-                    String(data.user.id)
-                );
-
-
-                // =====================================================
-                // SAVE USER INFORMATION
-                // =====================================================
-
-                localStorage.setItem(
-                    "firstName",
-                    data.user.first_name || ""
-                );
-
-
-                localStorage.setItem(
-                    "lastName",
-                    data.user.last_name || ""
-                );
-
-
-                localStorage.setItem(
-                    "email",
-                    data.user.email || ""
-                );
-
-
-                localStorage.setItem(
-                    "accountType",
-                    data.user.account_type || ""
-                );
-
-
-                // =====================================================
-                // SAVE JWT TOKEN
-                // =====================================================
-
-                if (data.token) {
-
-                    localStorage.setItem(
-                        "token",
-                        data.token
-                    );
-
-                }
-
-
-                // =====================================================
-                // LOAD ACCOUNT INFORMATION
-                // =====================================================
-
-                try {
-
-                    const dashboardResponse =
-                        await fetch(
-                            `${API_URL}/api/dashboard/${data.user.id}`,
-                            {
-                                method: "GET",
-
-                                headers: {
-                                    "Content-Type":
-                                        "application/json",
-
-                                    ...(data.token
-                                        ? {
-                                            Authorization:
-                                                `Bearer ${data.token}`
-                                        }
-                                        : {})
-                                }
-                            }
-                        );
-
-
-                    const dashboardData =
-                        await dashboardResponse.json();
-
-
-                    console.log(
-                        "Dashboard data:",
-                        dashboardData
-                    );
-
-
-                    if (
-                        dashboardResponse.ok &&
-                        dashboardData.success &&
-                        dashboardData.user
-                    ) {
-
-                        const user =
-                            dashboardData.user;
-
-
-                        // =====================================================
-                        // SAVE ACCOUNT NUMBER
-                        // =====================================================
-
-                        localStorage.setItem(
-                            "accountNumber",
-                            user.account_number || ""
-                        );
-
-
-                        // =====================================================
-                        // SAVE ACCOUNT TYPE
-                        // =====================================================
-
-                        localStorage.setItem(
-                            "accountType",
-                            user.account_type || ""
-                        );
-
-
-                        // =====================================================
-                        // SAVE BALANCE
-                        // =====================================================
-
-                        localStorage.setItem(
-                            "balance",
-                            String(
-                                user.balance || 0
-                            )
-                        );
-
-
-                        // =====================================================
-                        // SAVE CURRENCY
-                        // =====================================================
-
-                        localStorage.setItem(
-                            "currency",
-                            user.currency || "NGN"
-                        );
-
-                    } else {
-
-                        console.warn(
-                            "Account information could not be loaded:",
-                            dashboardData
-                        );
-
-                    }
-
-
-                } catch (dashboardError) {
-
-                    console.error(
-                        "Dashboard request error:",
-                        dashboardError
-                    );
-
-                }
-
-
-                // =====================================================
-                // CHECK SAVED DATA
-                // =====================================================
-
-                console.log(
-                    "User ID:",
-                    localStorage.getItem("userId")
-                );
-
-                console.log(
-                    "First Name:",
-                    localStorage.getItem("firstName")
-                );
-
-                console.log(
-                    "Last Name:",
-                    localStorage.getItem("lastName")
-                );
-
-                console.log(
-                    "Email:",
-                    localStorage.getItem("email")
-                );
-
-                console.log(
-                    "Account Number:",
-                    localStorage.getItem("accountNumber")
-                );
-
-                console.log(
-                    "Account Type:",
-                    localStorage.getItem("accountType")
-                );
-
-                console.log(
-                    "Balance:",
-                    localStorage.getItem("balance")
-                );
-
-
-                // =====================================================
-                // LOGIN SUCCESS
-                // =====================================================
-
-                alert(
-                    `Welcome ${data.user.first_name || ""}!`
-                );
-
-
-                // =====================================================
-                // GO TO DASHBOARD
-                // =====================================================
+            // Redirect
+            setTimeout(() => {
 
                 window.location.href =
-                    "customer-dashboard.html";
+                    "dashboard.html";
 
-
-            } catch (error) {
-
-                console.error(
-                    "Login error:",
-                    error
-                );
-
-
-                alert(
-                    "Unable to connect to the banking server."
-                );
-
-
-            } finally {
-
-                const loginButton =
-                    loginForm.querySelector(
-                        'button[type="submit"]'
-                    );
-
-
-                if (loginButton) {
-
-                    loginButton.disabled =
-                        false;
-
-                    loginButton.textContent =
-                        "Login";
-
-                }
-
-            }
+            }, 1000);
 
         }
-    );
+
+
+        // ==================================
+        // LOGIN FAILED
+        // ==================================
+
+        else {
+
+            showMessage(
+                data.message ||
+                "Invalid email or password.",
+                "error"
+            );
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Login error:",
+            error
+        );
+
+
+        showMessage(
+            "Unable to connect to the server. Make sure your backend is running.",
+            "error"
+        );
+
+    }
+
+
+    // ======================================
+    // ENABLE BUTTON
+    // ======================================
+
+    loginBtn.disabled = false;
+
+    loginBtn.querySelector("span").textContent =
+        "Sign In";
 
 });
