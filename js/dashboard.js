@@ -1,13 +1,48 @@
-document.addEventListener("DOMContentLoaded", async () => {
+
+document.addEventLis
+tener("DOMContentLoaded", async () => {
+
+    const currentHour = new Date().getHours();
+
+    let greeting;
+
+    if (currentHour < 12) {
+
+        greeting = "Good morning";
+
+    } else if (currentHour < 18) {
+
+        greeting = "Good afternoon";
+
+    } else {
+
+        greeting = "Good evening";
+
+    }
+
+
+    const greetingElement =
+        document.getElementById("greeting");
+
+    if (greetingElement) {
+
+        greetingElement.textContent =
+            greeting;
+
+    }
+
 
     // ==========================================
     // GET USER ID
     // ==========================================
 
-    const userId = localStorage.getItem("userId");
+    const userId =
+        localStorage.getItem("userId");
 
     if (!userId) {
+
         window.location.href = "login.html";
+
         return;
     }
 
@@ -22,9 +57,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             `http://localhost:3000/api/dashboard/${userId}`
         );
 
+
         const data = await response.json();
 
-        console.log("Dashboard data:", data);
+
+        console.log(
+            "Dashboard data:",
+            data
+        );
 
 
         if (!response.ok || !data.success) {
@@ -44,8 +84,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const user = data.user;
 
-        const firstName = user.first_name || "";
-        const lastName = user.last_name || "";
+
+        const firstName =
+            user.first_name || "";
+
+        const lastName =
+            user.last_name || "";
+
 
         const fullName =
             `${firstName} ${lastName}`.trim();
@@ -56,10 +101,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountNumber =
-            user.account_number || "Not assigned";
+            user.account_number ||
+            "Not assigned";
+
 
         const accountType =
-            user.account_type || "Not available";
+            user.account_type ||
+            "Not available";
+
 
         const balance =
             Number(user.balance || 0);
@@ -70,10 +119,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ==========================================
 
         const sidebarUserName =
-            document.getElementById("sidebarUserName");
+            document.getElementById(
+                "sidebarUserName"
+            );
+
 
         if (sidebarUserName) {
-            sidebarUserName.textContent = fullName;
+
+            sidebarUserName.textContent =
+                fullName;
+
         }
 
 
@@ -82,10 +137,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ==========================================
 
         const userName =
-            document.getElementById("userName");
+            document.getElementById(
+                "userName"
+            );
+
 
         if (userName) {
-            userName.textContent = firstName;
+
+            userName.textContent =
+                firstName;
+
         }
 
 
@@ -94,15 +155,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountBalance =
-            document.getElementById("accountBalance");
+            document.getElementById(
+                "accountBalance"
+            );
+
 
         if (accountBalance) {
 
             accountBalance.textContent =
-                `₦${balance.toLocaleString("en-NG", {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                })}`;
+                `₦${balance.toLocaleString(
+                    "en-NG",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                )}`;
 
         }
 
@@ -112,7 +179,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountNumberElement =
-            document.getElementById("accountNumber");
+            document.getElementById(
+                "accountNumber"
+            );
+
 
         if (accountNumberElement) {
 
@@ -127,7 +197,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ==========================================
 
         const accountTypeElement =
-            document.getElementById("accountType");
+            document.getElementById(
+                "accountType"
+            );
+
 
         if (accountTypeElement) {
 
@@ -142,10 +215,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         // ==========================================
 
         const headerUser =
-            document.querySelector(".header-user strong");
+            document.querySelector(
+                ".header-user strong"
+            );
+
 
         if (headerUser) {
-            headerUser.textContent = firstName;
+
+            headerUser.textContent =
+                firstName;
+
         }
 
 
@@ -155,7 +234,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const initials =
             `${firstName.charAt(0)}${lastName.charAt(0)}`
-            .toUpperCase();
+                .toUpperCase();
 
 
         const avatars =
@@ -165,7 +244,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         avatars.forEach(avatar => {
-            avatar.textContent = initials;
+
+            avatar.textContent =
+                initials;
+
         });
 
 
@@ -178,20 +260,24 @@ document.addEventListener("DOMContentLoaded", async () => {
             firstName
         );
 
+
         localStorage.setItem(
             "lastName",
             lastName
         );
+
 
         localStorage.setItem(
             "email",
             user.email || ""
         );
 
+
         localStorage.setItem(
             "accountNumber",
             accountNumber
         );
+
 
         localStorage.setItem(
             "accountType",
@@ -214,53 +300,81 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ==========================================
 
     const copyAccount =
-        document.getElementById("copyAccount");
+        document.getElementById(
+            "copyAccount"
+        );
+
 
     const accountNumberElement =
-        document.getElementById("accountNumber");
+        document.getElementById(
+            "accountNumber"
+        );
+
 
     const toast =
-        document.getElementById("dashboardToast");
+        document.getElementById(
+            "dashboardToast"
+        );
+
 
     const toastMessage =
-        document.getElementById("toastMessage");
+        document.getElementById(
+            "toastMessage"
+        );
 
 
-    if (copyAccount && accountNumberElement) {
+    if (
+        copyAccount &&
+        accountNumberElement
+    ) {
 
-        copyAccount.addEventListener("click", async () => {
+        copyAccount.addEventListener(
+            "click",
+            async () => {
 
-            try {
+                try {
 
-                await navigator.clipboard.writeText(
-                    accountNumberElement.textContent
-                );
+                    await navigator.clipboard.writeText(
+                        accountNumberElement.textContent
+                    );
 
 
-                if (toastMessage) {
-                    toastMessage.textContent =
-                        "Account number copied.";
+                    if (toastMessage) {
+
+                        toastMessage.textContent =
+                            "Account number copied.";
+
+                    }
+
+
+                    if (toast) {
+
+                        toast.classList.add(
+                            "show"
+                        );
+
+
+                        setTimeout(() => {
+
+                            toast.classList.remove(
+                                "show"
+                            );
+
+                        }, 2500);
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Copy error:",
+                        error
+                    );
+
                 }
-
-
-                if (toast) {
-                    toast.classList.add("show");
-
-                    setTimeout(() => {
-                        toast.classList.remove("show");
-                    }, 2500);
-                }
-
-            } catch (error) {
-
-                console.error(
-                    "Copy error:",
-                    error
-                );
 
             }
-
-        });
+        );
 
     }
 
@@ -270,23 +384,51 @@ document.addEventListener("DOMContentLoaded", async () => {
     // ==========================================
 
     const logoutBtn =
-        document.getElementById("logoutBtn");
+        document.getElementById(
+            "logoutBtn"
+        );
+
 
     if (logoutBtn) {
 
-        logoutBtn.addEventListener("click", () => {
+        logoutBtn.addEventListener(
+            "click",
+            () => {
 
-            localStorage.removeItem("userId");
-            localStorage.removeItem("firstName");
-            localStorage.removeItem("lastName");
-            localStorage.removeItem("email");
-            localStorage.removeItem("accountNumber");
-            localStorage.removeItem("accountType");
+                localStorage.removeItem(
+                    "userId"
+                );
 
-            window.location.href = "login.html";
+                localStorage.removeItem(
+                    "firstName"
+                );
 
-        });
+                localStorage.removeItem(
+                    "lastName"
+                );
+
+                localStorage.removeItem(
+                    "email"
+                );
+
+                localStorage.removeItem(
+                    "accountNumber"
+                );
+
+                localStorage.removeItem(
+                    "accountType"
+                );
+
+                localStorage.removeItem(
+                    "token"
+                );
+
+
+                window.location.href =
+                    "login.html";
+
+            }
+        );
 
     }
 
-});
