@@ -1,433 +1,156 @@
 const API_URL = "http://localhost:3000";
 
+document.addEventListener("DOMContentLoaded", () => {
 
-// ==================================================
-// LOGIN FORM
-// ==================================================
+    const loginForm = document.getElementById("loginForm");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
 
-const loginForm = document.getElementById("loginForm");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
 
-const loginBtn = document.getElementById("loginBtn");
+    const formMessage = document.getElementById("formMessage");
+    const loginBtn = document.getElementById("loginBtn");
 
-const formMessage =
-    document.getElementById("formMessage");
-
-const passwordToggle =
-    document.getElementById("passwordToggle");
-
-const password =
-    document.getElementById("password");
+    const passwordToggle =
+        document.getElementById("passwordToggle");
 
 
-// ==================================================
-// PASSWORD SHOW / HIDE
-// ==================================================
+    // Password visibility
+    if (passwordToggle) {
 
-if (passwordToggle && password) {
+        passwordToggle.addEventListener("click", () => {
 
-    passwordToggle.addEventListener(
-        "click",
-        () => {
+            if (passwordInput.type === "password") {
 
-            if (password.type === "password") {
-
-                password.type = "text";
+                passwordInput.type = "text";
 
                 passwordToggle.innerHTML =
                     '<i class="fa-regular fa-eye-slash"></i>';
 
-                passwordToggle.setAttribute(
-                    "aria-label",
-                    "Hide password"
-                );
-
             } else {
 
-                password.type = "password";
+                passwordInput.type = "password";
 
                 passwordToggle.innerHTML =
                     '<i class="fa-regular fa-eye"></i>';
-
-                passwordToggle.setAttribute(
-                    "aria-label",
-                    "Show password"
-                );
-
             }
 
-        }
-    );
-
-}
-
-
-// ==================================================
-// SHOW MESSAGE
-// ==================================================
-
-function showMessage(message, type = "error") {
-
-    if (!formMessage) {
-        return;
+        });
     }
 
-    formMessage.textContent = message;
 
-    formMessage.className =
-        `form-message ${type}`;
+    loginForm.addEventListener("submit", async (event) => {
 
-}
+        event.preventDefault();
 
 
-// ==================================================
-// CLEAR ERRORS
-// ==================================================
-
-function clearErrors() {
-
-    const emailError =
-        document.getElementById("emailError");
-
-    const passwordError =
-        document.getElementById("passwordError");
-
-
-    if (emailError) {
+        // Clear previous messages
         emailError.textContent = "";
-    }
-
-
-    if (passwordError) {
         passwordError.textContent = "";
-    }
+        formMessage.textContent = "";
 
 
-    showMessage("");
-
-}
-
-
-// ==================================================
-// LOGIN
-// ==================================================
-
-if (loginForm) {
-
-    loginForm.addEventListener(
-        "submit",
-        async (event) => {
-
-            event.preventDefault();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
 
 
-            clearErrors();
+        // Validation
+        if (!email) {
+
+            emailError.textContent =
+                "Please enter your email address.";
+
+            return;
+        }
 
 
-            // ------------------------------------------
-            // GET FORM VALUES
-            // ------------------------------------------
+        if (!password) {
 
-            const email =
-                document
-                    .getElementById("email")
-                    .value
-                    .trim();
+            passwordError.textContent =
+                "Please enter your password.";
+
+            return;
+        }
 
 
-            const passwordValue =
-                document
-                    .getElementById("password")
-                    .value;
+        // Disable button
+        loginBtn.disabled = true;
+
+        loginBtn.querySelector("span").textContent =
+            "Signing in...";
 
 
-            const rememberMe =
-                document
-                    .getElementById("rememberMe")
-                    ?.checked || false;
+        try {
 
-
-            // ------------------------------------------
-            // VALIDATION
-            // ------------------------------------------
-
-            if (!email) {
-
-                const emailError =
-                    document.getElementById(
-                        "emailError"
-                    );
-
-                if (emailError) {
-                    emailError.textContent =
-                        "Please enter your email address.";
-                }
-
-                return;
-            }
-
-
-            if (!email.includes("@")) {
-
-                const emailError =
-                    document.getElementById(
-                        "emailError"
-                    );
-
-                if (emailError) {
-                    emailError.textContent =
-                        "Please enter a valid email address.";
-                }
-
-                return;
-            }
-
-
-            if (!passwordValue) {
-
-                const passwordError =
-                    document.getElementById(
-                        "passwordError"
-                    );
-
-                if (passwordError) {
-                    passwordError.textContent =
-                        "Please enter your password.";
-                }
-
-                return;
-            }
-
-
-            // ------------------------------------------
-            // DISABLE BUTTON
-            // ------------------------------------------
-
-            if (loginBtn) {
-
-                loginBtn.disabled = true;
-
-                loginBtn.innerHTML = `
-                    <span>Signing in...</span>
-                    <i class="fa-solid fa-spinner fa-spin"></i>
-                `;
-
-            }
-
-
-            // ------------------------------------------
-            // DATA
-            // ------------------------------------------
-
-            const loginData = {
-
-                email: email,
-
-                password: passwordValue
-
-            };
-
-
-            console.log(
-                "Login data:",
+            const response = await fetch(
+                `${API_URL}/api/auth/login`,
                 {
-                    email: email,
-                    password: "********"
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        email,
+                        password
+                    })
                 }
             );
 
 
-            // ------------------------------------------
-            // SEND TO BACKEND
-            // ------------------------------------------
-
-            try {
-
-                const response =
-                    await fetch(
-                        `${API_URL}/api/auth/login`,
-                        {
-
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body:
-                                JSON.stringify(
-                                    loginData
-                                )
-
-                        }
-                    );
+            const data = await response.json();
 
 
-                // --------------------------------------
-                // READ RESPONSE
-                // --------------------------------------
+            if (!response.ok) {
 
-                const data =
-                    await response.json();
+                formMessage.textContent =
+                    data.message || "Login failed.";
 
-
-                console.log(
-                    "Login server response:",
-                    data
-                );
-
-
-                // --------------------------------------
-                // LOGIN SUCCESS
-                // --------------------------------------
-
-                if (
-                    response.ok &&
-                    data.success
-                ) {
-
-
-                    // Store logged-in user
-
-                    localStorage.setItem(
-                        "techflowUser",
-                        JSON.stringify(data.user)
-                    );
-
-
-                    // Remember email if selected
-
-                    if (rememberMe) {
-
-                        localStorage.setItem(
-                            "techflowRememberEmail",
-                            email
-                        );
-
-                    } else {
-
-                        localStorage.removeItem(
-                            "techflowRememberEmail"
-                        );
-
-                    }
-
-
-                    showMessage(
-                        "Login successful. Redirecting...",
-                        "success"
-                    );
-
-
-                    // ----------------------------------
-                    // REDIRECT
-                    // ----------------------------------
-
-                    setTimeout(
-                        () => {
-
-                            window.location.href =
-                                "dashboard.html";
-
-                        },
-                        800
-                    );
-
-
-                    return;
-
-                }
-
-
-                // --------------------------------------
-                // LOGIN FAILED
-                // --------------------------------------
-
-                showMessage(
-                    data.message ||
-                    "Invalid email or password.",
-                    "error"
-                );
-
-
-            } catch (error) {
-
-                console.error(
-                    "Login error:",
-                    error
-                );
-
-
-                showMessage(
-                    "Unable to connect to server. Please make sure your backend is running.",
-                    "error"
-                );
-
-            } finally {
-
-
-                // --------------------------------------
-                // ENABLE BUTTON AGAIN
-                // --------------------------------------
-
-                if (loginBtn) {
-
-                    loginBtn.disabled = false;
-
-                    loginBtn.innerHTML = `
-                        <span>Sign In</span>
-                        <i class="fa-solid fa-arrow-right"></i>
-                    `;
-
-                }
-
+                return;
             }
 
-        }
-    );
 
-}
-
-
-// ==================================================
-// LOAD REMEMBERED EMAIL
-// ==================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        const savedEmail =
-            localStorage.getItem(
-                "techflowRememberEmail"
+            // Save logged-in user
+            localStorage.setItem(
+                "techflowUser",
+                JSON.stringify(data.user)
             );
 
 
-        const emailInput =
-            document.getElementById("email");
+            // Success
+            formMessage.textContent =
+                "Login successful!";
 
 
-        const rememberCheckbox =
-            document.getElementById("rememberMe");
+            // Redirect
+            setTimeout(() => {
+
+                window.location.href =
+                    "dashboard.html";
+
+            }, 500);
 
 
-        if (
-            savedEmail &&
-            emailInput
-        ) {
+        } catch (error) {
 
-            emailInput.value =
-                savedEmail;
+            console.error(
+                "Login error:",
+                error
+            );
 
+            formMessage.textContent =
+                "Unable to connect to the server.";
 
-            if (rememberCheckbox) {
+        } finally {
 
-                rememberCheckbox.checked =
-                    true;
+            loginBtn.disabled = false;
 
-            }
-
+            loginBtn.querySelector("span").textContent =
+                "Sign In";
         }
 
-    }
-);
+    });
+
+});
