@@ -1,76 +1,75 @@
-// ==========================================
-// TECHFLOW BANK - LOGIN
-// ==========================================
-
 const API_URL = "http://localhost:3000";
 
 
-// ==========================================
-// ELEMENTS
-// ==========================================
+// ==================================================
+// LOGIN FORM
+// ==================================================
 
 const loginForm = document.getElementById("loginForm");
 
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
-
-const emailError = document.getElementById("emailError");
-const passwordError = document.getElementById("passwordError");
-
-const formMessage = document.getElementById("formMessage");
-
 const loginBtn = document.getElementById("loginBtn");
+
+const formMessage =
+    document.getElementById("formMessage");
 
 const passwordToggle =
     document.getElementById("passwordToggle");
 
+const password =
+    document.getElementById("password");
 
-// ==========================================
+
+// ==================================================
 // PASSWORD SHOW / HIDE
-// ==========================================
+// ==================================================
 
-passwordToggle.addEventListener("click", () => {
+if (passwordToggle && password) {
 
-    if (passwordInput.type === "password") {
+    passwordToggle.addEventListener(
+        "click",
+        () => {
 
-        passwordInput.type = "text";
+            if (password.type === "password") {
 
-        passwordToggle.innerHTML =
-            '<i class="fa-regular fa-eye-slash"></i>';
+                password.type = "text";
 
-    } else {
+                passwordToggle.innerHTML =
+                    '<i class="fa-regular fa-eye-slash"></i>';
 
-        passwordInput.type = "password";
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
 
-        passwordToggle.innerHTML =
-            '<i class="fa-regular fa-eye"></i>';
+            } else {
 
-    }
+                password.type = "password";
 
-});
+                passwordToggle.innerHTML =
+                    '<i class="fa-regular fa-eye"></i>';
 
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
 
-// ==========================================
-// CLEAR ERRORS
-// ==========================================
+            }
 
-function clearErrors() {
-
-    emailError.textContent = "";
-    passwordError.textContent = "";
-
-    formMessage.textContent = "";
-
-    formMessage.className = "form-message";
+        }
+    );
 
 }
 
 
-// ==========================================
+// ==================================================
 // SHOW MESSAGE
-// ==========================================
+// ==================================================
 
-function showMessage(message, type) {
+function showMessage(message, type = "error") {
+
+    if (!formMessage) {
+        return;
+    }
 
     formMessage.textContent = message;
 
@@ -80,169 +79,355 @@ function showMessage(message, type) {
 }
 
 
-// ==========================================
+// ==================================================
+// CLEAR ERRORS
+// ==================================================
+
+function clearErrors() {
+
+    const emailError =
+        document.getElementById("emailError");
+
+    const passwordError =
+        document.getElementById("passwordError");
+
+
+    if (emailError) {
+        emailError.textContent = "";
+    }
+
+
+    if (passwordError) {
+        passwordError.textContent = "";
+    }
+
+
+    showMessage("");
+
+}
+
+
+// ==================================================
 // LOGIN
-// ==========================================
+// ==================================================
 
-loginForm.addEventListener("submit", async (event) => {
+if (loginForm) {
 
-    event.preventDefault();
+    loginForm.addEventListener(
+        "submit",
+        async (event) => {
 
-    clearErrors();
-
-
-    const email =
-        emailInput.value.trim();
-
-    const password =
-        passwordInput.value;
+            event.preventDefault();
 
 
-    // ======================================
-    // VALIDATION
-    // ======================================
-
-    let valid = true;
+            clearErrors();
 
 
-    if (!email) {
+            // ------------------------------------------
+            // GET FORM VALUES
+            // ------------------------------------------
 
-        emailError.textContent =
-            "Please enter your email address.";
-
-        valid = false;
-
-    }
-
-
-    if (!password) {
-
-        passwordError.textContent =
-            "Please enter your password.";
-
-        valid = false;
-
-    }
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
 
-    if (!valid) {
-        return;
-    }
+            const passwordValue =
+                document
+                    .getElementById("password")
+                    .value;
 
 
-    // ======================================
-    // DISABLE BUTTON
-    // ======================================
-
-    loginBtn.disabled = true;
-
-    loginBtn.querySelector("span").textContent =
-        "Signing in...";
+            const rememberMe =
+                document
+                    .getElementById("rememberMe")
+                    ?.checked || false;
 
 
-    try {
+            // ------------------------------------------
+            // VALIDATION
+            // ------------------------------------------
 
-        // ==================================
-        // SEND LOGIN REQUEST
-        // ==================================
+            if (!email) {
 
-        const response = await fetch(
-            `${API_URL}/api/auth/login`,
-            {
-                method: "POST",
+                const emailError =
+                    document.getElementById(
+                        "emailError"
+                    );
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                if (emailError) {
+                    emailError.textContent =
+                        "Please enter your email address.";
+                }
 
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
+                return;
             }
-        );
 
 
-        // ==================================
-        // GET RESPONSE
-        // ==================================
+            if (!email.includes("@")) {
 
-        const data =
-            await response.json();
+                const emailError =
+                    document.getElementById(
+                        "emailError"
+                    );
+
+                if (emailError) {
+                    emailError.textContent =
+                        "Please enter a valid email address.";
+                }
+
+                return;
+            }
 
 
-        console.log("Login response:", data);
+            if (!passwordValue) {
+
+                const passwordError =
+                    document.getElementById(
+                        "passwordError"
+                    );
+
+                if (passwordError) {
+                    passwordError.textContent =
+                        "Please enter your password.";
+                }
+
+                return;
+            }
 
 
-        // ==================================
-        // LOGIN SUCCESS
-        // ==================================
+            // ------------------------------------------
+            // DISABLE BUTTON
+            // ------------------------------------------
 
-        if (data.success) {
+            if (loginBtn) {
 
-            showMessage(
-                "Login successful. Redirecting...",
-                "success"
+                loginBtn.disabled = true;
+
+                loginBtn.innerHTML = `
+                    <span>Signing in...</span>
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                `;
+
+            }
+
+
+            // ------------------------------------------
+            // DATA
+            // ------------------------------------------
+
+            const loginData = {
+
+                email: email,
+
+                password: passwordValue
+
+            };
+
+
+            console.log(
+                "Login data:",
+                {
+                    email: email,
+                    password: "********"
+                }
             );
 
 
-            // Save logged-in user
-            localStorage.setItem(
-                "user",
-                JSON.stringify(data.user)
-            );
+            // ------------------------------------------
+            // SEND TO BACKEND
+            // ------------------------------------------
+
+            try {
+
+                const response =
+                    await fetch(
+                        `${API_URL}/api/auth/login`,
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    loginData
+                                )
+
+                        }
+                    );
 
 
-            // Redirect
-            setTimeout(() => {
+                // --------------------------------------
+                // READ RESPONSE
+                // --------------------------------------
 
-                window.location.href =
-                    "dashboard.html";
+                const data =
+                    await response.json();
 
-            }, 1000);
+
+                console.log(
+                    "Login server response:",
+                    data
+                );
+
+
+                // --------------------------------------
+                // LOGIN SUCCESS
+                // --------------------------------------
+
+                if (
+                    response.ok &&
+                    data.success
+                ) {
+
+
+                    // Store logged-in user
+
+                    localStorage.setItem(
+                        "techflowUser",
+                        JSON.stringify(data.user)
+                    );
+
+
+                    // Remember email if selected
+
+                    if (rememberMe) {
+
+                        localStorage.setItem(
+                            "techflowRememberEmail",
+                            email
+                        );
+
+                    } else {
+
+                        localStorage.removeItem(
+                            "techflowRememberEmail"
+                        );
+
+                    }
+
+
+                    showMessage(
+                        "Login successful. Redirecting...",
+                        "success"
+                    );
+
+
+                    // ----------------------------------
+                    // REDIRECT
+                    // ----------------------------------
+
+                    setTimeout(
+                        () => {
+
+                            window.location.href =
+                                "dashboard.html";
+
+                        },
+                        800
+                    );
+
+
+                    return;
+
+                }
+
+
+                // --------------------------------------
+                // LOGIN FAILED
+                // --------------------------------------
+
+                showMessage(
+                    data.message ||
+                    "Invalid email or password.",
+                    "error"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+
+                showMessage(
+                    "Unable to connect to server. Please make sure your backend is running.",
+                    "error"
+                );
+
+            } finally {
+
+
+                // --------------------------------------
+                // ENABLE BUTTON AGAIN
+                // --------------------------------------
+
+                if (loginBtn) {
+
+                    loginBtn.disabled = false;
+
+                    loginBtn.innerHTML = `
+                        <span>Sign In</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    `;
+
+                }
+
+            }
 
         }
+    );
+
+}
 
 
-        // ==================================
-        // LOGIN FAILED
-        // ==================================
+// ==================================================
+// LOAD REMEMBERED EMAIL
+// ==================================================
 
-        else {
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-            showMessage(
-                data.message ||
-                "Invalid email or password.",
-                "error"
+        const savedEmail =
+            localStorage.getItem(
+                "techflowRememberEmail"
             );
+
+
+        const emailInput =
+            document.getElementById("email");
+
+
+        const rememberCheckbox =
+            document.getElementById("rememberMe");
+
+
+        if (
+            savedEmail &&
+            emailInput
+        ) {
+
+            emailInput.value =
+                savedEmail;
+
+
+            if (rememberCheckbox) {
+
+                rememberCheckbox.checked =
+                    true;
+
+            }
 
         }
 
     }
-
-    catch (error) {
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-
-        showMessage(
-            "Unable to connect to the server. Make sure your backend is running.",
-            "error"
-        );
-
-    }
-
-
-    // ======================================
-    // ENABLE BUTTON
-    // ======================================
-
-    loginBtn.disabled = false;
-
-    loginBtn.querySelector("span").textContent =
-        "Sign In";
-
-});
+);
