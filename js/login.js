@@ -3,115 +3,145 @@
 // TECHFLOW BANK LOGIN
 // ========================================
 
-// Local backend when developing on your computer
-// Deployed backend when using the Vercel website
 
 const API_URL =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1"
+
         ? "http://localhost:3000"
+
         : "https://techflow-banking-backend.vercel.app";
 
 
+
 // ========================================
-// DOM READY
+// DOM
 // ========================================
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    const loginForm =
-        document.getElementById("loginForm");
-
-    const emailInput =
-        document.getElementById("email");
-
-    const passwordInput =
-        document.getElementById("password");
-
-    const passwordToggle =
-        document.getElementById("passwordToggle");
-
-    const loginBtn =
-        document.getElementById("loginBtn");
-
-    const formMessage =
-        document.getElementById("formMessage");
-
-    const emailError =
-        document.getElementById("emailError");
-
-    const passwordError =
-        document.getElementById("passwordError");
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
 
-    // ========================================
-    // PASSWORD SHOW / HIDE
-    // ========================================
+        const loginForm =
+            document.getElementById("loginForm");
 
-    if (passwordToggle && passwordInput) {
+        const emailInput =
+            document.getElementById("email");
 
-        passwordToggle.addEventListener(
-            "click",
-            () => {
+        const passwordInput =
+            document.getElementById("password");
 
-                const icon =
-                    passwordToggle.querySelector("i");
+        const passwordToggle =
+            document.getElementById("passwordToggle");
 
-                if (passwordInput.type === "password") {
+        const loginBtn =
+            document.getElementById("loginBtn");
 
-                    passwordInput.type = "text";
+        const formMessage =
+            document.getElementById("formMessage");
 
-                    if (icon) {
+        const emailError =
+            document.getElementById("emailError");
 
-                        icon.classList.remove(
-                            "fa-eye"
-                        );
+        const passwordError =
+            document.getElementById("passwordError");
 
-                        icon.classList.add(
-                            "fa-eye-slash"
-                        );
+        const rememberMe =
+            document.getElementById("rememberMe");
 
-                    }
 
-                } else {
 
-                    passwordInput.type = "password";
+        // ========================================
+        // CHECK FORM
+        // ========================================
 
-                    if (icon) {
+        if (!loginForm) {
 
-                        icon.classList.remove(
-                            "fa-eye-slash"
-                        );
+            console.error(
+                "loginForm not found"
+            );
 
-                        icon.classList.add(
-                            "fa-eye"
-                        );
+            return;
+
+        }
+
+
+
+        // ========================================
+        // PASSWORD TOGGLE
+        // ========================================
+
+        if (
+            passwordToggle &&
+            passwordInput
+        ) {
+
+            passwordToggle.addEventListener(
+                "click",
+                () => {
+
+                    const icon =
+                        passwordToggle.querySelector("i");
+
+
+                    if (
+                        passwordInput.type ===
+                        "password"
+                    ) {
+
+                        passwordInput.type =
+                            "text";
+
+
+                        if (icon) {
+
+                            icon.classList.remove(
+                                "fa-eye"
+                            );
+
+                            icon.classList.add(
+                                "fa-eye-slash"
+                            );
+
+                        }
+
+                    } else {
+
+                        passwordInput.type =
+                            "password";
+
+
+                        if (icon) {
+
+                            icon.classList.remove(
+                                "fa-eye-slash"
+                            );
+
+                            icon.classList.add(
+                                "fa-eye"
+                            );
+
+                        }
 
                     }
 
                 }
+            );
 
-            }
-        );
-
-    }
+        }
 
 
-    // ========================================
-    // CLEAR ERRORS
-    // ========================================
 
-    function clearErrors() {
+        // ========================================
+        // CLEAR ERRORS
+        // ========================================
 
-        if (emailError) {
+        function clearErrors() {
+
             emailError.textContent = "";
-        }
 
-        if (passwordError) {
             passwordError.textContent = "";
-        }
-
-        if (formMessage) {
 
             formMessage.textContent = "";
 
@@ -120,139 +150,108 @@ document.addEventListener("DOMContentLoaded", () => {
 
         }
 
-    }
 
 
-    // ========================================
-    // SHOW MESSAGE
-    // ========================================
+        // ========================================
+        // SHOW MESSAGE
+        // ========================================
 
-    function showMessage(
-        message,
-        type = "error"
-    ) {
+        function showMessage(
+            message,
+            type = "error"
+        ) {
 
-        if (!formMessage) {
-            return;
+            formMessage.textContent =
+                message;
+
+            formMessage.className =
+                "form-message " + type;
+
         }
 
-        formMessage.textContent =
-            message;
-
-        formMessage.className =
-            `form-message ${type}`;
-
-    }
 
 
-    // ========================================
-    // VALIDATE EMAIL
-    // ========================================
+        // ========================================
+        // RESET BUTTON
+        // ========================================
 
-    function isValidEmail(email) {
+        function resetButton() {
 
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-            .test(email);
+            loginBtn.disabled = false;
 
-    }
+            loginBtn.innerHTML = `
+                <span>Sign In</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            `;
 
-
-    // ========================================
-    // CHECK FORM
-    // ========================================
-
-    if (!loginForm) {
-
-        console.error(
-            "loginForm not found"
-        );
-
-        return;
-
-    }
+        }
 
 
-    // ========================================
-    // LOGIN
-    // ========================================
 
-    loginForm.addEventListener(
-        "submit",
-        async (event) => {
+        // ========================================
+        // LOGIN
+        // ========================================
 
-            event.preventDefault();
+        loginForm.addEventListener(
+            "submit",
+            async (event) => {
 
-            clearErrors();
-
-
-            const email =
-                emailInput.value.trim();
-
-            const password =
-                passwordInput.value;
-
-            const rememberMe =
-                document.getElementById(
-                    "rememberMe"
-                )?.checked || false;
+                event.preventDefault();
 
 
-            // ========================================
-            // VALIDATION
-            // ========================================
-
-            let hasError = false;
+                clearErrors();
 
 
-            if (!email) {
 
-                if (emailError) {
+                const email =
+                    emailInput.value
+                        .trim()
+                        .toLowerCase();
+
+
+                const password =
+                    passwordInput.value;
+
+
+
+                // ========================================
+                // VALIDATION
+                // ========================================
+
+                let hasError = false;
+
+
+                if (!email) {
 
                     emailError.textContent =
                         "Email address is required.";
 
-                }
-
-                hasError = true;
-
-            } else if (!isValidEmail(email)) {
-
-                if (emailError) {
-
-                    emailError.textContent =
-                        "Enter a valid email address.";
+                    hasError = true;
 
                 }
 
-                hasError = true;
 
-            }
-
-
-            if (!password) {
-
-                if (passwordError) {
+                if (!password) {
 
                     passwordError.textContent =
                         "Password is required.";
 
+                    hasError = true;
+
                 }
 
-                hasError = true;
 
-            }
+                if (hasError) {
 
+                    return;
 
-            if (hasError) {
-                return;
-            }
+                }
 
 
-            // ========================================
-            // DISABLE BUTTON
-            // ========================================
 
-            if (loginBtn) {
+                // ========================================
+                // BUTTON
+                // ========================================
 
                 loginBtn.disabled = true;
 
@@ -261,223 +260,219 @@ document.addEventListener("DOMContentLoaded", () => {
                     <i class="fa-solid fa-spinner fa-spin"></i>
                 `;
 
-            }
 
 
-            // ========================================
-            // SEND LOGIN REQUEST
-            // ========================================
+                // ========================================
+                // SEND REQUEST
+                // ========================================
 
-            try {
+                try {
 
-                console.log(
-                    "Connecting to:",
-                    API_URL
-                );
-
-
-                const response =
-                    await fetch(
-                        `${API_URL}/api/auth/login`,
-                        {
-                            method: "POST",
-
-                            headers: {
-                                "Content-Type":
-                                    "application/json"
-                            },
-
-                            body: JSON.stringify({
-                                email: email,
-                                password: password
-                            })
-                        }
+                    console.log(
+                        "LOGIN API:",
+                        `${API_URL}/api/auth/login`
                     );
 
 
-                const data =
-                    await response.json();
+                    const response =
+                        await fetch(
+                            `${API_URL}/api/auth/login`,
+                            {
+
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        email,
+                                        password
+                                    })
+
+                            }
+                        );
 
 
-                console.log(
-                    "Login response:",
-                    data
-                );
+
+                    // ========================================
+                    // READ RESPONSE
+                    // ========================================
+
+                    const data =
+                        await response.json();
 
 
-                // ========================================
-                // LOGIN FAILED
-                // ========================================
-
-                if (!response.ok) {
-
-                    showMessage(
-                        data.message ||
-                        "Invalid email or password.",
-                        "error"
-                    );
-
-                    resetLoginButton();
-
-                    return;
-
-                }
-
-
-                // ========================================
-                // CHECK USER
-                // ========================================
-
-                if (!data.user) {
-
-                    showMessage(
-                        "Login succeeded but user information was not returned.",
-                        "error"
-                    );
-
-                    console.error(
-                        "No user returned:",
+                    console.log(
+                        "Login response:",
                         data
                     );
 
-                    resetLoginButton();
-
-                    return;
-
-                }
 
 
-                // ========================================
-                // NORMALIZE USER DATA
-                // ========================================
+                    // ========================================
+                    // LOGIN FAILED
+                    // ========================================
 
-                const user =
-                    data.user;
+                    if (!response.ok) {
 
+                        showMessage(
+                            data.message ||
+                            "Invalid email or password.",
+                            "error"
+                        );
 
-                const firstName =
-                    user.first_name ||
-                    user.firstName ||
-                    "";
+                        resetButton();
 
-                const lastName =
-                    user.last_name ||
-                    user.lastName ||
-                    "";
+                        return;
 
-
-                // Make sure the dashboard receives
-                // the correct customer name.
-
-                user.first_name =
-                    firstName;
-
-                user.last_name =
-                    lastName;
+                    }
 
 
-                // ========================================
-                // SAVE USER
-                // ========================================
 
-                localStorage.setItem(
-                    "techflowUser",
-                    JSON.stringify(user)
-                );
+                    // ========================================
+                    // USER MUST EXIST
+                    // ========================================
+
+                    if (!data.user) {
+
+                        console.error(
+                            "Backend did not return user:",
+                            data
+                        );
+
+                        showMessage(
+                            "Login succeeded but user data was not returned.",
+                            "error"
+                        );
+
+                        resetButton();
+
+                        return;
+
+                    }
 
 
-                // ========================================
-                // SAVE TOKEN
-                // ========================================
 
-                if (data.token) {
+                    // ========================================
+                    // USER
+                    // ========================================
+
+                    const user =
+                        data.user;
+
+
+
+                    console.log(
+                        "Logged in user:",
+                        user
+                    );
+
+
+
+                    // ========================================
+                    // SAVE USER
+                    // ========================================
 
                     localStorage.setItem(
-                        "techflowToken",
-                        data.token
+                        "techflowUser",
+                        JSON.stringify(user)
                     );
+
+
+
+                    // ========================================
+                    // SAVE TOKEN IF BACKEND RETURNS ONE
+                    // ========================================
+
+                    if (data.token) {
+
+                        localStorage.setItem(
+                            "techflowToken",
+                            data.token
+                        );
+
+                    } else {
+
+                        localStorage.removeItem(
+                            "techflowToken"
+                        );
+
+                    }
+
+
+
+                    // ========================================
+                    // REMEMBER ME
+                    // ========================================
+
+                    if (
+                        rememberMe &&
+                        rememberMe.checked
+                    ) {
+
+                        localStorage.setItem(
+                            "techflowRememberMe",
+                            "true"
+                        );
+
+                    } else {
+
+                        localStorage.removeItem(
+                            "techflowRememberMe"
+                        );
+
+                    }
+
+
+
+                    // ========================================
+                    // SUCCESS
+                    // ========================================
+
+                    showMessage(
+                        "Login successful. Redirecting...",
+                        "success"
+                    );
+
+
+
+                    // ========================================
+                    // REDIRECT
+                    // ========================================
+
+                    setTimeout(
+                        () => {
+
+                            window.location.href =
+                                "dashboard.html";
+
+                        },
+                        700
+                    );
+
+                } catch (error) {
+
+                    console.error(
+                        "LOGIN ERROR:",
+                        error
+                    );
+
+
+                    showMessage(
+                        "Unable to connect to the server.",
+                        "error"
+                    );
+
+
+                    resetButton();
 
                 }
-
-
-                // ========================================
-                // REMEMBER ME
-                // ========================================
-
-                if (rememberMe) {
-
-                    localStorage.setItem(
-                        "techflowRememberMe",
-                        "true"
-                    );
-
-                } else {
-
-                    localStorage.removeItem(
-                        "techflowRememberMe"
-                    );
-
-                }
-
-
-                // ========================================
-                // SUCCESS
-                // ========================================
-
-                showMessage(
-                    "Login successful. Redirecting...",
-                    "success"
-                );
-
-
-                // ========================================
-                // REDIRECT
-                // ========================================
-
-                setTimeout(() => {
-
-                    window.location.href =
-                        "dashboard.html";
-
-                }, 800);
-
-            } catch (error) {
-
-                console.error(
-                    "Login error:",
-                    error
-                );
-
-                showMessage(
-                    "Unable to connect to the server. Make sure your backend is online.",
-                    "error"
-                );
-
-                resetLoginButton();
 
             }
-
-        }
-    );
-
-
-    // ========================================
-    // RESET LOGIN BUTTON
-    // ========================================
-
-    function resetLoginButton() {
-
-        if (!loginBtn) {
-            return;
-        }
-
-        loginBtn.disabled = false;
-
-        loginBtn.innerHTML = `
-            <span>Sign In</span>
-            <i class="fa-solid fa-arrow-right"></i>
-        `;
+        );
 
     }
-
-});
+);

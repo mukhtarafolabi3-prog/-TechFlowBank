@@ -11,17 +11,17 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Dashboard | TechFlow Dynamic Bank</title>
+    <title>
+        Dashboard | TechFlow Dynamic Bank
+    </title>
 
 
-    <!-- Font Awesome -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     >
 
 
-    <!-- Dashboard CSS -->
     <link
         rel="stylesheet"
         href="css/dashboard.css"
@@ -32,19 +32,19 @@
 
 <body>
 
+
 <div class="app">
 
 
-    <!-- =====================================================
+    <!-- ==========================================
          SIDEBAR
-    ====================================================== -->
+    =========================================== -->
 
     <aside
         class="sidebar"
         id="sidebar"
     >
 
-        <!-- BRAND -->
 
         <div class="brand">
 
@@ -61,13 +61,18 @@
         </div>
 
 
+
         <!-- PROFILE -->
 
         <div class="profile-mini">
 
-            <div class="avatar">
-                AA
+            <div
+                class="avatar"
+                id="sidebarAvatar"
+            >
+                --
             </div>
+
 
             <div>
 
@@ -84,9 +89,11 @@
         </div>
 
 
-        <!-- NAVIGATION -->
+
+        <!-- NAV -->
 
         <nav>
+
 
             <div class="nav-title">
                 MAIN MENU
@@ -119,6 +126,7 @@
                 </span>
 
             </a>
+
 
 
             <div class="nav-title">
@@ -182,6 +190,7 @@
             </a>
 
 
+
             <div class="nav-title">
                 SERVICES
             </div>
@@ -213,6 +222,7 @@
                 </span>
 
             </a>
+
 
 
             <div class="nav-title">
@@ -250,9 +260,11 @@
         </nav>
 
 
-        <!-- SIDEBAR BOTTOM -->
+
+        <!-- BOTTOM -->
 
         <div class="sidebar-bottom">
+
 
             <div class="secure-box">
 
@@ -273,6 +285,7 @@
             </div>
 
 
+
             <button
                 class="logout"
                 id="logoutBtn"
@@ -291,9 +304,9 @@
 
 
 
-    <!-- =====================================================
+    <!-- ==========================================
          MAIN
-    ====================================================== -->
+    =========================================== -->
 
     <main class="main">
 
@@ -302,7 +315,9 @@
 
         <header class="topbar">
 
+
             <div class="top-left">
+
 
                 <button
                     class="mobile-menu"
@@ -330,7 +345,9 @@
             </div>
 
 
+
             <div class="top-actions">
+
 
                 <button
                     class="search-button"
@@ -340,6 +357,7 @@
                     <i class="fa-solid fa-magnifying-glass"></i>
 
                 </button>
+
 
 
                 <button
@@ -356,13 +374,18 @@
                 </button>
 
 
+
                 <button
                     class="top-profile"
                     type="button"
                 >
 
-                    <div class="avatar small">
-                        AA
+
+                    <div
+                        class="avatar small"
+                        id="topAvatar"
+                    >
+                        --
                     </div>
 
 
@@ -389,9 +412,9 @@
 
 
 
-        <!-- =====================================================
+        <!-- ==========================================
              CONTENT
-        ====================================================== -->
+        =========================================== -->
 
         <section class="content">
 
@@ -399,6 +422,7 @@
             <!-- WELCOME -->
 
             <div class="welcome">
+
 
                 <div>
 
@@ -434,6 +458,7 @@
 
                 <div class="account-switcher">
 
+
                     <label>
                         ACTIVE ACCOUNT
                     </label>
@@ -443,6 +468,7 @@
                         id="accountSwitcher"
                         type="button"
                     >
+
 
                         <div class="switcher-icon">
 
@@ -457,7 +483,6 @@
                                 Loading...
                             </strong>
 
-
                             <small id="accountNumberSwitcher">
                                 Loading...
                             </small>
@@ -469,60 +494,19 @@
 
                     </button>
 
-
-                    <div
-                        class="account-menu"
-                        id="accountMenu"
-                    >
-
-                        <p>
-                            ACTIVE ACCOUNT
-                        </p>
-
-
-                        <div class="account-menu-item selected">
-
-                            <span class="account-menu-icon">
-
-                                <i class="fa-solid fa-wallet"></i>
-
-                            </span>
-
-
-                            <span>
-
-                                <strong id="menuAccountType">
-                                    Loading...
-                                </strong>
-
-
-                                <small id="menuAccountNumber">
-                                    Loading...
-                                </small>
-
-                            </span>
-
-
-                            <i class="fa-solid fa-check"></i>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
             </div>
 
 
 
-            <!-- BALANCE + SUMMARY -->
+            <!-- BALANCE -->
 
             <div class="hero-grid">
 
 
-                <!-- BALANCE CARD -->
-
                 <div class="balance-card">
+
 
                     <div class="balance-header">
 
@@ -536,16 +520,6 @@
 
                         </div>
 
-
-                        <button
-                            type="button"
-                            id="balanceMenuBtn"
-                        >
-
-                            <i class="fa-solid fa-ellipsis"></i>
-
-                        </button>
-
                     </div>
 
 
@@ -556,12 +530,12 @@
 
                     <div class="account-info">
 
+
                         <div>
 
                             <span>
                                 ACCOUNT NUMBER
                             </span>
-
 
                             <strong id="accountNumber">
                                 Loading...
@@ -570,12 +544,12 @@
                         </div>
 
 
+
                         <div>
 
                             <span>
                                 ACCOUNT TYPE
                             </span>
-
 
                             <strong id="accountType">
                                 Loading...
@@ -597,7 +571,9 @@
                     </div>
 
 
+
                     <div class="balance-actions">
+
 
                         <a href="transfer.html">
 
@@ -629,6 +605,7 @@
 
                     <div class="summary-card">
 
+
                         <div class="summary-icon income">
 
                             <i class="fa-solid fa-arrow-trend-up"></i>
@@ -642,14 +619,12 @@
                                 TOTAL INCOME
                             </span>
 
-
                             <strong id="totalIncome">
                                 ₦0.00
                             </strong>
 
-
-                            <small class="positive">
-                                From completed deposits
+                            <small>
+                                Completed deposits
                             </small>
 
                         </div>
@@ -659,6 +634,7 @@
 
 
                     <div class="summary-card">
+
 
                         <div class="summary-icon expense">
 
@@ -673,13 +649,11 @@
                                 TOTAL EXPENSE
                             </span>
 
-
                             <strong id="totalExpense">
                                 ₦0.00
                             </strong>
 
-
-                            <small class="negative">
+                            <small>
                                 Withdrawals & transfers
                             </small>
 
@@ -690,6 +664,7 @@
 
 
                     <div class="summary-card">
+
 
                         <div class="summary-icon savings">
 
@@ -704,13 +679,11 @@
                                 ACCOUNT BALANCE
                             </span>
 
-
                             <strong id="summaryBalance">
                                 ₦0.00
                             </strong>
 
-
-                            <small class="positive">
+                            <small>
                                 Current balance
                             </small>
 
@@ -728,18 +701,19 @@
 
             <section class="section">
 
+
                 <div class="section-heading">
 
                     <span>
                         QUICK SERVICES
                     </span>
 
-
                     <h3>
                         What would you like to do?
                     </h3>
 
                 </div>
+
 
 
                 <div class="quick-actions">
@@ -756,7 +730,6 @@
 
                         </div>
 
-
                         <div>
 
                             <strong>
@@ -768,7 +741,6 @@
                             </small>
 
                         </div>
-
 
                         <i class="fa-solid fa-chevron-right"></i>
 
@@ -787,7 +759,6 @@
 
                         </div>
 
-
                         <div>
 
                             <strong>
@@ -799,7 +770,6 @@
                             </small>
 
                         </div>
-
 
                         <i class="fa-solid fa-chevron-right"></i>
 
@@ -818,7 +788,6 @@
 
                         </div>
 
-
                         <div>
 
                             <strong>
@@ -830,7 +799,6 @@
                             </small>
 
                         </div>
-
 
                         <i class="fa-solid fa-chevron-right"></i>
 
@@ -849,7 +817,6 @@
 
                         </div>
 
-
                         <div>
 
                             <strong>
@@ -862,7 +829,6 @@
 
                         </div>
 
-
                         <i class="fa-solid fa-chevron-right"></i>
 
                     </a>
@@ -873,14 +839,13 @@
 
 
 
-            <!-- LOWER GRID -->
+            <!-- RECENT TRANSACTIONS -->
 
             <div class="lower-grid">
 
 
-                <!-- RECENT TRANSACTIONS -->
-
                 <div class="panel">
+
 
                     <div class="panel-heading">
 
@@ -890,7 +855,6 @@
                                 ACTIVITY
                             </span>
 
-
                             <h3>
                                 Recent Transactions
                             </h3>
@@ -899,11 +863,7 @@
 
 
                         <a href="transactions.html">
-
                             View All
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
                         </a>
 
                     </div>
@@ -920,16 +880,13 @@
                                 DESCRIPTION
                             </span>
 
-
                             <span>
                                 DATE
                             </span>
 
-
                             <span>
                                 AMOUNT
                             </span>
-
 
                             <span>
                                 STATUS
@@ -939,9 +896,7 @@
 
 
                         <div class="transaction-loading">
-
-                            Loading transactions...
-
+                            No transactions yet.
                         </div>
 
                     </div>
@@ -954,6 +909,7 @@
 
                 <div class="panel">
 
+
                     <div class="panel-heading">
 
                         <div>
@@ -962,24 +918,11 @@
                                 FINANCIAL OVERVIEW
                             </span>
 
-
                             <h3>
                                 Spending
                             </h3>
 
                         </div>
-
-
-                        <button
-                            class="period"
-                            type="button"
-                        >
-
-                            This Month
-
-                            <i class="fa-solid fa-chevron-down"></i>
-
-                        </button>
 
                     </div>
 
@@ -989,7 +932,6 @@
                         <strong id="spendingTotal">
                             ₦0.00
                         </strong>
-
 
                         <span>
                             Total spending
@@ -1008,92 +950,11 @@
                                     0%
                                 </strong>
 
-
                                 <span>
                                     Spending
                                 </span>
 
                             </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <div class="spending-list">
-
-
-                        <div>
-
-                            <span>
-
-                                <i class="dot blue"></i>
-
-                                Bills
-
-                            </span>
-
-
-                            <strong>
-                                ₦0.00
-                            </strong>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <span>
-
-                                <i class="dot light-blue"></i>
-
-                                Transfers
-
-                            </span>
-
-
-                            <strong>
-                                ₦0.00
-                            </strong>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <span>
-
-                                <i class="dot pale-blue"></i>
-
-                                Withdrawals
-
-                            </span>
-
-
-                            <strong>
-                                ₦0.00
-                            </strong>
-
-                        </div>
-
-
-
-                        <div>
-
-                            <span>
-
-                                <i class="dot grey-blue"></i>
-
-                                Others
-
-                            </span>
-
-
-                            <strong>
-                                ₦0.00
-                            </strong>
 
                         </div>
 
@@ -1109,6 +970,7 @@
 
             <div class="security-banner">
 
+
                 <div class="security-banner-icon">
 
                     <i class="fa-solid fa-shield-halved"></i>
@@ -1121,7 +983,6 @@
                     <strong>
                         Your account is secure
                     </strong>
-
 
                     <p>
                         Your account is protected by
@@ -1144,16 +1005,13 @@
 
         </section>
 
-
     </main>
 
 </div>
 
 
 
-<!-- =====================================================
-     TOAST
-====================================================== -->
+<!-- TOAST -->
 
 <div
     class="toast"
@@ -1161,7 +1019,6 @@
 >
 
     <i class="fa-solid fa-circle-check"></i>
-
 
     <span id="toastMessage">
         Action completed successfully.
@@ -1171,18 +1028,7 @@
 
 
 
-<!-- =====================================================
-     DASHBOARD JAVASCRIPT
-====================================================== -->
-
-<script>
-
-const API_URL = "http://localhost:3000";
-
-</script>
-
 <script src="js/dashboard.js"></script>
-
 
 </body>
 

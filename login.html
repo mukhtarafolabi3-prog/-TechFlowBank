@@ -1,294 +1,357 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Login | TechFlow Bank</title>
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
     <link rel="stylesheet" href="css/style.css">
+
     <link rel="stylesheet" href="css/login.css">
+
 </head>
+
 
 <body class="login-page">
 
-    <main class="login-container">
 
-        <!-- LEFT SIDE -->
-        <section class="login-brand">
+<main class="login-container">
 
-            <a href="index.html" class="brand-logo">
+
+    <!-- LEFT SIDE -->
+
+    <section class="login-brand">
+
+        <a href="index.html" class="brand-logo">
+
+            <span class="logo-icon">
+                <i class="fa-solid fa-building-columns"></i>
+            </span>
+
+            <span>
+                TechFlow<span>Bank</span>
+            </span>
+
+        </a>
+
+
+        <div class="brand-content">
+
+            <span class="brand-label">
+                WELCOME BACK
+            </span>
+
+
+            <h1>
+                Your money.
+                <span>Your control.</span>
+            </h1>
+
+
+            <p>
+                Securely access your TechFlow Bank account
+                and manage your finances from anywhere.
+            </p>
+
+
+            <div class="security-info">
+
+                <div class="security-item">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                    <div>
+
+                        <strong>
+                            Secure Access
+                        </strong>
+
+                        <small>
+                            Your banking information is protected.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <div>
+
+                        <strong>
+                            Private & Protected
+                        </strong>
+
+                        <small>
+                            We keep your financial information secure.
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="brand-footer">
+
+            © 2026 TechFlow Dynamic.
+            All rights reserved.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- LOGIN -->
+
+    <section class="login-section">
+
+        <div class="login-card">
+
+
+            <!-- MOBILE LOGO -->
+
+            <div class="mobile-logo">
 
                 <span class="logo-icon">
                     <i class="fa-solid fa-building-columns"></i>
                 </span>
 
-                <span>
-                    TechFlow<span>Bank</span>
+                TechFlow<span>Bank</span>
+
+            </div>
+
+
+
+            <!-- HEADER -->
+
+            <div class="login-header">
+
+                <span class="form-label">
+                    ACCOUNT LOGIN
                 </span>
 
-            </a>
-
-
-            <div class="brand-content">
-
-                <span class="brand-label">
-                    WELCOME BACK
-                </span>
-
-                <h1>
-                    Your money.
-                    <span>Your control.</span>
-                </h1>
+                <h2>
+                    Welcome back
+                </h2>
 
                 <p>
-                    Securely access your TechFlow Bank account
-                    and manage your finances from anywhere.
+                    Sign in to continue to your account.
                 </p>
 
+            </div>
 
-                <div class="security-info">
 
-                    <div class="security-item">
 
-                        <i class="fa-solid fa-shield-halved"></i>
+            <!-- FORM -->
 
-                        <div>
-                            <strong>Secure Access</strong>
+            <form
+                id="loginForm"
+                novalidate
+            >
 
-                            <small>
-                                Your banking information is protected.
-                            </small>
-                        </div>
+
+                <!-- EMAIL -->
+
+                <div class="input-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="fa-regular fa-envelope"></i>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="you@example.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                    <small
+                        class="field-error"
+                        id="emailError"
+                    ></small>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="input-group">
+
+                    <div class="password-label">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <a href="forgot-password.html">
+                            Forgot password?
+                        </a>
 
                     </div>
 
 
-                    <div class="security-item">
+                    <div class="input-wrapper">
 
                         <i class="fa-solid fa-lock"></i>
 
-                        <div>
-                            <strong>Private & Protected</strong>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
 
-                            <small>
-                                We keep your financial information secure.
-                            </small>
-                        </div>
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                        >
+
+                            <i class="fa-regular fa-eye"></i>
+
+                        </button>
 
                     </div>
 
-                </div>
 
-            </div>
-
-
-            <div class="brand-footer">
-                © 2026 TechFlow Dynamic. All rights reserved.
-            </div>
-
-        </section>
-
-
-        <!-- LOGIN SECTION -->
-        <section class="login-section">
-
-            <div class="login-card">
-
-                <div class="mobile-logo">
-
-                    <span class="logo-icon">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </span>
-
-                    TechFlow<span>Bank</span>
+                    <small
+                        class="field-error"
+                        id="passwordError"
+                    ></small>
 
                 </div>
 
 
-                <div class="login-header">
 
-                    <span class="form-label">
-                        ACCOUNT LOGIN
-                    </span>
+                <!-- REMEMBER ME -->
 
-                    <h2>
-                        Welcome back
-                    </h2>
+                <div class="login-options">
 
-                    <p>
-                        Sign in to continue to your account.
-                    </p>
+                    <label class="remember-me">
 
-                </div>
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                        >
 
-
-                <form id="loginForm" novalidate>
-
-                    <!-- EMAIL -->
-                    <div class="input-group">
-
-                        <label for="email">
-                            Email Address
-                        </label>
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-regular fa-envelope"></i>
-
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="you@example.com"
-                                autocomplete="email"
-                                required
-                            >
-
-                        </div>
-
-                        <small
-                            class="field-error"
-                            id="emailError">
-                        </small>
-
-                    </div>
-
-
-                    <!-- PASSWORD -->
-                    <div class="input-group">
-
-                        <div class="password-label">
-
-                            <label for="password">
-                                Password
-                            </label>
-
-                            <a href="forgot-password.html">
-                                Forgot password?
-                            </a>
-
-                        </div>
-
-
-                        <div class="input-wrapper">
-
-                            <i class="fa-solid fa-lock"></i>
-
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Enter your password"
-                                autocomplete="current-password"
-                                required
-                            >
-
-                            <button
-                                type="button"
-                                class="password-toggle"
-                                id="passwordToggle">
-
-                                <i class="fa-regular fa-eye"></i>
-
-                            </button>
-
-                        </div>
-
-                        <small
-                            class="field-error"
-                            id="passwordError">
-                        </small>
-
-                    </div>
-
-
-                    <!-- REMEMBER -->
-                    <div class="login-options">
-
-                        <label class="remember-me">
-
-                            <input
-                                type="checkbox"
-                                id="rememberMe"
-                                name="rememberMe"
-                            >
-
-                            <span class="custom-checkbox"></span>
-
-                            <span>
-                                Remember me
-                            </span>
-
-                        </label>
-
-                    </div>
-
-
-                    <!-- MESSAGE -->
-                    <div
-                        class="form-message"
-                        id="formMessage">
-                    </div>
-
-
-                    <!-- LOGIN BUTTON -->
-                    <button
-                        type="submit"
-                        class="login-btn"
-                        id="loginBtn">
+                        <span class="custom-checkbox"></span>
 
                         <span>
-                            Sign In
+                            Remember me
                         </span>
 
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </button>
-
-
-                    <div class="divider">
-                        <span>OR</span>
-                    </div>
-
-
-                    <p class="register-link">
-
-                        Don't have an account?
-
-                        <a href="register.html">
-                            Create an account
-                        </a>
-
-                    </p>
-
-                </form>
-
-
-                <div class="login-security">
-
-                    <i class="fa-solid fa-shield-halved"></i>
-
-                    <span>
-                        Never share your password or transaction PIN
-                        with anyone.
-                    </span>
+                    </label>
 
                 </div>
 
+
+
+                <!-- MESSAGE -->
+
+                <div
+                    class="form-message"
+                    id="formMessage"
+                ></div>
+
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginBtn"
+                >
+
+                    <span>
+                        Sign In
+                    </span>
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+
+
+                <!-- DIVIDER -->
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+
+
+                <!-- REGISTER -->
+
+                <p class="register-link">
+
+                    Don't have an account?
+
+                    <a href="register.html">
+                        Create an account
+                    </a>
+
+                </p>
+
+            </form>
+
+
+
+            <!-- SECURITY -->
+
+            <div class="login-security">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <span>
+                    Never share your password or
+                    transaction PIN with anyone.
+                </span>
+
             </div>
-            
-        </section>
 
-    </main>
-<a href="forgot-password.html">
-    Forgot Password?
-</a>
+        </div>
 
-    <script src="js/login.js"></script>
+    </section>
+
+</main>
+
+
+<script src="js/login.js"></script>
 
 </body>
+
 </html>
