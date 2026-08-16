@@ -1,32 +1,26 @@
-// =====================================================
-// TECHFLOW DYNAMIC BANK
-// FORGOT PASSWORD
-// =====================================================
-
 const API_URL =
-    "https://techflow-banking-backend-ffmn.vercel.app";
+    "http://localhost:3000";
 
-
-console.log(
-    "FORGOT PASSWORD JS LOADED"
-);
-
-
-// =====================================================
-// PAGE LOAD
-// =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-        const forgotPasswordForm =
+        const form =
             document.getElementById(
                 "forgotPasswordForm"
             );
 
+        const emailInput =
+            document.getElementById("email");
 
-        if (!forgotPasswordForm) {
+        const continueBtn =
+            document.getElementById(
+                "continueBtn"
+            );
+
+
+        if (!form) {
 
             console.error(
                 "forgotPasswordForm not found"
@@ -36,44 +30,20 @@ document.addEventListener(
         }
 
 
-        // =====================================================
-        // FORM SUBMIT
-        // =====================================================
-
-        forgotPasswordForm.addEventListener(
+        form.addEventListener(
             "submit",
             async (event) => {
 
                 event.preventDefault();
 
 
-                // =====================================================
-                // GET EMAIL
-                // =====================================================
-
-                const emailInput =
-                    document.getElementById(
-                        "email"
-                    );
-
-
-                if (!emailInput) {
-
-                    alert(
-                        "Email field not found."
-                    );
-
-                    return;
-                }
-
-
                 const email =
                     emailInput.value.trim();
 
 
-                // =====================================================
-                // VALIDATE EMAIL
-                // =====================================================
+                // =================================
+                // VALIDATION
+                // =================================
 
                 if (!email) {
 
@@ -101,47 +71,23 @@ document.addEventListener(
                 }
 
 
-                // =====================================================
-                // GET BUTTON
-                // =====================================================
+                // =================================
+                // DISABLE BUTTON
+                // =================================
 
-                const submitButton =
-                    forgotPasswordForm.querySelector(
-                        'button[type="submit"]'
-                    );
+                continueBtn.disabled = true;
 
-
-                const originalButtonText =
-                    submitButton
-                        ? submitButton.textContent
-                        : "Continue";
+                continueBtn.innerHTML = `
+                    <span>Checking...</span>
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                `;
 
 
                 try {
 
-                    // =====================================================
-                    // DISABLE BUTTON
-                    // =====================================================
-
-                    if (submitButton) {
-
-                        submitButton.disabled =
-                            true;
-
-                        submitButton.textContent =
-                            "Checking...";
-
-                    }
-
-
-                    console.log(
-                        "Sending forgot-password request..."
-                    );
-
-
-                    // =====================================================
-                    // SEND REQUEST TO LIVE BACKEND
-                    // =====================================================
+                    // =================================
+                    // SEND REQUEST
+                    // =================================
 
                     const response =
                         await fetch(
@@ -154,107 +100,73 @@ document.addEventListener(
                                         "application/json"
                                 },
 
-                                body:
-                                    JSON.stringify({
-                                        email:
-                                            email
-                                    })
+                                body: JSON.stringify({
+                                    email: email
+                                })
                             }
                         );
 
 
-                    // =====================================================
-                    // READ RESPONSE
-                    // =====================================================
-
-                    let data;
+                    const data =
+                        await response.json();
 
 
-                    try {
+                    // =================================
+                    // ERROR RESPONSE
+                    // =================================
 
-                        data =
-                            await response.json();
-
-                    } catch (jsonError) {
-
-                        console.error(
-                            "Invalid server response:",
-                            jsonError
-                        );
-
-                        alert(
-                            "The server returned an invalid response."
-                        );
-
-                        return;
-                    }
-
-
-                    console.log(
-                        "Forgot password response:",
-                        data
-                    );
-
-
-                    // =====================================================
-                    // CHECK BACKEND RESPONSE
-                    // =====================================================
-
-                    if (
-                        !response.ok ||
-                        !data.success
-                    ) {
+                    if (!response.ok) {
 
                         alert(
                             data.message ||
-                            "Password recovery failed."
+                            "Unable to process your request."
                         );
 
                         return;
                     }
 
 
-                    // =====================================================
-                    // GET RESET TOKEN
-                    // =====================================================
+                    // =================================
+                    // SUCCESS
+                    // =================================
 
-                    const token =
-                        data.reset_token;
+                    /*
+                        TEMPORARY DEVELOPMENT STEP
 
+                        Your backend currently returns
+                        the reset token directly.
 
-                    if (!token) {
+                        We save it temporarily so the
+                        reset-password page can use it.
+                    */
 
-                        console.error(
-                            "Reset token missing:",
-                            data
+                    if (data.resetToken) {
+
+                        sessionStorage.setItem(
+                            "techflowResetToken",
+                            data.resetToken
                         );
 
-                        alert(
-                            "The server did not return a reset token."
+                        sessionStorage.setItem(
+                            "techflowResetEmail",
+                            email
                         );
 
-                        return;
                     }
 
 
-                    // =====================================================
-                    // SAVE EMAIL
-                    // =====================================================
-
-                    localStorage.setItem(
-                        "resetEmail",
-                        email
+                    alert(
+                        "Password reset request successful."
                     );
 
 
-                    // =====================================================
+                    // =================================
                     // GO TO RESET PASSWORD PAGE
-                    // =====================================================
+                    // =================================
 
                     window.location.href =
-                        `reset-password.html?token=${encodeURIComponent(
-                            token
-                        )}`;
+                        "reset-password.html";
+
 
                 } catch (error) {
 
@@ -265,24 +177,21 @@ document.addEventListener(
 
 
                     alert(
-                        "Unable to connect to the banking server. Please try again."
+                        "Unable to connect to the server. Please try again."
                     );
 
                 } finally {
 
-                    // =====================================================
-                    // ENABLE BUTTON AGAIN
-                    // =====================================================
+                    // =================================
+                    // RESTORE BUTTON
+                    // =================================
 
-                    if (submitButton) {
+                    continueBtn.disabled = false;
 
-                        submitButton.disabled =
-                            false;
-
-                        submitButton.textContent =
-                            originalButtonText;
-
-                    }
+                    continueBtn.innerHTML = `
+                        <span>Continue</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    `;
 
                 }
 

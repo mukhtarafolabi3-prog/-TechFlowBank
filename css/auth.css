@@ -641,7 +641,50 @@ body {
 .login-link a:hover {
     text-decoration: underline;
 }
+/* =========================================
+   RESET PASSWORD
+========================================= */
 
+.password-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 15px;
+}
+
+.password-requirements {
+    margin-top: -8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.password-requirements p {
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.password-requirements div {
+    margin: 5px 0;
+}
+
+.password-requirements i {
+    margin-right: 7px;
+}
+
+.password-match {
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 15px;
+}
+
+.password-match.success {
+    font-weight: 600;
+}
+
+.password-match.error {
+    font-weight: 600;
+}
 
 /* =====================================================
    RESPONSIVE TABLET

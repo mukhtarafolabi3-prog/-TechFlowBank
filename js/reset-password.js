@@ -1,37 +1,67 @@
-
-// =====================================================
-// TECHFLOW DYNAMIC BANK
-// RESET PASSWORD
-// =====================================================
-
 const API_URL =
-    "https://techflow-banking-backend-ffmn.vercel.app/";
+    "http://localhost:3000";
 
 
 // =====================================================
-// PAGE LOADED
-// =====================================================
-
-console.log(
-    "RESET PASSWORD JS LOADED"
-);
-
-
-// =====================================================
-// DOM READY
+// PAGE LOAD
 // =====================================================
 
 document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-        const resetPasswordForm =
+
+        // =================================================
+        // GET ELEMENTS
+        // =================================================
+
+        const form =
             document.getElementById(
                 "resetPasswordForm"
             );
 
 
-        if (!resetPasswordForm) {
+        const newPassword =
+            document.getElementById(
+                "newPassword"
+            );
+
+
+        const confirmPassword =
+            document.getElementById(
+                "confirmPassword"
+            );
+
+
+        const resetBtn =
+            document.getElementById(
+                "resetBtn"
+            );
+
+
+        const passwordMatch =
+            document.getElementById(
+                "passwordMatch"
+            );
+
+
+        const toggleNewPassword =
+            document.getElementById(
+                "toggleNewPassword"
+            );
+
+
+        const toggleConfirmPassword =
+            document.getElementById(
+                "toggleConfirmPassword"
+            );
+
+
+        // =================================================
+        // CHECK FORM
+        // =================================================
+
+        if (!form) {
 
             console.error(
                 "resetPasswordForm not found"
@@ -42,278 +72,471 @@ document.addEventListener(
 
 
         // =================================================
+        // GET RESET TOKEN
+        // =================================================
+
+        const resetToken =
+            sessionStorage.getItem(
+                "techflowResetToken"
+            );
+
+
+        if (!resetToken) {
+
+            alert(
+                "Your password reset session is invalid or has expired."
+            );
+
+
+            window.location.href =
+                "forgot-password.html";
+
+
+            return;
+        }
+
+
+
+        // =================================================
+        // PASSWORD VISIBILITY
+        // =================================================
+
+        function togglePassword(
+            input,
+            button
+        ) {
+
+            if (
+                input.type ===
+                "password"
+            ) {
+
+                input.type =
+                    "text";
+
+                button.innerHTML = `
+                    <i class="fa-regular fa-eye-slash"></i>
+                `;
+
+            } else {
+
+                input.type =
+                    "password";
+
+                button.innerHTML = `
+                    <i class="fa-regular fa-eye"></i>
+                `;
+
+            }
+
+        }
+
+
+        if (
+            toggleNewPassword
+        ) {
+
+            toggleNewPassword.addEventListener(
+                "click",
+                () => {
+
+                    togglePassword(
+                        newPassword,
+                        toggleNewPassword
+                    );
+
+                }
+            );
+
+        }
+
+
+        if (
+            toggleConfirmPassword
+        ) {
+
+            toggleConfirmPassword.addEventListener(
+                "click",
+                () => {
+
+                    togglePassword(
+                        confirmPassword,
+                        toggleConfirmPassword
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        // =================================================
+        // PASSWORD REQUIREMENTS
+        // =================================================
+
+        const lengthRequirement =
+            document.getElementById(
+                "lengthRequirement"
+            );
+
+
+        const uppercaseRequirement =
+            document.getElementById(
+                "uppercaseRequirement"
+            );
+
+
+        const numberRequirement =
+            document.getElementById(
+                "numberRequirement"
+            );
+
+
+        function updateRequirement(
+            element,
+            valid
+        ) {
+
+            if (!element) {
+                return;
+            }
+
+
+            const icon =
+                element.querySelector(
+                    "i"
+                );
+
+
+            if (valid) {
+
+                icon.className =
+                    "fa-solid fa-circle-check";
+
+            } else {
+
+                icon.className =
+                    "fa-regular fa-circle";
+
+            }
+
+        }
+
+
+        function checkPasswordRequirements() {
+
+            const password =
+                newPassword.value;
+
+
+            updateRequirement(
+                lengthRequirement,
+                password.length >= 8
+            );
+
+
+            updateRequirement(
+                uppercaseRequirement,
+                /[A-Z]/.test(password)
+            );
+
+
+            updateRequirement(
+                numberRequirement,
+                /\d/.test(password)
+            );
+
+        }
+
+
+        newPassword.addEventListener(
+            "input",
+            checkPasswordRequirements
+        );
+
+
+
+        // =================================================
+        // PASSWORD MATCH
+        // =================================================
+
+        function checkPasswordMatch() {
+
+            const password =
+                newPassword.value;
+
+
+            const confirm =
+                confirmPassword.value;
+
+
+            if (!confirm) {
+
+                passwordMatch.textContent =
+                    "";
+
+                return;
+
+            }
+
+
+            if (
+                password === confirm
+            ) {
+
+                passwordMatch.textContent =
+                    "Passwords match.";
+
+                passwordMatch.className =
+                    "password-match success";
+
+            } else {
+
+                passwordMatch.textContent =
+                    "Passwords do not match.";
+
+                passwordMatch.className =
+                    "password-match error";
+
+            }
+
+        }
+
+
+        confirmPassword.addEventListener(
+            "input",
+            checkPasswordMatch
+        );
+
+
+        newPassword.addEventListener(
+            "input",
+            checkPasswordMatch
+        );
+
+
+
+        // =================================================
         // FORM SUBMIT
         // =================================================
 
-        resetPasswordForm.addEventListener(
+        form.addEventListener(
             "submit",
             async (event) => {
 
                 event.preventDefault();
 
 
-                // =========================================
-                // GET INPUTS
-                // =========================================
-
-                const newPasswordInput =
-                    document.getElementById(
-                        "newPassword"
-                    );
+                const password =
+                    newPassword.value.trim();
 
 
-                const confirmPasswordInput =
-                    document.getElementById(
-                        "confirmPassword"
-                    );
+                const confirm =
+                    confirmPassword.value.trim();
 
 
-                if (
-                    !newPasswordInput ||
-                    !confirmPasswordInput
-                ) {
 
-                    alert(
-                        "Password fields could not be found."
-                    );
-
-                    return;
-                }
-
-
-                const newPassword =
-                    newPasswordInput.value;
-
-
-                const confirmPassword =
-                    confirmPasswordInput.value;
-
-
-                // =========================================
-                // VALIDATE EMPTY FIELDS
-                // =========================================
-
-                if (
-                    !newPassword ||
-                    !confirmPassword
-                ) {
-
-                    alert(
-                        "Please fill in both password fields."
-                    );
-
-                    return;
-                }
-
-
-                // =========================================
+                // =============================================
                 // PASSWORD LENGTH
-                // =========================================
+                // =============================================
 
                 if (
-                    newPassword.length < 8
+                    password.length < 8
                 ) {
 
                     alert(
                         "Password must be at least 8 characters."
                     );
 
-                    newPasswordInput.focus();
+
+                    newPassword.focus();
+
 
                     return;
                 }
 
 
-                // =========================================
-                // PASSWORD MATCH
-                // =========================================
+
+                // =============================================
+                // UPPERCASE
+                // =============================================
 
                 if (
-                    newPassword !==
-                    confirmPassword
+                    !/[A-Z]/.test(password)
+                ) {
+
+                    alert(
+                        "Password must contain at least one uppercase letter."
+                    );
+
+
+                    newPassword.focus();
+
+
+                    return;
+                }
+
+
+
+                // =============================================
+                // NUMBER
+                // =============================================
+
+                if (
+                    !/\d/.test(password)
+                ) {
+
+                    alert(
+                        "Password must contain at least one number."
+                    );
+
+
+                    newPassword.focus();
+
+
+                    return;
+                }
+
+
+
+                // =============================================
+                // PASSWORD MATCH
+                // =============================================
+
+                if (
+                    password !== confirm
                 ) {
 
                     alert(
                         "Passwords do not match."
                     );
 
-                    confirmPasswordInput.focus();
+
+                    confirmPassword.focus();
+
 
                     return;
                 }
 
 
-                // =========================================
-                // GET TOKEN FROM URL
-                // =========================================
 
-                const urlParams =
-                    new URLSearchParams(
-                        window.location.search
-                    );
+                // =============================================
+                // DISABLE BUTTON
+                // =============================================
 
-
-                const token =
-                    urlParams.get(
-                        "token"
-                    );
+                resetBtn.disabled =
+                    true;
 
 
-                if (!token) {
-
-                    console.error(
-                        "Reset token missing from URL."
-                    );
-
-
-                    alert(
-                        "Reset token is missing or invalid."
-                    );
-
-                    return;
-                }
+                resetBtn.innerHTML = `
+                    <span>Resetting...</span>
+                    <i class="fa-solid fa-spinner fa-spin"></i>
+                `;
 
 
-                console.log(
-                    "Reset token found."
-                );
-
-
-                // =========================================
-                // FIND SUBMIT BUTTON
-                // =========================================
-
-                const submitButton =
-                    resetPasswordForm.querySelector(
-                        'button[type="submit"]'
-                    );
-
-
-                if (submitButton) {
-
-                    submitButton.disabled =
-                        true;
-
-                    submitButton.textContent =
-                        "Resetting Password...";
-
-                }
-
-
-                // =========================================
-                // SEND REQUEST TO LIVE BACKEND
-                // =========================================
 
                 try {
 
-                    console.log(
-                        "Sending password reset request..."
-                    );
 
+                    // =============================================
+                    // SEND REQUEST
+                    // =============================================
 
                     const response =
                         await fetch(
                             `${API_URL}/api/auth/reset-password`,
                             {
-                                method: "POST",
+
+                                method:
+                                    "POST",
 
                                 headers: {
+
                                     "Content-Type":
                                         "application/json"
+
                                 },
 
                                 body:
                                     JSON.stringify({
 
                                         token:
-                                            token,
+                                            resetToken,
 
-                                        password:
-                                            newPassword
+                                        newPassword:
+                                            password
 
                                     })
+
                             }
                         );
 
 
-                    // =====================================
-                    // READ RESPONSE SAFELY
-                    // =====================================
 
-                    let data;
+                    // =============================================
+                    // READ RESPONSE
+                    // =============================================
 
-
-                    try {
-
-                        data =
-                            await response.json();
-
-                    } catch (jsonError) {
-
-                        console.error(
-                            "Invalid server response:",
-                            jsonError
-                        );
+                    const data =
+                        await response.json();
 
 
-                        alert(
-                            "The server returned an invalid response."
-                        );
 
-                        return;
-                    }
-
-
-                    console.log(
-                        "Reset password response:",
-                        data
-                    );
-
-
-                    // =====================================
-                    // CHECK BACKEND RESPONSE
-                    // =====================================
+                    // =============================================
+                    // ERROR
+                    // =============================================
 
                     if (
-                        !response.ok ||
-                        !data.success
+                        !response.ok
                     ) {
 
                         alert(
                             data.message ||
-                            "Password reset failed."
+                            "Unable to reset password."
                         );
+
 
                         return;
                     }
 
 
-                    // =====================================
-                    // REMOVE OLD RESET DATA
-                    // =====================================
 
-                    localStorage.removeItem(
-                        "resetEmail"
-                    );
-
-
-                    // =====================================
+                    // =============================================
                     // SUCCESS
-                    // =====================================
+                    // =============================================
 
                     alert(
-                        "Password reset successfully. Please login with your new password."
+                        "Password reset successful. You can now log in."
                     );
 
 
-                    // =====================================
-                    // REDIRECT TO LOGIN
-                    // =====================================
+
+                    // =============================================
+                    // REMOVE TOKEN
+                    // =============================================
+
+                    sessionStorage.removeItem(
+                        "techflowResetToken"
+                    );
+
+
+                    sessionStorage.removeItem(
+                        "techflowResetEmail"
+                    );
+
+
+
+                    // =============================================
+                    // LOGIN
+                    // =============================================
 
                     window.location.href =
                         "login.html";
 
+
                 } catch (error) {
+
 
                     console.error(
                         "Reset password error:",
@@ -322,24 +545,21 @@ document.addEventListener(
 
 
                     alert(
-                        "Unable to connect to the banking server. Please try again."
+                        "Unable to connect to the server. Please check your connection and try again."
                     );
+
 
                 } finally {
 
-                    // =====================================
-                    // ENABLE BUTTON
-                    // =====================================
 
-                    if (submitButton) {
+                    resetBtn.disabled =
+                        false;
 
-                        submitButton.disabled =
-                            false;
 
-                        submitButton.textContent =
-                            "Reset Password";
-
-                    }
+                    resetBtn.innerHTML = `
+                        <span>Reset Password</span>
+                        <i class="fa-solid fa-check"></i>
+                    `;
 
                 }
 
