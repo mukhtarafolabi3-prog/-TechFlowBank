@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +24,7 @@
     <!-- Dashboard CSS -->
     <link
         rel="stylesheet"
-        href="../css/dashboard.css"
+        href="css/dashboard.css"
     >
 
 </head>
@@ -88,14 +88,13 @@
 
         <nav>
 
-
             <div class="nav-title">
                 MAIN MENU
             </div>
 
 
             <a
-                href="customer-dashboard.html"
+                href="dashboard.html"
                 class="nav-link active"
             >
 
@@ -109,7 +108,7 @@
 
 
             <a
-                href="accounts.html"
+                href="pages/accounts.html"
                 class="nav-link"
             >
 
@@ -203,7 +202,7 @@
 
 
             <a
-                href="beneficiaries.html"
+                href="pages/beneficiaries.html"
                 class="nav-link"
             >
 
@@ -236,7 +235,7 @@
 
 
             <a
-                href="settings.html"
+                href="pages/settings.html"
                 class="nav-link"
             >
 
@@ -248,14 +247,12 @@
 
             </a>
 
-
         </nav>
 
 
         <!-- SIDEBAR BOTTOM -->
 
         <div class="sidebar-bottom">
-
 
             <div class="secure-box">
 
@@ -288,7 +285,6 @@
 
             </button>
 
-
         </div>
 
     </aside>
@@ -306,9 +302,7 @@
 
         <header class="topbar">
 
-
             <div class="top-left">
-
 
                 <button
                     class="mobile-menu"
@@ -333,12 +327,10 @@
 
                 </div>
 
-
             </div>
 
 
             <div class="top-actions">
-
 
                 <button
                     class="search-button"
@@ -391,9 +383,7 @@
 
                 </button>
 
-
             </div>
-
 
         </header>
 
@@ -406,12 +396,9 @@
         <section class="content">
 
 
-            <!-- =================================================
-                 WELCOME
-            ================================================== -->
+            <!-- WELCOME -->
 
             <div class="welcome">
-
 
                 <div>
 
@@ -439,7 +426,6 @@
                         Here's what's happening with your account today.
                     </span>
 
-
                 </div>
 
 
@@ -447,7 +433,6 @@
                 <!-- ACCOUNT SWITCHER -->
 
                 <div class="account-switcher">
-
 
                     <label>
                         ACTIVE ACCOUNT
@@ -522,20 +507,15 @@
 
                         </div>
 
-
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
 
-            <!-- =================================================
-                 BALANCE + SUMMARY
-            ================================================== -->
+            <!-- BALANCE + SUMMARY -->
 
             <div class="hero-grid">
 
@@ -544,9 +524,7 @@
 
                 <div class="balance-card">
 
-
                     <div class="balance-header">
-
 
                         <div>
 
@@ -568,9 +546,7 @@
 
                         </button>
 
-
                     </div>
-
 
 
                     <h2 id="accountBalance">
@@ -578,9 +554,7 @@
                     </h2>
 
 
-
                     <div class="account-info">
-
 
                         <div>
 
@@ -593,9 +567,7 @@
                                 Loading...
                             </strong>
 
-
                         </div>
-
 
 
                         <div>
@@ -608,7 +580,6 @@
                             <strong id="accountType">
                                 Loading...
                             </strong>
-
 
                         </div>
 
@@ -623,13 +594,10 @@
 
                         </button>
 
-
                     </div>
 
 
-
                     <div class="balance-actions">
-
 
                         <a href="transfer.html">
 
@@ -648,9 +616,7 @@
 
                         </a>
 
-
                     </div>
-
 
                 </div>
 
@@ -662,7 +628,6 @@
 
 
                     <div class="summary-card">
-
 
                         <div class="summary-icon income">
 
@@ -689,13 +654,11 @@
 
                         </div>
 
-
                     </div>
 
 
 
                     <div class="summary-card">
-
 
                         <div class="summary-icon expense">
 
@@ -722,13 +685,11 @@
 
                         </div>
 
-
                     </div>
 
 
 
                     <div class="summary-card">
-
 
                         <div class="summary-icon savings">
 
@@ -755,26 +716,19 @@
 
                         </div>
 
-
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
 
-            <!-- =================================================
-                 QUICK ACTIONS
-            ================================================== -->
+            <!-- QUICK ACTIONS -->
 
             <section class="section">
 
-
                 <div class="section-heading">
-
 
                     <span>
                         QUICK SERVICES
@@ -785,9 +739,7 @@
                         What would you like to do?
                     </h3>
 
-
                 </div>
-
 
 
                 <div class="quick-actions">
@@ -915,30 +867,22 @@
 
                     </a>
 
-
                 </div>
-
 
             </section>
 
 
 
-            <!-- =================================================
-                 LOWER GRID
-            ================================================== -->
+            <!-- LOWER GRID -->
 
             <div class="lower-grid">
 
 
-                <!-- =================================================
-                     RECENT TRANSACTIONS
-                ================================================== -->
+                <!-- RECENT TRANSACTIONS -->
 
                 <div class="panel">
 
-
                     <div class="panel-heading">
-
 
                         <div>
 
@@ -962,18 +906,13 @@
 
                         </a>
 
-
                     </div>
-
 
 
                     <div
                         class="transaction-table"
                         id="recentTransactions"
                     >
-
-
-                        <!-- HEADER -->
 
                         <div class="transaction-row header">
 
@@ -999,31 +938,23 @@
                         </div>
 
 
-                        <!-- LOADING -->
-
                         <div class="transaction-loading">
 
                             Loading transactions...
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
 
-                <!-- =================================================
-                     SPENDING
-                ================================================== -->
+                <!-- SPENDING -->
 
                 <div class="panel">
 
-
                     <div class="panel-heading">
-
 
                         <div>
 
@@ -1050,13 +981,10 @@
 
                         </button>
 
-
                     </div>
 
 
-
                     <div class="spending-total">
-
 
                         <strong id="spendingTotal">
                             ₦0.00
@@ -1067,16 +995,12 @@
                             Total spending
                         </span>
 
-
                     </div>
-
 
 
                     <div class="spending-chart">
 
-
                         <div class="donut">
-
 
                             <div>
 
@@ -1091,12 +1015,9 @@
 
                             </div>
 
-
                         </div>
 
-
                     </div>
-
 
 
                     <div class="spending-list">
@@ -1176,23 +1097,17 @@
 
                         </div>
 
-
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
 
-            <!-- =================================================
-                 SECURITY
-            ================================================== -->
+            <!-- SECURITY -->
 
             <div class="security-banner">
-
 
                 <div class="security-banner-icon">
 
@@ -1216,14 +1131,13 @@
                 </div>
 
 
-                <a href="settings.html">
+                <a href="security.html">
 
                     Security Settings
 
                     <i class="fa-solid fa-arrow-right"></i>
 
                 </a>
-
 
             </div>
 
@@ -1232,7 +1146,6 @@
 
 
     </main>
-
 
 </div>
 
@@ -1262,7 +1175,14 @@
      DASHBOARD JAVASCRIPT
 ====================================================== -->
 
-<script src="../js/dashboard.js"></script>
+<script>
+
+const API_URL = "http://localhost:3000";
+
+</script>
+
+<script src="js/dashboard.js"></script>
+
 
 </body>
 
