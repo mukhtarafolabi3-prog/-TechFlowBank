@@ -3,8 +3,6 @@
 // TECHFLOW BANK LOGIN
 // =====================================================
 
-const API_URL =
-    "https://techflow-banking-backend-ffmn.vercel.app";
 
 
 // =====================================================
