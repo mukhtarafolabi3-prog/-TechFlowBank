@@ -1,149 +1,418 @@
 
-const login = async (req, res) => {
+// =====================================================
+// TECHFLOW BANK LOGIN
+// =====================================================
 
-    try {
-
-        const { email, password } = req.body;
-
-        // Check input
-        if (!email || !password) {
-
-            return res.status(400).json({
-                success: false,
-                message: "Email and password are required"
-            });
-
-        }
-
-        console.log("LOGIN EMAIL:", email);
-
-        // ========================================
-        // FIND USER
-        // ========================================
-
-        const sql = `
-            SELECT
-                id,
-                first_name,
-                last_name,
-                email,
-                phone,
-                date_of_birth,
-                gender,
-                account_type,
-                account_name,
-                account_number,
-                balance,
-                password
-            FROM users
-            WHERE email = ?
-            LIMIT 1
-        `;
-
-        db.query(
-            sql,
-            [email],
-            async (err, results) => {
-
-                // ========================================
-                // DATABASE ERROR
-                // ========================================
-
-                if (err) {
-
-                    console.error(
-                        "LOGIN DATABASE ERROR:",
-                        err
-                    );
-
-                    return res.status(500).json({
-                        success: false,
-                        message: "Database error",
-                        error: err.message
-                    });
-
-                }
+const API_URL =
+    "https://techflow-banking-backend-ffmn.vercel.app";
 
 
-                // ========================================
-                // USER NOT FOUND
-                // ========================================
+// =====================================================
+// DOM READY
+// =====================================================
 
-                if (!results || results.length === 0) {
+document.addEventListener("DOMContentLoaded", () => {
 
-                    return res.status(401).json({
-                        success: false,
-                        message: "Invalid email or password"
-                    });
+    const loginForm =
+        document.getElementById("loginForm");
 
-                }
+    const emailInput =
+        document.getElementById("email");
 
+    const passwordInput =
+        document.getElementById("password");
 
-                // ========================================
-                // GET USER
-                // ========================================
+    const passwordToggle =
+        document.getElementById("passwordToggle");
 
-                const user = results[0];
+    const loginBtn =
+        document.getElementById("loginBtn");
 
+    const formMessage =
+        document.getElementById("formMessage");
 
-                // ========================================
-                // CHECK PASSWORD
-                // ========================================
+    const emailError =
+        document.getElementById("emailError");
 
-                const passwordMatch =
-                    await bcrypt.compare(
-                        password,
-                        user.password
-                    );
-
-
-                if (!passwordMatch) {
-
-                    return res.status(401).json({
-                        success: false,
-                        message: "Invalid email or password"
-                    });
-
-                }
+    const passwordError =
+        document.getElementById("passwordError");
 
 
-                // ========================================
-                // REMOVE PASSWORD
-                // ========================================
+    // =====================================================
+    // PASSWORD TOGGLE
+    // =====================================================
 
-                delete user.password;
+    if (passwordToggle) {
 
+        passwordToggle.addEventListener("click", () => {
 
-                // ========================================
-                // SUCCESS
-                // ========================================
+            if (passwordInput.type === "password") {
 
-                return res.status(200).json({
+                passwordInput.type = "text";
 
-                    success: true,
+                passwordToggle.innerHTML =
+                    `<i class="fa-regular fa-eye-slash"></i>`;
 
-                    message: "Login successful",
+            } else {
 
-                    user: user
+                passwordInput.type = "password";
 
-                });
+                passwordToggle.innerHTML =
+                    `<i class="fa-regular fa-eye"></i>`;
 
             }
-        );
 
-    } catch (error) {
-
-        console.error(
-            "LOGIN SERVER ERROR:",
-            error
-        );
-
-        return res.status(500).json({
-            success: false,
-            message: "Server error",
-            error: error.message
         });
 
     }
 
-};
+
+    // =====================================================
+    // MESSAGE
+    // =====================================================
+
+    function showMessage(message, type = "error") {
+
+        if (!formMessage) return;
+
+        formMessage.textContent = message;
+
+        formMessage.className =
+            `form-message ${type}`;
+
+    }
+
+
+    // =====================================================
+    // CLEAR ERRORS
+    // =====================================================
+
+    function clearErrors() {
+
+        if (emailError) {
+            emailError.textContent = "";
+        }
+
+        if (passwordError) {
+            passwordError.textContent = "";
+        }
+
+        if (formMessage) {
+
+            formMessage.textContent = "";
+
+            formMessage.className =
+                "form-message";
+
+        }
+
+    }
+
+
+    // =====================================================
+    // RESET BUTTON
+    // =====================================================
+
+    function resetButton() {
+
+        if (!loginBtn) return;
+
+        loginBtn.disabled = false;
+
+        loginBtn.innerHTML = `
+            <span>Sign In</span>
+            <i class="fa-solid fa-arrow-right"></i>
+        `;
+
+    }
+
+
+    // =====================================================
+    // LOGIN
+    // =====================================================
+
+    loginForm.addEventListener(
+        "submit",
+        async (event) => {
+
+            event.preventDefault();
+
+            clearErrors();
+
+
+            const email =
+                emailInput.value.trim();
+
+            const password =
+                passwordInput.value;
+
+
+            // =================================================
+            // VALIDATION
+            // =================================================
+
+            if (!email) {
+
+                emailError.textContent =
+                    "Email address is required.";
+
+                return;
+
+            }
+
+
+            if (!password) {
+
+                passwordError.textContent =
+                    "Password is required.";
+
+                return;
+
+            }
+
+
+            // =================================================
+            // BUTTON
+            // =================================================
+
+            loginBtn.disabled = true;
+
+            loginBtn.innerHTML = `
+                <span>Signing in...</span>
+                <i class="fa-solid fa-spinner fa-spin"></i>
+            `;
+
+
+            try {
+
+                console.log(
+                    "Sending login request to:",
+                    `${API_URL}/api/auth/login`
+                );
+
+
+                // =================================================
+                // REQUEST
+                // =================================================
+
+                const response =
+                    await fetch(
+                        `${API_URL}/api/auth/login`,
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body: JSON.stringify({
+                                email,
+                                password
+                            })
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                console.log(
+                    "LOGIN RESPONSE:",
+                    data
+                );
+
+
+                // =================================================
+                // LOGIN FAILED
+                // =================================================
+
+                if (!response.ok) {
+
+                    showMessage(
+                        data.message ||
+                        "Invalid email or password.",
+                        "error"
+                    );
+
+                    resetButton();
+
+                    return;
+
+                }
+
+
+                // =================================================
+                // USER CHECK
+                // =================================================
+
+                if (!data.user) {
+
+                    console.error(
+                        "User missing from response:",
+                        data
+                    );
+
+                    showMessage(
+                        "Login succeeded but user information was not returned.",
+                        "error"
+                    );
+
+                    resetButton();
+
+                    return;
+
+                }
+
+
+                const user =
+                    data.user;
+
+
+                // =================================================
+                // CLEAR OLD LOGIN DATA
+                // =================================================
+
+                localStorage.removeItem("userId");
+                localStorage.removeItem("firstName");
+                localStorage.removeItem("lastName");
+                localStorage.removeItem("email");
+                localStorage.removeItem("accountNumber");
+                localStorage.removeItem("accountType");
+                localStorage.removeItem("balance");
+                localStorage.removeItem("currency");
+                localStorage.removeItem("token");
+
+
+                // =================================================
+                // SAVE USER
+                // =================================================
+
+                localStorage.setItem(
+                    "userId",
+                    String(user.id)
+                );
+
+
+                localStorage.setItem(
+                    "firstName",
+                    user.first_name || ""
+                );
+
+
+                localStorage.setItem(
+                    "lastName",
+                    user.last_name || ""
+                );
+
+
+                localStorage.setItem(
+                    "email",
+                    user.email || ""
+                );
+
+
+                localStorage.setItem(
+                    "accountNumber",
+                    user.account_number || ""
+                );
+
+
+                localStorage.setItem(
+                    "accountType",
+                    user.account_type || ""
+                );
+
+
+                localStorage.setItem(
+                    "balance",
+                    String(user.balance || 0)
+                );
+
+
+                localStorage.setItem(
+                    "currency",
+                    "NGN"
+                );
+
+
+                // =================================================
+                // SAVE TOKEN IF BACKEND RETURNS ONE
+                // =================================================
+
+                if (data.token) {
+
+                    localStorage.setItem(
+                        "token",
+                        data.token
+                    );
+
+                }
+
+
+                // =================================================
+                // ALSO SAVE COMPLETE USER
+                // =================================================
+
+                localStorage.setItem(
+                    "techflowUser",
+                    JSON.stringify(user)
+                );
+
+
+                console.log(
+                    "LOGIN DATA SAVED:",
+                    {
+                        userId: user.id,
+                        firstName: user.first_name,
+                        lastName: user.last_name,
+                        accountNumber: user.account_number,
+                        accountType: user.account_type,
+                        balance: user.balance,
+                        token: data.token
+                    }
+                );
+
+
+                // =================================================
+                // SUCCESS
+                // =================================================
+
+                showMessage(
+                    "Login successful. Redirecting...",
+                    "success"
+                );
+
+
+                // =================================================
+                // REDIRECT
+                // =================================================
+
+                setTimeout(() => {
+
+                    window.location.href =
+                        "dashboard.html";
+
+                }, 500);
+
+            } catch (error) {
+
+                console.error(
+                    "LOGIN ERROR:",
+                    error
+                );
+
+                showMessage(
+                    "Unable to connect to the server.",
+                    "error"
+                );
+
+                resetButton();
+
+            }
+
+        }
+    );
+
+});
