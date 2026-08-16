@@ -1,8 +1,16 @@
+
 // ========================================
 // TECHFLOW BANK LOGIN
 // ========================================
 
-const API_URL = "http://localhost:3000";
+// Local backend when developing on your computer
+// Deployed backend when using the Vercel website
+
+const API_URL =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://localhost:3000"
+        : "https://techflow-banking-backend.vercel.app";
 
 
 // ========================================
@@ -40,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // PASSWORD SHOW / HIDE
     // ========================================
 
-    if (passwordToggle) {
+    if (passwordToggle && passwordInput) {
 
         passwordToggle.addEventListener(
             "click",
@@ -54,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     passwordInput.type = "text";
 
                     if (icon) {
+
                         icon.classList.remove(
                             "fa-eye"
                         );
@@ -61,6 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         icon.classList.add(
                             "fa-eye-slash"
                         );
+
                     }
 
                 } else {
@@ -68,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     passwordInput.type = "password";
 
                     if (icon) {
+
                         icon.classList.remove(
                             "fa-eye-slash"
                         );
@@ -75,6 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         icon.classList.add(
                             "fa-eye"
                         );
+
                     }
 
                 }
@@ -115,13 +127,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // SHOW MESSAGE
     // ========================================
 
-    function showMessage(message, type = "error") {
+    function showMessage(
+        message,
+        type = "error"
+    ) {
 
         if (!formMessage) {
             return;
         }
 
-        formMessage.textContent = message;
+        formMessage.textContent =
+            message;
 
         formMessage.className =
             `form-message ${type}`;
@@ -142,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ========================================
-    // LOGIN FORM
+    // CHECK FORM
     // ========================================
 
     if (!loginForm) {
@@ -156,6 +172,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // ========================================
+    // LOGIN
+    // ========================================
+
     loginForm.addEventListener(
         "submit",
         async (event) => {
@@ -164,10 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             clearErrors();
 
-
-            // ========================================
-            // GET VALUES
-            // ========================================
 
             const email =
                 emailInput.value.trim();
@@ -191,8 +207,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!email) {
 
                 if (emailError) {
+
                     emailError.textContent =
                         "Email address is required.";
+
                 }
 
                 hasError = true;
@@ -200,8 +218,10 @@ document.addEventListener("DOMContentLoaded", () => {
             } else if (!isValidEmail(email)) {
 
                 if (emailError) {
+
                     emailError.textContent =
                         "Enter a valid email address.";
+
                 }
 
                 hasError = true;
@@ -212,8 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!password) {
 
                 if (passwordError) {
+
                     passwordError.textContent =
                         "Password is required.";
+
                 }
 
                 hasError = true;
@@ -247,6 +269,12 @@ document.addEventListener("DOMContentLoaded", () => {
             // ========================================
 
             try {
+
+                console.log(
+                    "Connecting to:",
+                    API_URL
+                );
+
 
                 const response =
                     await fetch(
@@ -307,6 +335,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         "error"
                     );
 
+                    console.error(
+                        "No user returned:",
+                        data
+                    );
+
                     resetLoginButton();
 
                     return;
@@ -315,12 +348,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // ========================================
+                // NORMALIZE USER DATA
+                // ========================================
+
+                const user =
+                    data.user;
+
+
+                const firstName =
+                    user.first_name ||
+                    user.firstName ||
+                    "";
+
+                const lastName =
+                    user.last_name ||
+                    user.lastName ||
+                    "";
+
+
+                // Make sure the dashboard receives
+                // the correct customer name.
+
+                user.first_name =
+                    firstName;
+
+                user.last_name =
+                    lastName;
+
+
+                // ========================================
                 // SAVE USER
                 // ========================================
 
                 localStorage.setItem(
                     "techflowUser",
-                    JSON.stringify(data.user)
+                    JSON.stringify(user)
                 );
 
 
@@ -339,7 +401,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // ========================================
-                // SAVE REMEMBER ME
+                // REMEMBER ME
                 // ========================================
 
                 if (rememberMe) {
@@ -359,7 +421,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                 // ========================================
-                // SUCCESS MESSAGE
+                // SUCCESS
                 // ========================================
 
                 showMessage(
@@ -379,7 +441,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 }, 800);
 
-
             } catch (error) {
 
                 console.error(
@@ -387,12 +448,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     error
                 );
 
-
                 showMessage(
-                    "Unable to connect to the server. Make sure your backend is running.",
+                    "Unable to connect to the server. Make sure your backend is online.",
                     "error"
                 );
-
 
                 resetLoginButton();
 

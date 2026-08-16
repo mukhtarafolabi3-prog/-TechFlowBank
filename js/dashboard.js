@@ -1,18 +1,35 @@
+
 // ========================================
-// TECHFLOW BANKING - DASHBOARD
+// TECHFLOW BANK DASHBOARD
 // ========================================
+
+// Local development
+// Uses deployed backend automatically on Vercel
 
 const API_URL =
-    "https://techflow-banking-backend.vercel.app";
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+        ? "http://localhost:3000"
+        : "https://techflow-banking-backend.vercel.app";
 
 
 // ========================================
-// DASHBOARD START
+// DASHBOARD LOAD
 // ========================================
 
 document.addEventListener(
     "DOMContentLoaded",
     async () => {
+
+        console.log(
+            "TechFlow Dashboard loading..."
+        );
+
+        console.log(
+            "API:",
+            API_URL
+        );
+
 
         // ========================================
         // GET SAVED USER
@@ -26,10 +43,15 @@ document.addEventListener(
 
         if (!savedUser) {
 
+            console.warn(
+                "No logged-in user found."
+            );
+
             window.location.href =
                 "login.html";
 
             return;
+
         }
 
 
@@ -39,7 +61,6 @@ document.addEventListener(
 
         let loggedInUser;
 
-
         try {
 
             loggedInUser =
@@ -48,7 +69,7 @@ document.addEventListener(
         } catch (error) {
 
             console.error(
-                "Invalid user data:",
+                "Invalid saved user:",
                 error
             );
 
@@ -60,26 +81,19 @@ document.addEventListener(
                 "login.html";
 
             return;
+
         }
 
 
-        // ========================================
-        // GET USER OBJECT
-        // ========================================
-
-        const savedUserData =
-            loggedInUser.user ||
-            loggedInUser;
-
-
         const userId =
-            savedUserData.id;
+            loggedInUser.id;
 
 
         if (!userId) {
 
             console.error(
-                "User ID was not found."
+                "User ID is missing:",
+                loggedInUser
             );
 
             localStorage.removeItem(
@@ -90,14 +104,21 @@ document.addEventListener(
                 "login.html";
 
             return;
+
         }
 
 
         // ========================================
-        // FETCH USER FROM BACKEND
+        // GET CURRENT USER FROM DATABASE
         // ========================================
 
         try {
+
+            console.log(
+                "Loading user:",
+                userId
+            );
+
 
             const response =
                 await fetch(
@@ -115,6 +136,10 @@ document.addEventListener(
             );
 
 
+            // ========================================
+            // API ERROR
+            // ========================================
+
             if (!response.ok) {
 
                 console.error(
@@ -123,29 +148,32 @@ document.addEventListener(
                 );
 
                 return;
+
             }
 
 
             // ========================================
-            // USER FROM DATABASE
+            // CHECK USER
             // ========================================
+
+            if (!data.user) {
+
+                console.error(
+                    "No user object returned:",
+                    data
+                );
+
+                return;
+
+            }
+
 
             const user =
                 data.user;
 
 
-            if (!user) {
-
-                console.error(
-                    "No user returned from backend."
-                );
-
-                return;
-            }
-
-
             console.log(
-                "Logged-in customer:",
+                "User from database:",
                 user
             );
 
@@ -166,20 +194,38 @@ document.addEventListener(
 
             const firstName =
                 user.first_name ||
+                user.firstName ||
                 "";
-
 
             const lastName =
                 user.last_name ||
+                user.lastName ||
                 "";
 
 
             const fullName =
-                `${firstName} ${lastName}`.trim();
+                `${firstName} ${lastName}`
+                    .trim();
+
+
+            console.log(
+                "Customer first name:",
+                firstName
+            );
+
+            console.log(
+                "Customer last name:",
+                lastName
+            );
+
+            console.log(
+                "Customer full name:",
+                fullName
+            );
 
 
             // ========================================
-            // SIDEBAR CUSTOMER NAME
+            // NAME ELEMENTS
             // ========================================
 
             const sidebarName =
@@ -187,6 +233,20 @@ document.addEventListener(
                     "sidebarName"
                 );
 
+            const topUserName =
+                document.getElementById(
+                    "topUserName"
+                );
+
+            const userName =
+                document.getElementById(
+                    "userName"
+                );
+
+
+            // ========================================
+            // SIDEBAR NAME
+            // ========================================
 
             if (sidebarName) {
 
@@ -201,12 +261,6 @@ document.addEventListener(
             // TOP USER NAME
             // ========================================
 
-            const topUserName =
-                document.getElementById(
-                    "topUserName"
-                );
-
-
             if (topUserName) {
 
                 topUserName.textContent =
@@ -217,19 +271,14 @@ document.addEventListener(
 
 
             // ========================================
-            // WELCOME CUSTOMER NAME
+            // GREETING NAME
             // ========================================
-
-            const userName =
-                document.getElementById(
-                    "userName"
-                );
-
 
             if (userName) {
 
                 userName.textContent =
                     firstName ||
+                    fullName ||
                     "Customer";
 
             }
@@ -245,22 +294,18 @@ document.addEventListener(
                 );
 
 
-            const currentHour =
+            const hour =
                 new Date().getHours();
 
 
             if (greeting) {
 
-                if (
-                    currentHour < 12
-                ) {
+                if (hour < 12) {
 
                     greeting.textContent =
                         "Good morning";
 
-                } else if (
-                    currentHour < 18
-                ) {
+                } else if (hour < 18) {
 
                     greeting.textContent =
                         "Good afternoon";
@@ -281,6 +326,7 @@ document.addEventListener(
 
             const accountType =
                 user.account_type ||
+                user.accountType ||
                 "Savings";
 
 
@@ -332,6 +378,7 @@ document.addEventListener(
 
             const accountNumber =
                 user.account_number ||
+                user.accountNumber ||
                 "Not assigned";
 
 
@@ -441,6 +488,9 @@ document.addEventListener(
                             "techflowUser"
                         );
 
+                        localStorage.removeItem(
+                            "techflowToken"
+                        );
 
                         window.location.href =
                             "login.html";
@@ -476,19 +526,23 @@ document.addEventListener(
                             );
 
                             return;
+
                         }
 
 
                         try {
 
-                            await navigator.clipboard.writeText(
-                                user.account_number
-                            );
+                            await navigator
+                                .clipboard
+                                .writeText(
+                                    user.account_number
+                                );
 
 
                             showToast(
                                 "Account number copied"
                             );
+
 
                         } catch (error) {
 
@@ -524,17 +578,23 @@ document.addEventListener(
 
 
 // ========================================
-// FORMAT NIGERIAN CURRENCY
+// CURRENCY
 // ========================================
 
-function formatCurrency(amount) {
+function formatCurrency(
+    amount
+) {
 
     return new Intl.NumberFormat(
         "en-NG",
         {
             style: "currency",
+
             currency: "NGN",
-            minimumFractionDigits: 2
+
+            minimumFractionDigits: 2,
+
+            maximumFractionDigits: 2
         }
     ).format(amount);
 
@@ -542,10 +602,12 @@ function formatCurrency(amount) {
 
 
 // ========================================
-// TOAST MESSAGE
+// TOAST
 // ========================================
 
-function showToast(message) {
+function showToast(
+    message
+) {
 
     const toast =
         document.getElementById(
@@ -565,6 +627,7 @@ function showToast(message) {
     ) {
 
         return;
+
     }
 
 
